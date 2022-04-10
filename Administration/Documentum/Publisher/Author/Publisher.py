@@ -45,14 +45,19 @@ def main():
 
     projectPath = getcwd().split(projectName)
     projectRoot = projectPath[0] + projectName
-    fileRegisterTypes = ('.md', '.py', '.rst', '.html')
-    directoryOmit = ('.git', '__')
+    fileRegisterTypes = ['.md', '.py', '.rst', '.html']
+    directoryOmit = ['.git/']
+    #directoryOmit = ['.git/', '__']
     for register, field in registry(projectRoot, projectName, directoryOmit, fileRegisterTypes).items():
         print('{}{}:'.format(indent[1], register,))
         for entery in field:
             print('{}{}'.format(indent[2], entery))
         print()
-
+    #for register, field in registry(projectRoot, projectName, directoryOmit, fileRegisterTypes).items():
+        #print('{}{}:'.format(indent[1], registry[projectDirectories],))
+    #for entery in registry(projectRoot, projectName, directoryOmit, fileRegisterTypes):
+        #print('{}{}'.format(indent[2], entery))
+    #print()
 
     #print('\n{}>>> Call to test.py:\n'.format(indent[0]))
     #print('{}sysPath test.py:'.format(indent[1]))
