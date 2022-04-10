@@ -46,8 +46,8 @@ def main():
     projectPath = getcwd().split(projectName)
     projectRoot = projectPath[0] + projectName
     fileRegisterTypes = ['.md', '.py', '.rst', '.html']
-    directoryOmit = ['.git/']
-    #directoryOmit = ['.git/', '__']
+    #directoryOmit = ['.git/']
+    directoryOmit = ['.git/', '__']
     for register, field in registry(projectRoot, projectName, directoryOmit, fileRegisterTypes).items():
         print('{}{}:'.format(indent[1], register,))
         for entery in field:

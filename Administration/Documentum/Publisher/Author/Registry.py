@@ -48,10 +48,9 @@ def registry(projectRoot = getcwd(), projectName = '', directoryOmit = (), fileR
     for projectDirectory, pdirs, pfiles in walk(projectDirectory):
         for subdir in pdirs:
             pathDiscovery = str(path.join(projectDirectory, subdir))
-            #if((directoryOmit) not in str(pathDiscovery)):
-            if(str(pathDiscovery) not in directoryOmit):
-                #for omission in directoryOmit :
-                    #if(str(omission) not in str(pathDiscovery)):
+            if any(omission in pathDiscovery for omission in directoryOmit):
+                pass
+            else:
                 pathRelation = path.relpath(subdir, projectDirectory)
                 pathRelation = subdir.partition(projectDirectory)[1:]
                 workDir = path.basename(projectDirectory)
@@ -59,15 +58,18 @@ def registry(projectRoot = getcwd(), projectName = '', directoryOmit = (), fileR
                 pathHead = pathDiscovery.split(pathTail, 1)
                 projectDirectories.append('.' + pathHead[1])
 
-    dirCount = 0
-    for directory in projectDirectories:
-        for omission in directoryOmit :
-            if str(directory).find(str(omission)) != -1:
-                print("[ {} ]> del projectDirectories[ {} ]".format(dirCount, directory))
-                del projectDirectories[dirCount]
-        dirCount += 1
+    #curatedDirectories = []
+    #dirCount = 0
+    #for directory in projectDirectories:
+        #if any(omission in directory for omission in directoryOmit):
+            ##print("[ {} ]> del projectDirectories[ {} ]".format(dirCount, directory))
+            #del projectDirectories[dirCount]
+        #else:
+            #curatedDirectories.append(projectDirectories[dirCount])
+        #dirCount += 1
 
     registry = {'projectRoot':[workRoot], 'projectDirectories':projectDirectories, 'projectFiles':projectFiles,}
+    #registry = {'projectRoot':[workRoot], 'projectDirectories':curatedDirectories, 'projectFiles':projectFiles,}
     return registry
 
 
