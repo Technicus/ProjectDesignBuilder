@@ -66,7 +66,7 @@ def registry(projectRoot = getcwd(), projectName = '', directoryOmit = (), fileR
             #del projectDirectories[dirCount]
         #else:
             #curatedDirectories.append(projectDirectories[dirCount])
-        #dirCount += 1
+        # dirCount += 1
 
     registry = {'projectRoot':[workRoot], 'projectDirectories':projectDirectories, 'projectFiles':projectFiles,}
     #registry = {'projectRoot':[workRoot], 'projectDirectories':curatedDirectories, 'projectFiles':projectFiles,}
