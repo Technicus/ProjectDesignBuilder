@@ -45,25 +45,33 @@ def registry(projectRoot = getcwd(), projectName = '', directoryOmit = (), fileR
                     projectFiles.append(str(path.join(filezPath, filez)))
                     #print('projectFiles = {}'.format(projectFiles))
     projectDirectories = []
+    #omission = ' '.join(directoryOmit)
     for projectDirectory, pdirs, pfiles in walk(projectDirectory):
         for subdir in pdirs:
             pathDiscovery = str(path.join(projectDirectory, subdir))
+            #print(path.basename(projectDirectory))
             #if((directoryOmit) not in str(pathDiscovery)):
-            if(str(pathDiscovery) not in directoryOmit):
-                for omission in directoryOmit :
-                    #if(str(omission) not in str(pathDiscovery)):
-                    if((str(pathDiscovery).find(str(omission)) != -1)):
-                        #print((str(pathDiscovery).find(str(omission)) != -1))
-                        #if(((str(pathDiscovery).find(str(omission)) != -1))):
-                        #if(search(str(omission), str(pathDiscovery)) != True):
-                        ignoreList = ''
-                    else:
-                        pathRelation = path.relpath(subdir, projectDirectory)
-                        pathRelation = subdir.partition(projectDirectory)[1:]
-                        workDir = path.basename(projectDirectory)
-                        pathTail = path.basename(workRoot)
-                        pathHead = pathDiscovery.split(pathTail, 1)
-                        projectDirectories.append('.' + pathHead[1])
+            #if(str(pathDiscovery) not in directoryOmit):
+            for omission in directoryOmit :
+                #if(str(omission) not in str(pathDiscovery)):
+                #if((str(pathDiscovery).find(str(omission)) != -1)):
+                #if((str(pathDiscovery).find(str(omission)))):
+                if((str(omission)) in str(path.basename(pathDiscovery))):
+                    #print((str(pathDiscovery).find(str(omission)) != -1))
+                    #if(((str(pathDiscovery).find(str(omission)) != -1))):
+                    #if(search(str(omission), str(pathDiscovery)) != True):
+                    #ignoreList = ''
+                    print('[ {} ] is in [ {} ]'.format(omission, path.basename(projectDirectory)))
+                else:
+                    print('[ {} ] is not in [ {} ]'.format(omission, path.basename(projectDirectory)))
+                    #pathRelation = path.relpath(subdir, projectDirectory)
+                    #pathRelation = subdir.partition(projectDirectory)[1:]
+                    #workDir = path.basename(projectDirectory)
+                    #pathTail = path.basename(workRoot)
+                    #pathHead = pathDiscovery.split(pathTail, 1)
+                    #if(str(pathHead) not in projectDirectories):
+                        #projectDirectories.append('.' + pathHead[1])
+
     registry = {'projectRoot':[workRoot], 'projectDirectories':projectDirectories, 'projectFiles':projectFiles,}
     return registry
 
