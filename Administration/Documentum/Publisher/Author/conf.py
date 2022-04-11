@@ -14,72 +14,16 @@
 #import os
 #import sys
 #import importlib
-from sys import path as sysPath
-from os import walk, path, getcwd, system
-from projectInterrogation import directoryComprehension, directorySurvey, discovery, projectTreeRegister
 
-# -- Status report -----------------------------------------------------
 
-print('conf.py\n')
-
-# -- Configure system path information -----------------------------------------------------
-
-for directory, path in directoryComprehension().items():
-    print('{}:\n  {}\n'.format(directory, path))
-
-print('directories:')
-for audit in directorySurvey(directoryComprehension()['dirProjectDesignBuilder_Absolute'])['directories']:
-    print('  {}'.format(audit))
-print()
-
-for key, registery in projectTreeRegister().items():
-    print('{}:'.format(key))
-    for register in projectTreeRegister()[key]:
-        print('  {}'.format(register))
-    print()
-
-# -- Append sysPath -----------------------------------------------------
-
-print('sysPath pre-append:'.format(''))
-for path in sysPath:
-    print('  {}'.format(path))
-for path in projectTreeRegister()['rootBranch']:
-    sysPath.append(path)
-print('\nsysPath append:'.format(''))
-for path in sysPath:
-    print('  {}'.format(path))
-print('{}'.format(''))
-
-sysPath.append('/home/technicus/Projects/CAD/ProjectDesignBuilder/Builder/Directors')
-sysPath.append('/home/technicus/Projects/CAD/ProjectDesignBuilder/Builder/Utilities/Maintenance/')
-
-# -- Import from new sysPath -----------------------------------------------------
-
-from Utility import clear
 from ProjectDesignBuilder import __version__
-from ClearOperations import cleanPythonOperations
 
-# -- Implement new imports  -----------------------------------------------------
 
-cleanPythonOperations(directoryComprehension()['dirProjectDesignBuilder_Absolute'], True)
-#cleanPythonOperations(dirProject, False)
 
 # -- Configure sphinx-apidoc -----------------------------------------------------
 
 system(('sphinx-apidoc -f -o {} {}').format('../../Editors', directoryComprehension()['dirProjectDesignBuilder_Absolute']))
 
-#(('sphinx-apidoc -f -o {} {}').format(dirCurrent, dirWorkingAbs))
-##(('sphinx-apidoc -f -o {} {} **/.git').format(dirCurrent, dirWorkingAbs))
-##system(('sphinx-apidoc -f -o {} {} {}').format(dirCurrent, dirWorkingAbs, excludes))
-
-##print('\nClear python operation files:\n=============================')
-##print('\nupdate index.rst with automodule list:\n======================================')
-##for dirWorking, dirs, files in walk(dirProject, topdown=True):
-    ##for name in files:
-        ##print(name)
-        ###sphinx-apidoc -f -o source python
-        ##system(('sphinx-apidoc -f -o {} {}').format(dirCurrent, name))
-##print('')
 
 ##def setup(app):
     ##from sphinx.ext import apidoc
@@ -136,31 +80,7 @@ templates_path = ['_templates']
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = [
-        ##dirRoot = '../../../../../ProjectDesignBuilder'
-        #'../../../../../ProjectDesignBuilder/.git',
-        #'../../../../../ProjectDesignBuilder/.git/*',
-        #'/DesignBuilder/Development/ProjectDesignBuilder/.git',
-        #'*.bak',
-        #'*.kate-swp',
-        #'../.git',
-        #'../.git/*',
-        #'../Administration/Documentation',
-        #'../.*'
-        #'*.bak',
-        #'../../../../../ProjectDesignBuilder/.git',
-        #'../../../../../ProjectDesignBuilder/.git/*',
-        #'*.kate-swp',
-        #'../../../../../ProjectDesignBuilder/Administration/Documentation',
-        #'../../../../../ProjectDesignBuilder/.*'
 
-
-        #'../_build',
-        #'../.git',
-        #'../Thumbs.db',
-        #'../.DS_Store',
-        #'../.venv',
-        #'../.git',
-        #'../.*',
 ]
 
 
