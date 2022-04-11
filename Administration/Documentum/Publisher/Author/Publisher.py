@@ -7,55 +7,68 @@
 #import logging
 #from termcolor import colored
 from os import path, getcwd
-from Registry import registry, registryReport, registryQuery
-#from RegistryClass import ProjectRegistry
+from Registry import registry, registry_report, registry_query
+from RegistryClass import ProjectRegistry
 
 
-def runSphinx_biuld():
-    #confPath = ? # Path to conf.py file
-    #pathDocTree = ? # Path to .doctree files
-    #logWarrningError = ? # Warning and error log file.
-    #pathSource = ?
-    #pathOutput = ?
+def run_sphinx_build():
+    #conf_path = ? # Path to conf.py file
+    #path_doc_tree = ? # Path to .doctree files
+    #log_warrning_error = ? # Warning and error log file.
+    #path_source = ?
+    #path_output = ?
     # sphinx-build [options] <sourcedir> <outputdir> [filenames …]
-    callSphinx_Build = 'sphinx-build -b html -a -E -c' + confPath + '-d' + pathDocTree + '-n -v -w' + logWarrningError + '--keep-going' + pathSource + pathOutput
-    subProcessTest = subprocess.run(callSphinx-Build, stdin=None, input=None, stdout=None, stderr=None,
-                                  capture_output=True, shell=True, cwd=None, timeout=None,
-                                  check=False, encoding=None, errors=None, text=None, env={'PYTHONPATH':python_path},
-                                  universal_newlines=None)
-    system(('sphinx-apidoc -f -o {} {}').format('../../Editors', directoryComprehension()['dirProjectDesignBuilder_Absolute']))
+    call_sphinx_build = (
+        'sphinx-build -b html -a -E -c' + conf_path + '-d' +
+        path_doc_tree + '-n -v -w' + log_warrning_error +
+        '--keep-going' + path_source + path_output)
+    subprocess_test = subprocess.run(
+        call_Sphinx-Build, stdin=None, input=None,
+        stdout=None, stderr=None, capture_output=True,
+        shell=True, cwd=None, timeout=None, check=False,
+        encoding=None, errors=None, text=None,
+        env={'PYTHONPATH':python_path},universal_newlines=None)
+    system((
+        'sphinx-apidoc -f -o {} {}').format('../../Editors',
+        directory_comprehension()['dir_project_design_builder_absolute']))
 
 
-def runSphinx_apidoc():
-    subProcessTest = subprocess.run('./test.py', stdin=None, input=None, stdout=None, stderr=None,
-                                  capture_output=True, shell=True, cwd=None, timeout=None,
-                                  check=False, encoding=None, errors=None, text=None, env={'PYTHONPATH':python_path},
-                                  universal_newlines=None)
+def run_sphinx_apidoc():
+    subprocess_test = subprocess.run(
+        './test.py', stdin=None, input=None, stdout=None, stderr=None,
+        capture_output=True, shell=True, cwd=None, timeout=None,
+        check=False, encoding=None, errors=None, text=None,
+        env={'PYTHONPATH':python_path}, universal_newlines=None)
 
 
-def runTOC_tree():
-    subProcessTest = subprocess.run('./test.py', stdin=None, input=None, stdout=None, stderr=None,
-                                  capture_output=True, shell=True, cwd=None, timeout=None,
-                                  check=False, encoding=None, errors=None, text=None, env={'PYTHONPATH':python_path},
-                                  universal_newlines=None)
+def run_TOC_tree():
+    subprocess_test = subprocess.run(
+        './test.py', stdin=None, input=None, stdout=None, stderr=None,
+        capture_output=True, shell=True, cwd=None, timeout=None,
+        check=False, encoding=None, errors=None, text=None,
+        env={'PYTHONPATH':python_path}, universal_newlines=None)
 
 
 def main():
     indent = ['', '  ', '    ', '        ']
-    projectName = 'ProjectDesignBuilder'
+    project_name = 'ProjectDesignBuilder'
     print('[[ {} ]]\n'.format(path.basename(__file__)))
 
     # Generate a project registry
     print('{}>>> [ registry() ]:\n'.format(indent[0]))
-    projectPath = getcwd().split(projectName)
-    projectRoot = projectPath[0] + projectName
-    fileRegisterTypes = ['.md', '.py', '.rst', '.html']
-    directoryOmit = ['.git', '__']
-    registryReport(registry(projectRoot, projectName, directoryOmit, fileRegisterTypes))
-    registryQuery(registry(projectRoot, projectName, directoryOmit, fileRegisterTypes), ['Room.py', 'sandbox.py'])
-    #registry = ProjectRegistry(projectRoot, projectName, directoryOmit, fileRegisterTypes)
+    project_path = getcwd().split(project_name)
+    project_root = project_path[0] + project_name
+    file_register_types = ['.md', '.py', '.rst', '.html']
+    directory_omit = ['.git', '__']
+    registry_report(registry(project_root, project_name, directory_omit,
+                            file_register_types))
+    registry_query(registry(project_root, project_name, directory_omit,
+                           file_register_types), ['Room.py', 'sandbox.py'])
+    #registry = ProjectRegistry(project_root, project_name, directory_omit,
+        #file_register_types)
     #registry.report()
-    #for register, field in registry(projectRoot, projectName, directoryOmit, fileRegisterTypes).items():
+    #for register, field in registry(project_root, project_name, directory_omit,
+        #file_register_types).items():
         #print('{}{}:'.format(indent[1], register,))
         #for entery in field:
             #print('{}{}'.format(indent[2], entery))

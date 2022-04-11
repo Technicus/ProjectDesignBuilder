@@ -5,7 +5,8 @@ from os.path import relpath
 
 
 class ProjectRegistry:
-    def __init__(self, projectRoot = getcwd(), projectName = '', directoryOmit = (), fileRegisterTypes = ()):
+    def __init__(self, projectRoot = getcwd(), projectName = '', \
+        directoryOmit = (), fileRegisterTypes = ()):
         """Return a list of files and a list of directories.
             This function will identify necessary path information.  Then
             also change current working directory to absolute path of
@@ -39,7 +40,9 @@ class ProjectRegistry:
                     pathTail = path.basename(workRoot)
                     pathHead = pathDiscovery.split(pathTail, 1)
                     projectDirectories.append('.' + pathHead[1])
-        self.registry = {'projectRoot':[workRoot], 'projectDirectories':projectDirectories, 'projectFiles':projectFiles,}
+        self.registry = {'projectRoot':[workRoot], \
+            'projectDirectories':projectDirectories,\
+            'projectFiles':projectFiles,}
 
     def report(self):
         #print(self.registry)
