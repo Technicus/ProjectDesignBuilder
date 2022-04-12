@@ -77,6 +77,12 @@ def run_publisher():
 
 
 def run_git():
+    subprocess_test = run(
+        args = [
+        'git status; \
+        git add .; git status;'\
+        ], shell=True
+    )
     commit_message = input("\nCommit message: ")
     if commit_message is None:
         commit_message = []
@@ -84,8 +90,8 @@ def run_git():
         commit_message = commit_message
     subprocess_test = run(
         args = [
-        'git status; git add .; git status; git commit -m \"' + \
-        commit_message + '\"; git status; git push; git status'
+        'git commit -m \"' + commit_message + '\"; git status; \
+        git push; git status'
         ], shell=True
     )
     print()
