@@ -19,5 +19,5 @@
 &nbsp;&nbsp;&nbsp;&nbsp;Call the publisher to create documentation.
 
 ## About
-It is all because of George and James.
-&nbsp;&nbsp;&nbsp;&nbsp;So what does that mean?
+It is all because of George, James, and Al.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;So what does that mean?<br>
