@@ -7,6 +7,7 @@ from sys import exit, argv, exit
 #from getopt import GetoptError, getopt, usage
 from argparse import ArgumentParser, HelpFormatter, _SubParsersAction
 from os import chdir
+import readline
 
 class CapitalisedHelpFormatter(HelpFormatter):
     def add_usage(self, usage, actions, groups, prefix=None):
@@ -78,6 +79,15 @@ def run_publisher():
     )
     print()
 
+def input_with_prefill(prompt, text):
+    def hook():
+        readline.insert_text(text)
+        readline.redisplay()
+    readline.set_pre_input_hook(hook)
+    result = input(prompt)
+    readline.set_pre_input_hook()
+    return result
+
 
 def run_git():
     subprocess_test = run(
@@ -87,7 +97,10 @@ def run_git():
         ], shell=True
     )
 
-    commit_message = input("\nCommit message: ")
+
+    #commit_message = input("\nCommit message: ")
+    commit_message = input_with_prefill('Commit message: ', 'Type a message!')
+    print(commit_message)
     if commit_message is None:
         commit_message = []
     else:
@@ -101,6 +114,8 @@ def run_git():
         ], shell=True
     )
     print()
+
+
 
 
 def main(argv):
