@@ -4,11 +4,12 @@
 #from os import system, path, getcwd, chdir, scandir, listdir, walk
 #from os.path import relpath
 #import subprocess
-#import logging
 #from termcolor import colored
-from os import path, getcwd
-from Registry import registry, registry_report, registry_query
+from os import path, getcwd, chdir
+#from Registry import registry, registry_report, registry_query
 from RegistryClass import ProjectRegistry
+from logging import debug, info, warning, error, basicConfig, DEBUG, INFO,\
+    WARNING, ERROR
 
 
 def run_sphinx_build():
@@ -48,18 +49,48 @@ def run_TOC_tree():
         check=False, encoding=None, errors=None, text=None,
         env={'PYTHONPATH':python_path}, universal_newlines=None)
 
+def set_current_working_directory():
+    print(f'`path.abspath(getcwd())`:\n[ {path.abspath(getcwd())} ]\n')
+    print(f'`path.dirname(path.abspath(__file__))`:\n[ {path.dirname(path.abspath(__file__))} ]\n')
+    if path.abspath(getcwd()) is not path.dirname(path.abspath(__file__)):
+        chdir(path.dirname(path.abspath(__file__)))
+    print(f'`path.abspath(getcwd())`:\n[ {path.abspath(getcwd())} ]\n')
+    print(f'`path.dirname(path.abspath(__file__))`:\n[ {path.dirname(path.abspath(__file__))} ]\n')
 
 def main():
+
+    #debug('This message should go to the log file')
+    #info('So should this')
+    #warning('And this, too')
+    #error('And non-ASCII stuff, too, like Øresund and Malmö')
+    set_current_working_directory()
+    basicConfig(filename='../Logs/publisher.log', filemode='w',encoding='utf-8', level=DEBUG)
+
     indent = ['', '  ', '    ', '        ']
+
     project_name = 'ProjectDesignBuilder'
+
+    info('[[ {} ]]\n'.format(path.basename(__file__)))
+
     print('[[ {} ]]\n'.format(path.basename(__file__)))
 
     # Generate a project registry
-    print('{}>>> [ registry() ]:\n'.format(indent[0]))
+    info('{}>>> [ main() ]:\n'.format(indent[0]))
+
+    print('{}>>> [ main() ]:\n'.format(indent[0]))
+
     project_path = getcwd().split(project_name)
+
+    info('[ project_path ]\n\t[ {} ]\n'.format(project_path))
+
     project_root = project_path[0] + project_name
+
+    info('[ project_root ]\n\t[ {} ]\n'.format(project_root))
+
     file_register_types = ['.md', '.py', '.rst', '.html']
+
     directory_omit = ['.git', '__']
+
 
     #registry_report(registry(project_root, project_name, directory_omit,
                             #file_register_types))
@@ -69,7 +100,7 @@ def main():
 
     registry = ProjectRegistry(project_root, project_name, directory_omit,
         file_register_types)
-    #registry.report()
+    registry.report()
     #for register, field in registry(project_root, project_name, directory_omit,
         #file_register_types).items():
         #print('{}{}:'.format(indent[1], register,))

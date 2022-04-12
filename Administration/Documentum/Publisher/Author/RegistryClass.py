@@ -57,14 +57,32 @@ class ProjectRegistry:
         self.registry = {'project_root':[work_root], \
             'project_directories':project_directories,\
             'project_files':project_files,}
-        return locals()
+        #return locals()
+
 
     def report(self):
         #print(self.registry)
         #for register, field in self.registry(project_root, project_name,
         #directory_omit, file_register_types).items():
-        for register, field in self.registry:
+        for register, field in self.registry.items():
             print('{}:'.format(register))
             for entery in field:
                 print('  {}'.format(entery))
         print()
+
+#def registry_report(registry = {}):
+    #for register, field in registry.items():
+        #print('  {}:'.format(register,))
+        #for entery in field:
+            #print('    {}'.format(entery))
+        #print()
+
+
+
+    def search(registry = {}, search = []):
+        search_result = []
+        for register, field in registry.items():
+            for entery in field:
+                if any(search_field in entery for search_field in search):
+                    search_result.append(str(entery))
+        return search_result

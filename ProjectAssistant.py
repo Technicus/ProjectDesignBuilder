@@ -6,6 +6,7 @@ from subprocess import run
 from sys import exit, argv, exit
 #from getopt import GetoptError, getopt, usage
 from argparse import ArgumentParser, HelpFormatter, _SubParsersAction
+from os import chdir
 
 class CapitalisedHelpFormatter(HelpFormatter):
     def add_usage(self, usage, actions, groups, prefix=None):
@@ -68,8 +69,10 @@ def evaluate_arguments(argv):
 
 
 def run_publisher():
+    #chdir('./Administproject_rootration/Documentum/Publisher/Author')
     run(
         args = [
+        #'./Publisher.py'
         './Administration/Documentum/Publisher/Author/Publisher.py'
         ], shell=True
     )
