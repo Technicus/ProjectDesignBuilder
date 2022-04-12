@@ -1,7 +1,8 @@
 #!/bin/python
 # ProjectAssistant.py
 
-import subprocess
+
+from subprocess import run
 from sys import exit, argv, exit
 #from getopt import GetoptError, getopt, usage
 from argparse import ArgumentParser, HelpFormatter, _SubParsersAction
@@ -67,7 +68,7 @@ def evaluate_arguments(argv):
 
 
 def run_publisher():
-    subprocess.run(
+    run(
         args = [
         './Administration/Documentum/Publisher/Author/Publisher.py'
         ], shell=True
@@ -81,7 +82,7 @@ def run_git():
         commit_message = []
     else:
         commit_message = commit_message
-    subprocess_test = subprocess.run(
+    subprocess_test = run(
         args = [
         'git status; git add .; git status; git commit -m \"' + \
         commit_message + '\"; git status; git push; git status'
@@ -90,81 +91,22 @@ def run_git():
     print()
 
 
-    #parser = ArgumentParser(description='Project Assistant')
-    #parser.add_argument(
-        #'integers',
-        #metavar='N',
-        #type=int,
-        #nargs='+',
-        #help='an integer for the accumulator'
-    #)
-    #parser.add_argument(
-        #'--sum',
-        #dest='accumulate',
-        #action='store_const',
-        #const=sum,
-        #default=max,
-        #help='sum the integers (default: find the max)')
-
-    #args = parser.parse_args()
-    #print(args.accumulate(args.integers))
-
-
-
-    #print(argv)
-    #help_message = \
-    #'ProjectAssistant.py [ -p | --push || -p | --publish || -h | --help ]\n'
-    #print(argv)
-    #print()
-    #try:
-        #opts, args = getopt(argv,"hup:", ["--help", "--push", "--publish" ])
-    #except GetoptError as err:
-        ## print help information and exit:
-        #print(err)  # will print something like "option -a not recognized"
-        #usage()
-        #exit(2)
-    #for opt, arg in opts:
-        #if opt in ("-h", "--help"):
-            #print(help_message)
-            #exit()
-            ##return 'problemo'
-        #elif opt in ("-u", "--push"):
-            #run_git(commit_message)
-            #return 'git'
-        #elif opt in ("-p", "--publish"):
-            #run_publisher()
-            #return 'publish'
-
-
 def main(argv):
-#def main():
-    #subprocess.run('clear')
+    run('clear')
     print()
     #print(evaluate_arguments(argv))
     #print(evaluate_arguments())
     operation = evaluate_arguments(argv).constant_value
-    #print(operation)
     if 'push' in operation:
-        print(operation)
+        #print(operation)
         run_git()
 
     if 'publish' in operation:
-        print(operation)
+        #print(operation)
         run_publisher()
-
     print()
-
 
 
 if __name__ == "__main__":
     #main(argv[1:])
     main(argv)
-
-
-
-
-
-
-
-
-
