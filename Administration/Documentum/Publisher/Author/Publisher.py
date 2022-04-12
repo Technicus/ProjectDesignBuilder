@@ -60,12 +60,15 @@ def main():
     project_root = project_path[0] + project_name
     file_register_types = ['.md', '.py', '.rst', '.html']
     directory_omit = ['.git', '__']
-    registry_report(registry(project_root, project_name, directory_omit,
-                            file_register_types))
-    registry_query(registry(project_root, project_name, directory_omit,
-                           file_register_types), ['Room.py', 'sandbox.py'])
-    #registry = ProjectRegistry(project_root, project_name, directory_omit,
-        #file_register_types)
+
+    #registry_report(registry(project_root, project_name, directory_omit,
+                            #file_register_types))
+
+    #registry_query(registry(project_root, project_name, directory_omit,
+                           #file_register_types), ['Room.py', 'sandbox.py'])
+
+    registry = ProjectRegistry(project_root, project_name, directory_omit,
+        file_register_types)
     #registry.report()
     #for register, field in registry(project_root, project_name, directory_omit,
         #file_register_types).items():
