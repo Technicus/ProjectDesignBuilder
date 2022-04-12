@@ -21,3 +21,13 @@
 ## About
 It is all because of George, James, and Al.<br>
 &nbsp;&nbsp;&nbsp;&nbsp;So what does that mean?<br>
+&nbsp;&nbsp;&nbsp;&nbsp;George is a technical practitioner of programming methodologies and philosophy.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;So ... if there is no purpose, it is not worth the erffort.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;James is a mechanic of sorts.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;There is always an easier way to do something.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Al is the guy who inspires API interoperability.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A program that can collect and sort data from an API is important too.<br>
+
+## Now what?
+* Refining the documentation system.
+* Do some other stuff . . .
