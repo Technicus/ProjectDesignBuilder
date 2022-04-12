@@ -6,7 +6,7 @@ from subprocess import run
 from sys import exit, argv, exit
 #from getopt import GetoptError, getopt, usage
 from argparse import ArgumentParser, HelpFormatter, _SubParsersAction
-from os import chdir
+from os import chdir, path, getcwd
 import readline
 
 class CapitalisedHelpFormatter(HelpFormatter):
@@ -115,11 +115,22 @@ def run_git():
     )
     print()
 
-
+def set_current_working_directory():
+    print(f'`path.abspath(getcwd())`:\n[ {path.abspath(getcwd())} ]\n')
+    print(f'`path.dirname(path.abspath(__file__))`:\n[ {path.dirname(path.abspath(__file__))} ]\n')
+    if path.abspath(getcwd()) is not path.dirname(path.abspath(__file__)):
+        chdir(path.dirname(path.abspath(__file__)))
+    print(f'`path.abspath(getcwd())`:\n[ {path.abspath(getcwd())} ]\n')
+    print(f'`path.dirname(path.abspath(__file__))`:\n[ {path.dirname(path.abspath(__file__))} ]\n')
 
 
 def main(argv):
     run('clear')
+    set_current_working_directory()
+    assistant_cache_file = open("./Builder/Utilities/Data/Cache/assistant.cache", "a")
+    assistant_cache_file.write('ProjectAssistant.cache\n')
+    assistant_cache_file.close()
+
     print()
     #print(evaluate_arguments(argv))
     #print(evaluate_arguments())
