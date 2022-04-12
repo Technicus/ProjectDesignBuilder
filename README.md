@@ -10,5 +10,10 @@
 
 ## Usage
 ### ProjectAssistant.py
-* `./ProjectAssistant.py -p | --publish` will start the publisher to compile code documentation with the Sphinx documentation publisher.
-* `./ProjectAssistant.py -u | --push` will begin the process of adding, committing, and pushing updates to GitHub via a series of git instructions.
+* `./ProjectAssistant.py -p | --publish`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Call the publisher to compile code documentation with the Sphinx documentation publisher.
+* `./ProjectAssistant.py -u | --push`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Begin the process of adding, committing, and pushing updates to GitHub via a series of git instructions.
+### Publisher.py
+* `./Administration/Documentum/Publisher/Author/Publisher.py`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Call the publisher to create documentation.
