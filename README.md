@@ -17,3 +17,6 @@
 ### Publisher.py
 * `./Administration/Documentum/Publisher/Author/Publisher.py`<br>
 &nbsp;&nbsp;&nbsp;&nbsp;Call the publisher to create documentation.
+
+## About
+It is all because of George and James.
