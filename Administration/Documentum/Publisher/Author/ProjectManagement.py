@@ -4,7 +4,7 @@ from os import path, getcwd, chdir, walk
 from os.path import relpath
 
 
-class ProjectRegistry:
+class Registry:
 
     def __init__(self, project_root=None, project_name=None, \
                  directory_omit=None, file_register_types=None):
@@ -65,10 +65,11 @@ class ProjectRegistry:
         #for register, field in self.registry(project_root, project_name,
         #directory_omit, file_register_types).items():
         for register, field in self.registry.items():
-            print('{}:'.format(register))
+            print('\n{}:'.format(register))
             for entery in field:
                 print('  {}'.format(entery))
-        print()
+            print()
+        #print()
 
 #def registry_report(registry = {}):
     #for register, field in registry.items():

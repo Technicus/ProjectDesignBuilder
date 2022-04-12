@@ -7,7 +7,7 @@
 #from termcolor import colored
 from os import path, getcwd, chdir
 #from Registry import registry, registry_report, registry_query
-from RegistryClass import ProjectRegistry
+from ProjectManagement import Registry
 from logging import debug, info, warning, error, basicConfig, DEBUG, INFO,\
     WARNING, ERROR
 
@@ -98,7 +98,7 @@ def main():
     #registry_query(registry(project_root, project_name, directory_omit,
                            #file_register_types), ['Room.py', 'sandbox.py'])
 
-    registry = ProjectRegistry(project_root, project_name, directory_omit,
+    registry = Registry(project_root, project_name, directory_omit,
         file_register_types)
     registry.report()
     #for register, field in registry(project_root, project_name, directory_omit,
