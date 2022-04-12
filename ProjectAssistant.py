@@ -83,11 +83,14 @@ def run_git():
         git add .; git status;'\
         ], shell=True
     )
+
     commit_message = input("\nCommit message: ")
     if commit_message is None:
         commit_message = []
     else:
         commit_message = commit_message
+    print()
+
     subprocess_test = run(
         args = [
         'git commit -m \"' + commit_message + '\"; git status; \
