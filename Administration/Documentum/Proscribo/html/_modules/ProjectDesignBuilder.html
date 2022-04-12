@@ -1,0 +1,326 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>ProjectDesignBuilder &mdash; ProjectDesignBuilder 0.0.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> ProjectDesignBuilder
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../ProjectDesignBuilderTOC.html">ProjectDesignBuilder</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ProjectDesignBuilder</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">Module code</a> &raquo;</li>
+        
+      <li>ProjectDesignBuilder</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for ProjectDesignBuilder</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/bin/python</span>
+
+<span class="n">__version__</span> <span class="o">=</span> <span class="s2">&quot;0.0.1&quot;</span>
+<span class="n">__subvision__</span> <span class="o">=</span> <span class="s2">&quot;Design.py&quot;</span>
+<span class="n">__title__</span> <span class="o">=</span> <span class="s2">&quot;Design Builder&quot;</span>
+<span class="n">__subTitle__</span> <span class="o">=</span> <span class="s2">&quot;Customizable Crafting System&quot;</span>
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Technicus&quot;</span>
+
+<span class="c1"># This is a file to design a customizable organizer, and create parts for laser cut out and assembly.</span>
+
+
+<span class="kn">from</span> <span class="nn">sys</span> <span class="kn">import</span> <span class="n">path</span> <span class="k">as</span> <span class="n">sysPath</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">walk</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">getcwd</span>
+
+<span class="n">dirRoot</span> <span class="o">=</span> <span class="s1">&#39;../&#39;</span>
+<span class="n">dirCurrent</span> <span class="o">=</span> <span class="n">getcwd</span><span class="p">()</span>
+<span class="n">head_tail</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">getcwd</span><span class="p">())</span>
+<span class="n">dirWorking</span> <span class="o">=</span> <span class="n">head_tail</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">pathBase</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">getcwd</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Base Path:</span><span class="se">\n</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dirWorking</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">System Path Initialized:</span><span class="se">\n</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sysPath</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Working Path Querry:&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">dirWorking</span><span class="p">,</span> <span class="n">dirs</span><span class="p">,</span> <span class="n">files</span> <span class="ow">in</span> <span class="n">walk</span><span class="p">(</span><span class="n">dirWorking</span><span class="p">,</span> <span class="n">topdown</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="c1">#for name in files:</span>
+        <span class="c1">#print(path.join(dirRoot, name))</span>
+    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">dirs</span><span class="p">:</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">name</span> <span class="o">!=</span> <span class="s1">&#39;__pycache__&#39;</span><span class="p">):</span>
+            <span class="n">dirWorkingAbs</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dirWorking</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[</span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s2">]&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dirWorkingAbs</span><span class="p">))</span> <span class="c1"># Absolute</span>
+            <span class="n">sysPath</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dirWorkingAbs</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">System Path Update:</span><span class="se">\n</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sysPath</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Current Directory:</span><span class="se">\n</span><span class="s2">[</span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s2">]&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dirCurrent</span><span class="p">))</span>
+
+<span class="c1">#from datetime import date, datetime</span>
+<span class="c1">#import cadquery as cq</span>
+<span class="c1">#from cadquery import exporters</span>
+
+<span class="kn">from</span> <span class="nn">Utility</span> <span class="kn">import</span> <span class="n">clear</span><span class="p">,</span> <span class="n">setParameters</span><span class="p">,</span> <span class="n">setDirectories</span>
+<span class="c1">#from Craft import build</span>
+<span class="c1">##from Construct import cabinet drawer</span>
+<span class="c1">##from Export import showcase model</span>
+<span class="c1">#import configparser</span>
+
+ <span class="c1">#⦾••⦾</span>
+ <span class="c1">#⦿⦾○◦•</span>
+
+<span class="c1"># Main function</span>
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../ProjectDesignBuilder.html#ProjectDesignBuilder.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">argumentation</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;ProjectDesignBuilder.main()&quot;&quot;&quot;</span>
+    <span class="c1"># Clear the terminal</span>
+    <span class="c1">#clear()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">⦿⦾•○◦ Main() Starts Here ◦○•⦾⦿</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">parameters</span> <span class="o">=</span> <span class="n">setParameters</span><span class="p">(</span><span class="n">report</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+    <span class="n">parameterFile</span> <span class="o">=</span> <span class="n">setParameters</span><span class="p">(</span><span class="n">returnFile</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+    <span class="c1">#directories = setDirectories(report = True, parameterSet = parameters[&#39;Paths&#39;])</span>
+    <span class="c1">#build(craft = &#39;Cabinet&#39;, design = parameters[&#39;Design&#39;])</span>
+
+    <span class="c1">#Cabinet = build(craft = &#39;Cabinet&#39;, design = parameters[&#39;Design&#39;])</span>
+    <span class="c1">#build()</span>
+    <span class="c1">## Tab design</span>
+    <span class="c1">#tabProportion = False</span>
+    <span class="c1">#tabCount = 5</span>
+    <span class="c1">#tabWidth = 1</span>
+    <span class="c1">#tabSide = &quot;Left&quot;</span>
+     <span class="c1">## Variables to set dimentions, rows, colums, material thichness, and measurements for functions.</span>
+     <span class="c1">## Overall dimentions</span>
+     <span class="c1">## Material thicknesses</span>
+     <span class="c1">## [ cabinet, drawers ]</span>
+     <span class="c1">#thicknessCabinetPanels = 6.0</span>
+     <span class="c1">## Rows and colums</span>
+     <span class="c1">## [ rows, columns ]</span>
+     <span class="c1">#grid = [ 14.0, 10.0 ]</span>
+     <span class="c1">#drawerWidth = 125.0 / 3</span>
+     <span class="c1">## [ width, height, _depth ]</span>
+     <span class="c1">##cabinetDimention = [ 600.0, 250.0, 125.0 ]</span>
+     <span class="c1">#DrawerDimention = [ drawerWidth, drawerWidth, drawerWidth * 8 ]</span>
+     <span class="c1">#cabinetDimention = [ DrawerDimention[ 0 ] * grid[ 0 ], DrawerDimention[ 1 ] * grid[ 1 ], DrawerDimention[ 2 ] + thicknessCabinetPanels ]</span>
+
+     <span class="c1">## Distribution</span>
+     <span class="c1">## [ columnWidth =  width / columns, rowHeight = height / rows ]</span>
+     <span class="c1">#gridDistribution = [ cabinetDimention[ 0 ] / grid[ 1 ], cabinetDimention[ 1 ] / grid[ 0 ] ]</span>
+
+     <span class="c1">## Tab configuration</span>
+     <span class="c1">## The tab count and width need to be recalculated to match the side proportionas</span>
+     <span class="c1">## [ count, tolerance, porportion, justification ]</span>
+     <span class="c1">## tabDefinition = [ 4, 1.0, 0.5, &quot;Centered&quot; ]</span>
+     <span class="c1">#tabCount = 7</span>
+     <span class="c1">#tabTolerance = 1.0</span>
+     <span class="c1">#tabPorportion = 1.0</span>
+     <span class="c1">#tabJustification = &quot;Centered&quot;</span>
+     <span class="c1">#tabInset = 0</span>
+
+     <span class="c1">#show_object(panelAssembly)</span>
+     <span class="c1">##show_object(panelBottom)</span>
+     <span class="c1">##show_object(panelLeft)</span>
+     <span class="c1">##show_object(panelBack)</span>
+         <span class="c1">##exporters.export(panelAssembly, &#39;cabinet.step&#39;)</span>
+     <span class="c1">#functionStatus()</span>
+     <span class="c1">## Instintantiate an object with initial settings condition</span>
+     <span class="c1">## by parsing the arguments, parsing the config file, referencing defaults, and establishing a directory reference</span>
+     <span class="c1">##print(&quot;&gt; Function call: Utility = initalize_Utility()&quot;)</span>
+     <span class="c1">#Utility = initalize_Utility()</span>
+     <span class="c1">##functionStatus()</span>
+     <span class="c1">## Display version information</span>
+     <span class="c1">##print(&quot;&gt; Function call: version(Utility)&quot;)</span>
+     <span class="c1">#version(Utility)</span>
+     <span class="c1">##functionStatus()</span>
+     <span class="c1">#evaluateOperations(Utility)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">⦿⦾•○◦ Main() Ends Here ◦○•⦾⦿</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1">#if __name__ == &#39;temp&#39;:</span>
+    <span class="c1">##clear()</span>
+    <span class="c1">##argument = sys.argv[1]</span>
+    <span class="c1">#log(&#39;---- cq-editor ----&#39;)</span>
+    <span class="c1">##testVariable = sys.argv[1]</span>
+    <span class="c1">#log(&#39;what{}&#39;.format(__name__))</span>
+    <span class="c1">##log(&#39;argv[1]  : {}&#39;.format(argument))</span>
+    <span class="c1">##print(&#39;__name__ : {}&#39;.format(__name__))</span>
+    <span class="c1">##print(&#39;d : {}&#39;.format(__name__))</span>
+    <span class="c1">#print(&quot;\n⦿⦾•○◦ Transfering to Main() ◦○•⦾⦿\n&quot;)</span>
+    <span class="c1">#main()</span>
+
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2022, Technicus.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

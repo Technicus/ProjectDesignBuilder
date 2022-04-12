@@ -1,0 +1,330 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Utility &mdash; ProjectDesignBuilder 0.0.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> ProjectDesignBuilder
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../ProjectDesignBuilderTOC.html">ProjectDesignBuilder</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ProjectDesignBuilder</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">Module code</a> &raquo;</li>
+        
+      <li>Utility</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for Utility</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/bin/python</span>
+
+<span class="c1">#from getopt import getopt, GetoptError</span>
+<span class="c1">#from os environ</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">system</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">getcwd</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">mkdir</span><span class="p">,</span> <span class="n">listdir</span><span class="p">,</span> <span class="n">walk</span>
+<span class="c1">#from tempfile import mkdtemp</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">date</span><span class="p">,</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">sys</span> <span class="kn">import</span> <span class="n">argv</span><span class="p">,</span> <span class="n">exit</span>
+<span class="kn">from</span> <span class="nn">sys</span> <span class="kn">import</span> <span class="n">path</span> <span class="k">as</span> <span class="n">sysPath</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">watchdog.observers</span> <span class="kn">import</span> <span class="n">Observer</span>
+<span class="kn">from</span> <span class="nn">watchdog.events</span> <span class="kn">import</span> <span class="n">FileSystemEventHandler</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="kn">import</span> <span class="nn">configparser</span>
+<span class="c1">#from os import system</span>
+
+
+<span class="c1">#def cleanPythonOperations(operationPath, remove = False):</span>
+    <span class="c1">#if(remove == True):</span>
+        <span class="c1">#system((&#39;cleanpy --all -v {}&#39;).format(operationPath))</span>
+    <span class="c1">#else:</span>
+        <span class="c1">#system((&#39;cleanpy --list -v {}&#39;).format(operationPath))</span>
+        <span class="c1">#output = sp.getoutput(&#39;whoami --version&#39;)</span>
+        <span class="c1">#print (output)</span>
+<span class="c1">#cleanPythonOperations(operationPath, bool(remove))</span>
+
+<span class="c1"># Clear the terminal</span>
+<div class="viewcode-block" id="clear"><a class="viewcode-back" href="../Utility.html#Utility.clear">[docs]</a><span class="k">def</span> <span class="nf">clear</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;This function clears the screen.&quot;&quot;&quot;</span>
+    <span class="c1"># for windows</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;nt&quot;</span><span class="p">:</span>
+        <span class="n">_</span> <span class="o">=</span> <span class="n">system</span><span class="p">(</span><span class="s2">&quot;cls&quot;</span><span class="p">)</span>
+    <span class="c1"># for mac and linux(here, os.name is &#39;posix&#39;)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">_</span> <span class="o">=</span> <span class="n">system</span><span class="p">(</span><span class="s2">&quot;clear&quot;</span><span class="p">)</span></div>
+
+<span class="c1"># Return a formatted time string &quot;year-month-day-hour-minute-second&quot;</span>
+<div class="viewcode-block" id="updateTimeCode"><a class="viewcode-back" href="../Utility.html#Utility.updateTimeCode">[docs]</a><span class="k">def</span> <span class="nf">updateTimeCode</span><span class="p">():</span>
+    <span class="n">functionStatus</span><span class="p">()</span>
+    <span class="n">updateTime</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+    <span class="c1"># timeCode = updateTime.strftime(&quot;%Y%m%d%H%M%S&quot;)</span>
+    <span class="n">timeCode</span> <span class="o">=</span> <span class="n">updateTime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">-%H-%M-%S-</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">timeCode</span></div>
+
+<div class="viewcode-block" id="findFile"><a class="viewcode-back" href="../Utility.html#Utility.findFile">[docs]</a><span class="k">def</span> <span class="nf">findFile</span><span class="p">(</span><span class="n">fileName</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">workPath</span> <span class="ow">in</span> <span class="n">sysPath</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">root</span><span class="p">,</span> <span class="n">dirs</span><span class="p">,</span> <span class="n">files</span> <span class="ow">in</span> <span class="n">walk</span><span class="p">(</span><span class="n">workPath</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
+                <span class="c1"># As we need to get the provided python file,</span>
+                <span class="c1"># comparing here like this</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">name</span> <span class="o">==</span> <span class="n">fileName</span><span class="p">):</span>
+                    <span class="n">foundFile</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">name</span><span class="p">))</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Found:</span><span class="se">\n</span><span class="s1">[</span><span class="si">{}</span><span class="s1">]</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">foundFile</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">foundFile</span></div>
+
+<div class="viewcode-block" id="setParameters"><a class="viewcode-back" href="../Utility.html#Utility.setParameters">[docs]</a><span class="k">def</span> <span class="nf">setParameters</span><span class="p">(</span><span class="n">returnFile</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">report</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+    <span class="n">parameterFile</span> <span class="o">=</span> <span class="n">findFile</span><span class="p">(</span><span class="n">fileName</span> <span class="o">=</span> <span class="s1">&#39;Parameters.ini&#39;</span><span class="p">)</span>
+    <span class="n">parameters</span> <span class="o">=</span> <span class="n">configparser</span><span class="o">.</span><span class="n">ConfigParser</span><span class="p">(</span><span class="n">allow_no_value</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">parameters</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">parameterFile</span><span class="p">)</span>
+    <span class="n">indent</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">report</span> <span class="o">==</span> <span class="kc">True</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">⦾[ </span><span class="si">{}</span><span class="s1"> ]&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">indent</span><span class="p">,</span> <span class="n">parameterFile</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">section</span> <span class="ow">in</span> <span class="n">parameters</span><span class="o">.</span><span class="n">sections</span><span class="p">():</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="si">{}</span><span class="s1">  •[ </span><span class="si">{}</span><span class="s1"> ]&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">indent</span><span class="p">,</span> <span class="n">section</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">parameter</span> <span class="ow">in</span> <span class="n">parameters</span><span class="p">[</span><span class="n">section</span><span class="p">]:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">    ○[ </span><span class="si">{}</span><span class="s1"> ]=( </span><span class="si">{}</span><span class="s1"> )&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">indent</span><span class="p">,</span> <span class="n">parameter</span><span class="p">,</span> <span class="n">parameters</span><span class="p">[</span><span class="n">section</span><span class="p">][</span><span class="n">parameter</span><span class="p">]))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">returnFile</span> <span class="o">==</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">parameters</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">parameterFile</span></div>
+
+<div class="viewcode-block" id="setDirectories"><a class="viewcode-back" href="../Utility.html#Utility.setDirectories">[docs]</a><span class="k">def</span> <span class="nf">setDirectories</span><span class="p">(</span><span class="n">report</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">parameterSet</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">):</span>
+    <span class="n">indent</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">⦾[ </span><span class="si">{}</span><span class="s1"> ]</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">indent</span><span class="p">,</span> <span class="n">parameterSet</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">parameter</span> <span class="ow">in</span> <span class="n">parameterSet</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">    ○[ </span><span class="si">{}</span><span class="s1"> ]=( </span><span class="si">{}</span><span class="s1"> )&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">indent</span><span class="p">,</span> <span class="n">parameter</span><span class="p">,</span> <span class="n">parameterSet</span><span class="p">[</span><span class="n">parameter</span><span class="p">]))</span></div>
+
+
+
+
+<span class="c1"># Start cq-editor</span>
+<div class="viewcode-block" id="startCadQueryEditor"><a class="viewcode-back" href="../Utility.html#Utility.startCadQueryEditor">[docs]</a><span class="k">def</span> <span class="nf">startCadQueryEditor</span><span class="p">(</span><span class="n">openFile</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">):</span>
+    <span class="c1">#cmd = &#39;. $CONDA_PREFIX/etc/profile.d/conda.sh &amp;&amp; conda activate my-rdkit-env&#39;</span>
+    <span class="c1">#cmd = &#39;source $HOME/miniforge/bin/activate &amp;&amp; conda activate cadquery-dev &amp;&amp; cq-editor ./cabinet.py&#39;</span>
+    <span class="n">cmd</span> <span class="o">=</span> <span class="s1">&#39;source $HOME/miniforge/bin/activate &amp;&amp; conda activate cadquery-dev &amp;&amp; cq-editor &#39;</span><span class="p">,</span> <span class="n">openFile</span>
+    <span class="c1">#subprocess.call(cmd, shell=True)</span>
+    <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="c1">#subprocess.call(cmd, shell=True, executable=&#39;/bin/bash&#39;)</span>
+    <span class="c1">#subprocess.call(cmd, shell=True, executable=&#39;cq-editor&#39;)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Process open!&quot;</span><span class="p">)</span></div>
+
+
+<span class="c1"># Create a watcher to observe file modifications</span>
+<div class="viewcode-block" id="FileWatcher"><a class="viewcode-back" href="../Utility.html#Utility.FileWatcher">[docs]</a><span class="k">class</span> <span class="nc">FileWatcher</span><span class="p">:</span>
+    <span class="c1"># Set the directory on watch</span>
+    <span class="n">watchTarget</span> <span class="o">=</span> <span class="s2">&quot;./&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">observer</span> <span class="o">=</span> <span class="n">Observer</span><span class="p">()</span>
+
+<div class="viewcode-block" id="FileWatcher.run"><a class="viewcode-back" href="../Utility.html#Utility.FileWatcher.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">event_handler</span> <span class="o">=</span> <span class="n">Handler</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">observer</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="n">event_handler</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">watchTarget</span><span class="p">,</span> <span class="n">recursive</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">observer</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">observer</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Observer Stopped&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">observer</span><span class="o">.</span><span class="n">join</span><span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="Handler"><a class="viewcode-back" href="../Utility.html#Utility.Handler">[docs]</a><span class="k">class</span> <span class="nc">Handler</span><span class="p">(</span><span class="n">FileSystemEventHandler</span><span class="p">):</span>
+<div class="viewcode-block" id="Handler.on_any_event"><a class="viewcode-back" href="../Utility.html#Utility.Handler.on_any_event">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">on_any_event</span><span class="p">(</span><span class="n">event</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">is_directory</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="k">elif</span> <span class="n">event</span><span class="o">.</span><span class="n">event_type</span> <span class="o">==</span> <span class="s1">&#39;created&#39;</span><span class="p">:</span>
+            <span class="c1"># Event is created, you can process it now</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Watchdog received created event - </span><span class="si">% s</span><span class="s2">.&quot;</span> <span class="o">%</span> <span class="n">event</span><span class="o">.</span><span class="n">src_path</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">event</span><span class="o">.</span><span class="n">event_type</span> <span class="o">==</span> <span class="s1">&#39;modified&#39;</span><span class="p">:</span>
+            <span class="c1"># Event is modified, you can process it now</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Watchdog received modified event - </span><span class="si">% s</span><span class="s2">.&quot;</span> <span class="o">%</span> <span class="n">event</span><span class="o">.</span><span class="n">src_path</span><span class="p">)</span>
+            <span class="c1">#LoggingEventHandler()</span>
+            <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s2">&quot;./Cabinet.py&quot;</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2022, Technicus.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

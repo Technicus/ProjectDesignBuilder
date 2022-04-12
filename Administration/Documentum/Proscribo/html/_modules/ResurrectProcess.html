@@ -1,0 +1,333 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>ResurrectProcess &mdash; ProjectDesignBuilder 0.0.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> ProjectDesignBuilder
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../ProjectDesignBuilderTOC.html">ProjectDesignBuilder</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ProjectDesignBuilder</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">Module code</a> &raquo;</li>
+        
+      <li>ResurrectProcess</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for ResurrectProcess</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/bin/python</span>
+
+<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">system</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">execv</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">watchdog.observers</span> <span class="kn">import</span> <span class="n">Observer</span>
+<span class="kn">from</span> <span class="nn">watchdog.events</span> <span class="kn">import</span> <span class="n">FileSystemEventHandler</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="kn">import</span> <span class="nn">re</span>
+
+<span class="c1"># Clear the terminal</span>
+<div class="viewcode-block" id="clear"><a class="viewcode-back" href="../ResurrectProcess.html#ResurrectProcess.clear">[docs]</a><span class="k">def</span> <span class="nf">clear</span><span class="p">():</span>
+    <span class="c1"># for windows</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;nt&quot;</span><span class="p">:</span>
+        <span class="n">_</span> <span class="o">=</span> <span class="n">system</span><span class="p">(</span><span class="s2">&quot;cls&quot;</span><span class="p">)</span>
+    <span class="c1"># for mac and linux(here, os.name is &#39;posix&#39;)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">_</span> <span class="o">=</span> <span class="n">system</span><span class="p">(</span><span class="s2">&quot;clear&quot;</span><span class="p">)</span></div>
+
+<span class="c1"># Call the watch dog</span>
+<div class="viewcode-block" id="watchCall"><a class="viewcode-back" href="../ResurrectProcess.html#ResurrectProcess.watchCall">[docs]</a><span class="k">def</span> <span class="nf">watchCall</span><span class="p">(</span><span class="n">openFile</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">):</span>
+    <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">openFile</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+    <span class="c1">#cmd = &#39;. $CONDA_PREFIX/etc/profile.d/conda.sh &amp;&amp; conda activate my-rdkit-env&#39;</span>
+    <span class="c1">#cmd = &#39;source $HOME/miniforge/bin/activate &amp;&amp; conda activate cadquery-dev &amp;&amp; cq-editor ./cabinet.py&#39;</span>
+    <span class="c1">#cmd = &#39;source $HOME/miniforge/bin/activate &amp;&amp; conda activate cadquery-dev &amp;&amp; cq-editor &#39;, openFile</span>
+    <span class="c1">#subprocess.Popen(cmd, shell=True)</span>
+    <span class="c1">#subprocess.call(cmd, shell=True, executable=&#39;/bin/bash&#39;)</span>
+    <span class="c1">#subprocess.call(cmd, shell=True, executable=&#39;cq-editor&#39;)</span>
+    <span class="c1">#print(&quot;Process open!&quot;)</span>
+
+
+<div class="viewcode-block" id="DirectoryMonitor"><a class="viewcode-back" href="../ResurrectProcess.html#ResurrectProcess.DirectoryMonitor">[docs]</a><span class="k">class</span> <span class="nc">DirectoryMonitor</span><span class="p">:</span>
+    <span class="c1"># Set the directory on watch</span>
+    <span class="n">watch</span> <span class="o">=</span> <span class="s2">&quot;./&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">observer</span> <span class="o">=</span> <span class="n">Observer</span><span class="p">()</span>
+<div class="viewcode-block" id="DirectoryMonitor.run"><a class="viewcode-back" href="../ResurrectProcess.html#ResurrectProcess.DirectoryMonitor.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">event_handler</span> <span class="o">=</span> <span class="n">Handler</span><span class="p">()</span>
+        <span class="n">event_handler</span><span class="o">.</span><span class="n">watch</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">watch</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">observer</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="n">event_handler</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">watch</span><span class="p">,</span> <span class="n">recursive</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">observer</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">observer</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Observer Stopped&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">observer</span><span class="o">.</span><span class="n">join</span><span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="Handler"><a class="viewcode-back" href="../ResurrectProcess.html#ResurrectProcess.Handler">[docs]</a><span class="k">class</span> <span class="nc">Handler</span><span class="p">(</span><span class="n">FileSystemEventHandler</span><span class="p">):</span>
+<div class="viewcode-block" id="Handler.on_any_event"><a class="viewcode-back" href="../ResurrectProcess.html#ResurrectProcess.Handler.on_any_event">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">on_any_event</span><span class="p">(</span><span class="n">event</span><span class="p">):</span>
+        <span class="n">fileType</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;[_.]&quot;</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">src_path</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">eventFile</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">src_path</span>
+
+        <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">is_directory</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="k">elif</span> <span class="n">event</span><span class="o">.</span><span class="n">event_type</span> <span class="o">==</span> <span class="s1">&#39;created&#39;</span><span class="p">:</span>
+            <span class="c1"># Event is created, you can process it now</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">fileType</span> <span class="o">!=</span> <span class="s1">&#39;kate-swp&#39;</span><span class="p">):</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Watchdog event = [ created ] : [ </span><span class="si">% s</span><span class="s1"> ]&#39;</span> <span class="o">%</span> <span class="n">event</span><span class="o">.</span><span class="n">src_path</span><span class="p">)</span>
+                <span class="c1">#clear()</span>
+                <span class="c1">#watchCall(event.src_path)</span>
+
+        <span class="k">elif</span> <span class="n">event</span><span class="o">.</span><span class="n">event_type</span> <span class="o">==</span> <span class="s1">&#39;modified&#39;</span><span class="p">:</span>
+            <span class="c1"># Event is modified, you can process it now</span>
+            <span class="c1">#clear()</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">fileType</span> <span class="o">!=</span> <span class="s1">&#39;kate-swp&#39;</span><span class="p">):</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">src_path</span> <span class="o">==</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Watchdog event = [ modified ] : [ </span><span class="si">% s</span><span class="s1"> ]</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">event</span><span class="o">.</span><span class="n">src_path</span><span class="p">)</span>
+                    <span class="c1">#print(&#39;eventFile : SELF!!!&#39;.format(eventFile))</span>
+                    <span class="c1">#watchCall(event.src_path)</span>
+                    <span class="c1">#execv(sys.argv[0], sys.argv)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c1">#print(&#39;eventFile : {}&#39;.format(eventFile))</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Watchdog event = [ modified ] : [ </span><span class="si">% s</span><span class="s1"> ]</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">event</span><span class="o">.</span><span class="n">src_path</span><span class="p">)</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">src_path</span> <span class="o">==</span> <span class="s1">&#39;./ProjectDesignBuilder.py&#39;</span><span class="p">):</span>
+                    <span class="n">watchCall</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">src_path</span><span class="p">)</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">src_path</span> <span class="o">==</span> <span class="s1">&#39;./Utility.py&#39;</span><span class="p">):</span>
+                    <span class="n">watchCall</span><span class="p">(</span><span class="s1">&#39;./ProjectDesignBuilder.py&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">src_path</span> <span class="o">==</span> <span class="s1">&#39;./Parameters.ini&#39;</span><span class="p">):</span>
+                    <span class="n">watchCall</span><span class="p">(</span><span class="s1">&#39;./ProjectDesignBuilder.py&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">src_path</span> <span class="o">==</span> <span class="s1">&#39;./Craft.py&#39;</span><span class="p">):</span>
+                    <span class="n">watchCall</span><span class="p">(</span><span class="s1">&#39;./ProjectDesignBuilder.py&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">src_path</span> <span class="o">==</span> <span class="s1">&#39;./Cabinet.py&#39;</span><span class="p">):</span>
+                    <span class="n">watchCall</span><span class="p">(</span><span class="s1">&#39;./ProjectDesignBuilder.py&#39;</span><span class="p">)</span></div></div>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="s1">&#39;.&#39;</span>
+    <span class="c1">#clear()</span>
+    <span class="n">watch</span> <span class="o">=</span> <span class="n">DirectoryMonitor</span><span class="p">()</span>
+    <span class="n">watch</span><span class="o">.</span><span class="n">watchDirectory</span> <span class="o">=</span> <span class="n">path</span>
+    <span class="n">watch</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+
+
+
+
+
+
+
+
+
+
+<span class="c1">### Scraps</span>
+            <span class="c1">#position = eventFile.index(&#39;.&#39;) # gets position of the . in the filename</span>
+            <span class="c1">#fileType = eventFile[1:position]</span>
+            <span class="c1">#print(&#39;\nfileType : {}&#39;.format(fileType))</span>
+                <span class="c1">#print(fileType)</span>
+            <span class="c1">#else:</span>
+
+<span class="c1">#if __name__ == &quot;__main__&quot;:</span>
+    <span class="c1">#logging.basicConfig(level=logging.INFO,</span>
+                        <span class="c1">#format=&#39;%(asctime)s - %(message)s&#39;,</span>
+                        <span class="c1">#datefmt=&#39;%Y-%m-%d %H:%M:%S&#39;)</span>
+    <span class="c1">#path = sys.argv[1] if len(sys.argv) &gt; 1 else &#39;.&#39;</span>
+    <span class="c1">#event_handler = LoggingEventHandler()</span>
+    <span class="c1">#event_handler = clear(LoggingEventHandler)</span>
+
+    <span class="c1">#observer = Observer()</span>
+    <span class="c1">#observer.schedule(event_handler, path, recursive=True)</span>
+    <span class="c1">#observer.start()</span>
+    <span class="c1">#try:</span>
+        <span class="c1">#while True:</span>
+            <span class="c1">#time.sleep(1)</span>
+    <span class="c1">#except KeyboardInterrupt:</span>
+        <span class="c1">#observer.stop()</span>
+    <span class="c1">#observer.join()</span>
+    <span class="c1">##functionStatus()</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2022, Technicus.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
