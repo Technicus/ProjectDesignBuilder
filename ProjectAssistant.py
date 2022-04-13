@@ -89,7 +89,7 @@ def input_with_prefill(prompt, text):
     return result
 
 
-def run_git():
+def run_git(cache_file = None):
     subprocess_test = run(
         args = [
         'git status; \
@@ -97,16 +97,20 @@ def run_git():
         ], shell=True
     )
 
+    with open(cache_file, 'r') as cache:
+        previous_commit_message = cache.readlines()[-1].rstrip()
 
     #commit_message = input("\nCommit message: ")
-    commit_message = input_with_prefill('Commit message: ', 'Type a message!')
-    print(commit_message)
+    commit_message = input_with_prefill('Commit message: ',
+        previous_commit_message)
+    #print(commit_message)
     if commit_message is None:
         commit_message = []
     else:
         commit_message = commit_message
-    print()
-
+    with open(cache_file, 'a') as cache:
+        cache.write(f'\n{commit_message}')
+    #print()
     subprocess_test = run(
         args = [
         'git commit -m \"' + commit_message + '\"; git status; \
@@ -116,33 +120,34 @@ def run_git():
     print()
 
 def set_current_working_directory():
-    print(f'`path.abspath(getcwd())`:\n[ {path.abspath(getcwd())} ]\n')
-    print(f'`path.dirname(path.abspath(__file__))`:\n[ {path.dirname(path.abspath(__file__))} ]\n')
+    #print(f'`path.abspath(getcwd())`:\n[ {path.abspath(getcwd())} ]\n')
+    #print(f'`path.dirname(path.abspath(__file__))`:\n[ {path.dirname(path.abspath(__file__))} ]\n')
     if path.abspath(getcwd()) is not path.dirname(path.abspath(__file__)):
         chdir(path.dirname(path.abspath(__file__)))
-    print(f'`path.abspath(getcwd())`:\n[ {path.abspath(getcwd())} ]\n')
-    print(f'`path.dirname(path.abspath(__file__))`:\n[ {path.dirname(path.abspath(__file__))} ]\n')
+    #print(f'`path.abspath(getcwd())`:\n[ {path.abspath(getcwd())} ]\n')
+    #print(f'`path.dirname(path.abspath(__file__))`:\n[ {path.dirname(path.abspath(__file__))} ]\n')
 
 
 def main(argv):
+    cache_file = './Builder/Utilities/Data/Cache/assistant.cache'
     run('clear')
     set_current_working_directory()
-    assistant_cache_file = open("./Builder/Utilities/Data/Cache/assistant.cache", "a")
-    assistant_cache_file.write('ProjectAssistant.cache\n')
+    assistant_cache_file = open(cache_file, 'a')
+    assistant_cache_file.write('')
     assistant_cache_file.close()
 
-    print()
+    #print()
     #print(evaluate_arguments(argv))
     #print(evaluate_arguments())
     operation = evaluate_arguments(argv).constant_value
     if 'push' in operation:
         #print(operation)
-        run_git()
+        run_git(cache_file)
 
     if 'publish' in operation:
         #print(operation)
         run_publisher()
-    print()
+    #print()
 
 
 if __name__ == "__main__":
