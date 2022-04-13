@@ -8,8 +8,8 @@ from argparse import ArgumentParser, HelpFormatter, _SubParsersAction
 from os import chdir, path, getcwd
 import readline
 from datetime import date, datetime
-#from getopt import GetoptError, getopt, usage
 #from ProjectManagement import Registry
+#from getopt import GetoptError, getopt, usage
 
 
 # Return a formatted time string "year-month-day-hour-minute-second"
@@ -78,13 +78,13 @@ def evaluate_arguments(argv):
 
 
 def run_publisher():
-    #chdir('./Administproject_rootration/Documentum/Publisher/Author')
-    #run(
-        #args = [
-        ##'./Publisher.py'
-        #'./Administration/Documentum/Publisher/Author/Publisher.py'
-        #], shell=True
-    #)
+    #chdir('./Administration/project_rootration/Documentum/Publisher/Author')
+    run(
+        args = [
+        #'./Publisher.py'
+        './Administration/Documentum/Publisher/Author/Publisher.py'
+        ], shell=True
+    )
     #print()
     #run(
         #args = [
@@ -94,13 +94,13 @@ def run_publisher():
     ##)
     #run(['ls', '-l'], stdout=PIPE).stdout.decode('utf-8')
         #getoutput("ls -l")
-    print(run(['ls', '-l'], stdout=PIPE).stdout.decode('utf-8'))
-    run(['ls -l'], shell = True)
-    cmd = ['awk', 'length($0) > 5']
-    ip = 'foo\nfoofoo\n'.encode('utf-8')
-    result = run(cmd, stdout=PIPE, input=ip).stdout.decode('utf-8')
-    #result.stdout.decode('utf-8')
-    print(result)
+    #print(run(['ls', '-l'], stdout=PIPE).stdout.decode('utf-8'))
+    #run(['ls -l'], shell = True)
+    #cmd = ['awk', 'length($0) > 5']
+    #ip = 'foo\nfoofoo\n'.encode('utf-8')
+    #result = run(cmd, stdout=PIPE, input=ip).stdout.decode('utf-8')
+    ##result.stdout.decode('utf-8')
+    #print(result)
 
 def input_with_prefill(prompt, text):
     def hook():
