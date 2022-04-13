@@ -106,15 +106,15 @@ def run_git(cache_file = None):
         commit_message = []
     else:
         commit_message = commit_message
-    with open(cache_file, 'a') as cache:
-        cache.write(f'\n{commit_message}')
-    #print()
     subprocess = run(
         args = [
         'git commit -m \"' + commit_message + '\"; \
         git push; git status'
         ], shell=True
     )
+    with open(cache_file, 'a') as cache:
+        cache.write(f'\n{commit_message}')
+    #print()
     print()
 
 def set_current_working_directory():
