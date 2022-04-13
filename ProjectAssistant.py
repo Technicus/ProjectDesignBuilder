@@ -2,12 +2,23 @@
 # ProjectAssistant.py
 
 
-from subprocess import run
+from subprocess import run, PIPE
 from sys import exit, argv, exit
-#from getopt import GetoptError, getopt, usage
 from argparse import ArgumentParser, HelpFormatter, _SubParsersAction
 from os import chdir, path, getcwd
 import readline
+from datetime import date, datetime
+#from getopt import GetoptError, getopt, usage
+#from ProjectManagement import Registry
+
+
+# Return a formatted time string "year-month-day-hour-minute-second"
+def time_code():
+    #update_time = datetime.now()
+    # timeCode = updateTime.strftime("%Y%m%d%H%M%S")
+    now = datetime.now().strftime("%Y-%m-%d-%H-%M-%S-%f")
+    return now
+
 
 class CapitalisedHelpFormatter(HelpFormatter):
     def add_usage(self, usage, actions, groups, prefix=None):
@@ -71,13 +82,28 @@ def evaluate_arguments(argv):
 
 def run_publisher():
     #chdir('./Administproject_rootration/Documentum/Publisher/Author')
-    run(
-        args = [
-        #'./Publisher.py'
-        './Administration/Documentum/Publisher/Author/Publisher.py'
-        ], shell=True
-    )
-    print()
+    #run(
+        #args = [
+        ##'./Publisher.py'
+        #'./Administration/Documentum/Publisher/Author/Publisher.py'
+        #], shell=True
+    #)
+    #print()
+    #run(
+        #args = [
+        ##'./Publisher.py'
+        #'ls'
+        #], capture_output = True, shell = False
+    ##)
+    #run(['ls', '-l'], stdout=PIPE).stdout.decode('utf-8')
+        #getoutput("ls -l")
+    print(run(['ls', '-l'], stdout=PIPE).stdout.decode('utf-8'))
+    run(['ls -l'], shell = True)
+    cmd = ['awk', 'length($0) > 5']
+    ip = 'foo\nfoofoo\n'.encode('utf-8')
+    result = run(cmd, stdout=PIPE, input=ip).stdout.decode('utf-8')
+    #result.stdout.decode('utf-8')
+    print(result)
 
 def input_with_prefill(prompt, text):
     def hook():
@@ -113,7 +139,7 @@ def run_git(cache_file = None):
         ], shell=True
     )
     with open(cache_file, 'a') as cache:
-        cache.write(f'\n{commit_message}')
+        cache.write(f'\n{time_code()}\n{commit_message}')
     #print()
     print()
 
@@ -147,6 +173,9 @@ def main(argv):
         run_publisher()
     #print()
 
+    #registry = Registry('./', 'ProjectDesignBuilder', ['.git', '__'],
+        #['.md', '.py', '.rst', '.html'])
+    #registry.report()
 
 if __name__ == "__main__":
     #main(argv[1:])
