@@ -14,10 +14,7 @@ from datetime import date, datetime
 
 # Return a formatted time string "year-month-day-hour-minute-second"
 def time_code():
-    #update_time = datetime.now()
-    # timeCode = updateTime.strftime("%Y%m%d%H%M%S")
-    now = datetime.now().strftime("%Y-%m-%d-%H-%M-%S-%f")
-    return now
+    return datetime.now().strftime("%Y-%m-%d-%H-%M-%S-%f")
 
 
 class CapitalisedHelpFormatter(HelpFormatter):
