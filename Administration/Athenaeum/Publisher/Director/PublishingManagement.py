@@ -91,20 +91,18 @@ class Registry:
                     search_result.append(files)
             return search_result
 
-'''
-    This is a method that should be seperate from the registry class
-    This method should be part of the project_manager class, which does
-    not esist yet.
-"""
+
+# This method should be in the publising manager class but it does not
+# exist yet.
     def set_sysPath(self):
-        #print('sysPath pre-append:'.format(''))
+        print('sysPath pre-append:'.format(''))
         for path in sysPath:
-            #print('  {}'.format(path))
+            print('  {}'.format(path))
         for directory in self.registry.get('project_directories'):
-            project_path = str(self.search()) + '/' + str(directory).lstrip('./')
+            project_path = str(self.search()) + '/' \
+                + str(directory).lstrip('./')
             sysPath.append(project_path)
-        #print('\nsysPath append:'.format(''))
+        print('\nsysPath append:'.format(''))
         for path in sysPath:
-            #print('  {}'.format(path))
-        #print('{}'.format(''))
-        pass
+            print('  {}'.format(path))
+        print('{}'.format(''))
