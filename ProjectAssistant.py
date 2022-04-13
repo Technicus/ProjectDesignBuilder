@@ -90,16 +90,14 @@ def input_with_prefill(prompt, text):
 
 
 def run_git(cache_file = None):
+    with open(cache_file, 'r') as cache:
+        previous_commit_message = cache.readlines()[-1].rstrip()
     subprocess = run(
         args = [
         'git status; \
         git add .; git status;'\
         ], shell=True
     )
-
-    with open(cache_file, 'r') as cache:
-        previous_commit_message = cache.readlines()[-1].rstrip()
-
     #commit_message = input("\nCommit message: ")
     commit_message = input_with_prefill('Commit message: ',
         previous_commit_message)
