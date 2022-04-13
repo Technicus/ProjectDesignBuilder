@@ -113,7 +113,7 @@ def run_git(cache_file = None):
     #print()
     subprocess = run(
         args = [
-        'git commit -m \"' + commit_message + '\"; git status; \
+        'git commit -m \"' + commit_message + '\"; \
         git push; git status'
         ], shell=True
     )
