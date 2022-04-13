@@ -10,6 +10,7 @@ from os import path, getcwd, chdir
 from PublishingManagement import Registry
 from logging import debug, info, warning, error, basicConfig, DEBUG, INFO,\
     WARNING, ERROR
+from sys import path as sysPath
 
 
 def run_sphinx_build():
@@ -56,6 +57,33 @@ def set_current_working_directory():
         chdir(path.dirname(path.abspath(__file__)))
     print(f'`path.abspath(getcwd())`:\n[ {path.abspath(getcwd())} ]\n')
     print(f'`path.dirname(path.abspath(__file__))`:\n[ {path.dirname(path.abspath(__file__))} ]\n')
+
+def set_sysPath(registry):
+
+    for register, field in registry.report().items():
+        print('\n{}:'.format(register))
+        for entery in field:
+            print('  {}'.format(entery))
+    print()
+
+    print('sysPath pre-append:'.format(''))
+    for path in sysPath:
+        print('  {}'.format(path))
+    print()
+
+    for directory in registry.report().get('project_directories'):
+        #new_lst=(','.join(lst))
+        project_path = str(''.join(registry.report().get('project_root'))) + '/' \
+            + str(directory).lstrip('./')
+        sysPath.append(project_path)
+    print()
+
+    print('sysPath append:'.format(''))
+    for path in sysPath:
+        print('  {}'.format(path))
+    print('{}'.format(''))
+    print()
+
 
 def main():
 
@@ -114,7 +142,8 @@ def main():
         #for entery in field:
             #print('{}{}'.format(indent[2], entery))
         #print()
-    registry.set_sysPath()
+    #registry.set_sysPath()
+    set_sysPath(registry)
 
 if __name__ == "__main__":
     main()

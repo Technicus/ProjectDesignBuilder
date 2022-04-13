@@ -2,7 +2,7 @@
 
 from os import path, getcwd, chdir, walk
 from os.path import relpath
-from sys import path as sysPath
+#from sys import path as sysPath
 
 
 class Registry:
@@ -63,10 +63,12 @@ class Registry:
 
     def report(self):
         for register, field in self.registry.items():
-            print('\n{}:'.format(register))
-            for entery in field:
-                print('  {}'.format(entery))
-            print()
+            #print('\n{}:'.format(register))
+            #for entery in field:
+                #print('  {}'.format(entery))
+            #print()
+            pass
+        return self.registry
 
 
     def search(self, query = 'root', dir_file = 'directory'):
@@ -94,15 +96,15 @@ class Registry:
 
 # This method should be in the publising manager class but it does not
 # exist yet.
-    def set_sysPath(self):
-        print('sysPath pre-append:'.format(''))
-        for path in sysPath:
-            print('  {}'.format(path))
-        for directory in self.registry.get('project_directories'):
-            project_path = str(self.search()) + '/' \
-                + str(directory).lstrip('./')
-            sysPath.append(project_path)
-        print('\nsysPath append:'.format(''))
-        for path in sysPath:
-            print('  {}'.format(path))
-        print('{}'.format(''))
+    #def set_sysPath(self):
+        #print('sysPath pre-append:'.format(''))
+        #for path in sysPath:
+            #print('  {}'.format(path))
+        #for directory in self.registry.get('project_directories'):
+            #project_path = str(self.search()) + '/' \
+                #+ str(directory).lstrip('./')
+            #sysPath.append(project_path)
+        #print('\nsysPath append:'.format(''))
+        #for path in sysPath:
+            #print('  {}'.format(path))
+        #print('{}'.format(''))
