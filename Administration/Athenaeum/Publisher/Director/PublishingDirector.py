@@ -7,7 +7,7 @@
 #from termcolor import colored
 from os import path, getcwd, chdir
 #from Registry import registry, registry_report, registry_query
-from ProjectManagement import Registry
+from PublishingManagement import Registry
 from logging import debug, info, warning, error, basicConfig, DEBUG, INFO,\
     WARNING, ERROR
 
