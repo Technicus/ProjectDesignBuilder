@@ -2,6 +2,7 @@
 
 from os import path, getcwd, chdir, walk
 from os.path import relpath
+from sys import path as sysPath
 
 
 class Registry:
@@ -61,22 +62,11 @@ class Registry:
 
 
     def report(self):
-        #print(self.registry)
-        #for register, field in self.registry(project_root, project_name,
-        #directory_omit, file_register_types).items():
         for register, field in self.registry.items():
             print('\n{}:'.format(register))
             for entery in field:
                 print('  {}'.format(entery))
             print()
-        #print()
-
-#def registry_report(registry = {}):
-    #for register, field in registry.items():
-        #print('  {}:'.format(register,))
-        #for entery in field:
-            #print('    {}'.format(entery))
-        #print()
 
 
     def search(self, query = 'root', dir_file = 'directory'):
@@ -95,10 +85,27 @@ class Registry:
         else:
             for files in self.registry.get('project_files'):
                 if query in files:
-                    result_check = path.basename(files)
-                    result = files
-                    if query in result_check:
-                        search_result.append(files)
-                        return search_result
-                        #pass
-                        #return self.registry.get('project_files')
+                    #result_check = path.basename(files)
+                    #result = files
+                    #if query in result_check:
+                    search_result.append(files)
+            return search_result
+
+
+    def set_sysPath(self):
+
+
+        print('sysPath pre-append:'.format(''))
+        for path in sysPath:
+            print('  {}'.format(path))
+        for directory in self.registry.get('project_directories'):
+            #if query in directory:
+        #for path in projectTreeRegister()['rootBranch']:
+            project_path = str(self.search()) + '/' + str(directory).lstrip('./')
+            sysPath.append(project_path)
+        print('\nsysPath append:'.format(''))
+        for path in sysPath:
+            print('  {}'.format(path))
+        print('{}'.format(''))
+
+        pass

@@ -114,7 +114,7 @@ def main():
         #for entery in field:
             #print('{}{}'.format(indent[2], entery))
         #print()
-
+    registry.set_sysPath()
 
 if __name__ == "__main__":
     main()
