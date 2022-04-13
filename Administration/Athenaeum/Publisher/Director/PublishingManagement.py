@@ -79,20 +79,26 @@ class Registry:
         #print()
 
 
-    def search(self, query = 'root', dir_file = 'dir'):
+    def search(self, query = 'root', dir_file = 'directory'):
         search_result = []
-        if dir_file is 'dir':
+        if dir_file is 'directory':
             if query is 'root':
                 separator = ''
                 return separator.join(self.registry.get('project_root'))
             else:
                 for directory in self.registry.get('project_directories'):
                     if query in directory:
-                        search_result.append(directory)
-                return search_result
+                        result = path.basename(directory)
+                        if query in result:
+                            #search_result.append(directory)
+                            return directory
         else:
-            for register, project_files in self.registry.items():
-                for entery in field:
-                    if any(search_field in entery for search_field in search):
-                        search_result.append(str(entery))
-        return search_result
+            for files in self.registry.get('project_files'):
+                if query in files:
+                    result_check = path.basename(files)
+                    result = files
+                    if query in result_check:
+                        search_result.append(files)
+                        return search_result
+                        #pass
+                        #return self.registry.get('project_files')

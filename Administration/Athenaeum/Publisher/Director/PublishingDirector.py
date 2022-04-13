@@ -103,7 +103,9 @@ def main():
     registry.report()
     #print(separator.join(registry.search()))
     print(f'registry.search()\n  {registry.search()}\n')
-    print(f"registry.search(\'/Log\')\n  {registry.search('/Log')}\n")
+    print(f"registry.search(\'Log\')\n  {registry.search('Log')}\n")
+    print(f"registry.search(\'PublishingDirector\', \'file\')\n  {registry.search('PublishingDirector', 'file')}\n")
+    print(f"registry.search(\'.md\', \'file\')\n  {registry.search('.md', 'file')}\n")
     #print(f'registry.search(\'/Log\')\n  {registry.search('/Log')}\n')
     #print(f'registry.search()\n  {separator.join(registry.search())}\n')
     #for register, field in registry(project_root, project_name, directory_omit,
