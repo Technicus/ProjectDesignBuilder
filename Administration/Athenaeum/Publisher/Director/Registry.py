@@ -79,7 +79,6 @@ class Registry:
         #print()
 
 
-
     def search(registry = {}, search = []):
         search_result = []
         for register, field in registry.items():

@@ -82,7 +82,8 @@ def run_publisher():
     run(
         args = [
         #'./Publisher.py'
-        './Administration/Documentum/Publisher/Author/Publisher.py'
+        "/home/technicus/Projects/CAD/ProjectDesignBuilder/Administration/Athenaeum/Publisher/Director/PublishingDirector.py"
+        #'./Administration/Documentum/Publisher/Author/Publisher.py'
         ], shell=True
     )
     #print()
