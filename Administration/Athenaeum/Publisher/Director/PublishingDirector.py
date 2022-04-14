@@ -3,7 +3,8 @@
 from os import path, getcwd, chdir
 from PublishingManagement import Registry
 from logging import debug, info, warning, error, basicConfig, DEBUG, INFO,\
-    WARNING, ERROR, getLogger, config
+    WARNING, ERROR, getLogger
+import logging.config
 from sys import path as sysPath
 
 
@@ -44,16 +45,20 @@ def main():
     # Update sysPath with registry directory information
     set_sysPath(registry)
 
+    #log_file_config = './Utilities/Maintenance/Logger.ini'
     log_file_config = './Utilities/Maintenance/Logger.ini'
-    config.fileConfig(log_file_config, disable_existing_loggers=False)
-    debug('This message should appear on the console')
-    info('So should this')
-    warning('And this, too')
-    debug('This message should go to the log file')
-    info('So should this')
-    warning('And this, too')
-    error('And non-ASCII stuff, too, like Øresund and Malmö')
-    print(log_file_config)
+    #config.fileConfig(log_file_config, disable_existing_loggers=False)
+    #config.fileConfig(log_file_config)
+    logging.config.fileConfig(log_file_config)
+    logger_primary = getLogger('primaryLogger')
+    logger_primary.debug('This message should appear on the console')
+    logger_primary.info('So should this')
+    logger_primary.warning('And this, too')
+    logger_primary.debug('This message should go to the log file')
+    logger_primary.info('So should this')
+    logger_primary.warning('And this, too')
+    logger_primary.error('And non-ASCII stuff, too, like Øresund and Malmö')
+    #print(log_file_config)
 
 
 if __name__ == "__main__":
