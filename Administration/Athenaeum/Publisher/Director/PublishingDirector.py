@@ -44,9 +44,7 @@ def main():
     # Update sysPath with registry directory information.
     set_sysPath(registry)
 
-    #print(registry.search(query = 'Logger.ini', dir_file = 'file'))
     # Setup an configure logging from config file.
-    #log_file_config = './Utilities/Maintenance/Logger.ini'
     log_file_config = registry.search(query = 'Logger.ini', dir_file = 'file')
     logging.config.fileConfig(log_file_config)
     logger_primary = getLogger('primaryLogger')
