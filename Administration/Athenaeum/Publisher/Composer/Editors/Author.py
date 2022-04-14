@@ -15,19 +15,19 @@ from os import walk, path, getcwd, system
 
 
 headdersMainTOC = ['Admin Guide', 'API', 'Installation', 'Development', 'Contribute', 'Reference', 'About', 'Project', 'Design', 'Build']
-headdersDirectory
+#headdersDirectory
 
-for agent in files:
-        #print(path.join(dirRoot, name))
-        agentFile = path.join(agentLead, agent)
-        agent_split = path.split(agentFile)
-        agentPath = agent_split[0]
-        agentPath_split = path.split(agentPath)
-        agentLeader = agentPath_split[1]
-        agentQuery_List = open("agentQuery.list", "a")
-        agentQuery_List.write('{}\n'.format(agentLeader))
-        agentQuery_List.write('{}\n\n'.format(agent))
-        agentQuery_List.close()
+#for agent in files:
+        ##print(path.join(dirRoot, name))
+        #agentFile = path.join(agentLead, agent)
+        #agent_split = path.split(agentFile)
+        #agentPath = agent_split[0]
+        #agentPath_split = path.split(agentPath)
+        #agentLeader = agentPath_split[1]
+        #agentQuery_List = open("agentQuery.list", "a")
+        #agentQuery_List.write('{}\n'.format(agentLeader))
+        #agentQuery_List.write('{}\n\n'.format(agent))
+        #agentQuery_List.close()
         #agentQuery_List.write('agentLeader\n{}\n'.format(agentLeader))
         #agentQuery_List.write('agentFile\n{}\n'.format(agentFile))
         #agentQuery_List.write('agentPath\n{}\n\.'.format(agentPath))
@@ -88,5 +88,25 @@ def spawn_python_script(package_name, *args):
     python_path = ":".join(sysPath)[1:] # strip leading colon
     #logging.info( "Running %s", params)
     return subprocess.Popen(params, env={'PYTHONPATH':python_path}, shell=False, start_new_session = True) #, CREATE_NEW_CONSOLE = True)
+
+def document_builder(registry = None):
+    #print('sysPath\n=======')
+    #print(sysPath)
+    #print('registry\n========')
+    #print(registry.search())
+    print('Python file list\n========')
+    #print(registry.search('.py', 'file'))
+    for filez in registry.search('.py', 'file'):
+        file_name = filez.rsplit('/', 1)[1].rsplit('.', 1)[0]
+        print(file_name)
+        headding = ''
+        for letter in file_name:
+            headding = headding +'='
+        print(headding)
+        print(filez)
+
+
+    #with open('some_file', 'w') as opened_file:
+        #opened_file.write('Hola!')
 
 

@@ -23,12 +23,26 @@ def set_sysPath(registry):
             + str(directory).lstrip('./')
         sysPath.append(project_path)
 
+
 def log_register(registry = None, logger = None):
     logger.info(registry)
     logger.info(registry.search())
     logger.info(registry.report())
     logger.info(sysPath)
     logger.info(logger)
+
+
+#def setup_logger():
+    ## Setup an configure logging from config file.
+    #log_file_config = registry.search(query = 'Logger_Documentum.ini',
+        #dir_file = 'file')
+    #logging.config.fileConfig(log_file_config)
+    #logger = getLogger('Director')
+    #return logger
+
+def build_documentation(registry = None):
+    from Author import document_builder
+    document_builder(registry)
 
 def main():
     indent = ['', '  ', '    ', '        ']
@@ -57,12 +71,15 @@ def main():
 
     log_register(registry, log_director)
 
-    #log_director.info(getcwd())
-    #log_director.info(registry)
-    #log_director.info(registry.search())
-    #log_director.info(registry.report())
-    #log_director.info(sysPath)
-    #log_director.info(log_director)
+    build_documentation(registry)
+
+
+
+
+
+
+
+
 
     # Create some arbitrary log messages to test functionality.
     # Some messages go to console, some go to file.
