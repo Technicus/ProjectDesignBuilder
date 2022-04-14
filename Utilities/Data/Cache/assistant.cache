@@ -41,3 +41,5 @@ Update sysPath with ProjectManager.
 Moved `set_sysPath()` to 'PublishingDirector.py'.
 2022-04-13-22-36-10-071829
 Rearranged file structure & fixing logger.
+2022-04-14-09-38-33-233471
+Logging seems to work.
