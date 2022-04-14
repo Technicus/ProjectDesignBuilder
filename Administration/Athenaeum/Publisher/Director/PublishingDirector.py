@@ -23,6 +23,12 @@ def set_sysPath(registry):
             + str(directory).lstrip('./')
         sysPath.append(project_path)
 
+def log_register(registry = None, logger = None):
+    logger.info(registry)
+    logger.info(registry.search())
+    logger.info(registry.report())
+    logger.info(sysPath)
+    logger.info(logger)
 
 def main():
     indent = ['', '  ', '    ', '        ']
@@ -45,20 +51,29 @@ def main():
     set_sysPath(registry)
 
     # Setup an configure logging from config file.
-    log_file_config = registry.search(query = 'Logger.ini', dir_file = 'file')
+    log_file_config = registry.search(query = 'Logger_Documentum.ini', dir_file = 'file')
     logging.config.fileConfig(log_file_config)
-    logger_primary = getLogger('primaryLogger')
+    log_director = getLogger('Director')
+
+    log_register(registry, log_director)
+
+    #log_director.info(getcwd())
+    #log_director.info(registry)
+    #log_director.info(registry.search())
+    #log_director.info(registry.report())
+    #log_director.info(sysPath)
+    #log_director.info(log_director)
 
     # Create some arbitrary log messages to test functionality.
     # Some messages go to console, some go to file.
-    logger_primary.debug('This message should appear in the log file')
-    logger_primary.info('So should this')
-    logger_primary.warning('And this, too')
-    logger_primary.debug('This message should go to the log file')
-    logger_primary.info('So should this')
-    logger_primary.warning('And this, too')
-    logger_primary.error('And non-ASCII stuff, too, like Øresund and Malmö')
-    logger_primary.critical('This message should appear on the console.')
+    #log_director.debug('This message should appear in the log file')
+    #log_director.info('So should this')
+    #log_director.warning('And this, too')
+    #log_director.debug('This message should go to the log file')
+    #log_director.info('So should this')
+    #log_director.warning('And this, too')
+    #log_director.error('And non-ASCII stuff, too, like Øresund and Malmö')
+    #log_director.critical('This message should appear on the console.')
 
 
 if __name__ == "__main__":
