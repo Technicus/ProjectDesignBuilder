@@ -3,7 +3,7 @@
 from os import path, getcwd, chdir
 from PublishingManagement import Registry
 from logging import debug, info, warning, error, basicConfig, DEBUG, INFO,\
-    WARNING, ERROR, getLogger
+    WARNING, ERROR, CRITICAL, getLogger
 import logging.config
 from sys import path as sysPath
 
@@ -35,30 +35,32 @@ def main():
     project_path = getcwd().split(project_name)
     project_root = project_path[0] + project_name
     directory_omit = ['.git', '__']
-    file_register_types = ['.md', '.py', '.rst', '.html', '.log']
+    file_register_types = ['.md', '.py', '.rst', '.html', '.log', '.ini']
 
     # Create the registry
     registry = Registry(project_root, project_name, directory_omit,
         file_register_types)
-    #registry.report(report_file = 'console')
 
-    # Update sysPath with registry directory information
+    # Update sysPath with registry directory information.
     set_sysPath(registry)
 
+    #print(registry.search(query = 'Logger.ini', dir_file = 'file'))
+    # Setup an configure logging from config file.
     #log_file_config = './Utilities/Maintenance/Logger.ini'
-    log_file_config = './Utilities/Maintenance/Logger.ini'
-    #config.fileConfig(log_file_config, disable_existing_loggers=False)
-    #config.fileConfig(log_file_config)
+    log_file_config = registry.search(query = 'Logger.ini', dir_file = 'file')
     logging.config.fileConfig(log_file_config)
     logger_primary = getLogger('primaryLogger')
-    logger_primary.debug('This message should appear on the console')
+
+    # Create some arbitrary log messages to test functionality.
+    # Some messages go to console, some go to file.
+    logger_primary.debug('This message should appear in the log file')
     logger_primary.info('So should this')
     logger_primary.warning('And this, too')
     logger_primary.debug('This message should go to the log file')
     logger_primary.info('So should this')
     logger_primary.warning('And this, too')
     logger_primary.error('And non-ASCII stuff, too, like Øresund and Malmö')
-    #print(log_file_config)
+    logger_primary.critical('This message should appear on the console.')
 
 
 if __name__ == "__main__":
