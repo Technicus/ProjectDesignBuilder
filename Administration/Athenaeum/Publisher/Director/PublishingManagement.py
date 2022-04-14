@@ -61,14 +61,25 @@ class Registry:
         #return locals()
 
 
-    def report(self):
-        for register, field in self.registry.items():
-            #print('\n{}:'.format(register))
-            #for entery in field:
-                #print('  {}'.format(entery))
-            #print()
-            pass
-        return self.registry
+    def report(self, report_file = 'path'):
+        if report_file is 'console':
+            for register, field in self.registry.items():
+                print('\n{}:'.format(register))
+                for entery in field:
+                    print('  {}'.format(entery))
+                print()
+            return self.registry
+        if report_file is 'log':
+            for register, field in self.registry.items():
+                #info('\n{}:'.format(register))
+                for entery in field:
+                    #info('  {}'.format(entery))
+                    pass
+                #info('')
+            return self.registry
+        if report_file is 'path':
+            return self.registry
+            #return self.registry.items
 
 
     def search(self, query = 'root', dir_file = 'directory'):
@@ -93,6 +104,7 @@ class Registry:
                     search_result.append(files)
             return search_result
 
+#/Builder/Utilities/Data/Cache/Registry/
 
 # This method should be in the publising manager class but it does not
 # exist yet.

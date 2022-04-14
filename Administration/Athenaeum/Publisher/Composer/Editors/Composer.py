@@ -1,5 +1,9 @@
 #!/bin/python
 
+
+
+
+
 #from sys import path as sysPath, executable
 #from os import system, path, getcwd, chdir, scandir, listdir, walk
 #from os.path import relpath
@@ -10,6 +14,56 @@ from os import path, getcwd, chdir
 from ProjectManagement import Registry
 from logging import debug, info, warning, error, basicConfig, DEBUG, INFO,\
     WARNING, ERROR
+
+
+
+
+def run_sphinx_build():
+    #conf_path = ? # Path to conf.py file
+    #path_doc_tree = ? # Path to .doctree files
+    #log_warrning_error = ? # Warning and error log file.
+    #path_source = ?
+    #path_output = ?
+    # sphinx-build [options] <sourcedir> <outputdir> [filenames …]
+    call_sphinx_build = (
+        'sphinx-build -b html -a -E -c' + conf_path + '-d' +
+        path_doc_tree + '-n -v -w' + log_warrning_error +
+        '--keep-going' + path_source + path_output)
+    subprocess_test = subprocess.run(
+        call_Sphinx-Build, stdin=None, input=None,
+        stdout=None, stderr=None, capture_output=True,
+        shell=True, cwd=None, timeout=None, check=False,
+        encoding=None, errors=None, text=None,
+        env={'PYTHONPATH':python_path},universal_newlines=None)
+    system((
+        'sphinx-apidoc -f -o {} {}').format('../../Editors',
+        directory_comprehension()['dir_project_design_builder_absolute']))
+
+
+def run_sphinx_apidoc():
+    subprocess_test = subprocess.run(
+        './test.py', stdin=None, input=None, stdout=None, stderr=None,
+        capture_output=True, shell=True, cwd=None, timeout=None,
+        check=False, encoding=None, errors=None, text=None,
+        env={'PYTHONPATH':python_path}, universal_newlines=None)
+
+
+def run_TOC_tree():
+    subprocess_test = subprocess.run(
+        './test.py', stdin=None, input=None, stdout=None, stderr=None,
+        capture_output=True, shell=True, cwd=None, timeout=None,
+        check=False, encoding=None, errors=None, text=None,
+        env={'PYTHONPATH':python_path}, universal_newlines=None)
+
+
+
+
+
+
+
+
+
+
 
 
 def run_sphinx_build():

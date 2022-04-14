@@ -8,132 +8,103 @@
 from os import path, getcwd, chdir
 #from Registry import registry, registry_report, registry_query
 from PublishingManagement import Registry
+#from logging import debug, info, warning, error, basicConfig, getLogger
 from logging import debug, info, warning, error, basicConfig, DEBUG, INFO,\
-    WARNING, ERROR
+    WARNING, ERROR, getLogger
+import logging
 from sys import path as sysPath
 
 
-def run_sphinx_build():
-    #conf_path = ? # Path to conf.py file
-    #path_doc_tree = ? # Path to .doctree files
-    #log_warrning_error = ? # Warning and error log file.
-    #path_source = ?
-    #path_output = ?
-    # sphinx-build [options] <sourcedir> <outputdir> [filenames …]
-    call_sphinx_build = (
-        'sphinx-build -b html -a -E -c' + conf_path + '-d' +
-        path_doc_tree + '-n -v -w' + log_warrning_error +
-        '--keep-going' + path_source + path_output)
-    subprocess_test = subprocess.run(
-        call_Sphinx-Build, stdin=None, input=None,
-        stdout=None, stderr=None, capture_output=True,
-        shell=True, cwd=None, timeout=None, check=False,
-        encoding=None, errors=None, text=None,
-        env={'PYTHONPATH':python_path},universal_newlines=None)
-    system((
-        'sphinx-apidoc -f -o {} {}').format('../../Editors',
-        directory_comprehension()['dir_project_design_builder_absolute']))
-
-
-def run_sphinx_apidoc():
-    subprocess_test = subprocess.run(
-        './test.py', stdin=None, input=None, stdout=None, stderr=None,
-        capture_output=True, shell=True, cwd=None, timeout=None,
-        check=False, encoding=None, errors=None, text=None,
-        env={'PYTHONPATH':python_path}, universal_newlines=None)
-
-
-def run_TOC_tree():
-    subprocess_test = subprocess.run(
-        './test.py', stdin=None, input=None, stdout=None, stderr=None,
-        capture_output=True, shell=True, cwd=None, timeout=None,
-        check=False, encoding=None, errors=None, text=None,
-        env={'PYTHONPATH':python_path}, universal_newlines=None)
-
 def set_current_working_directory():
-    print(f'`path.abspath(getcwd())`:\n[ {path.abspath(getcwd())} ]\n')
-    print(f'`path.dirname(path.abspath(__file__))`:\n[ {path.dirname(path.abspath(__file__))} ]\n')
     if path.abspath(getcwd()) is not path.dirname(path.abspath(__file__)):
         chdir(path.dirname(path.abspath(__file__)))
-    print(f'`path.abspath(getcwd())`:\n[ {path.abspath(getcwd())} ]\n')
-    print(f'`path.dirname(path.abspath(__file__))`:\n[ {path.dirname(path.abspath(__file__))} ]\n')
 
 def set_sysPath(registry):
-
-    for register, field in registry.report().items():
-        print('\n{}:'.format(register))
-        for entery in field:
-            print('  {}'.format(entery))
-    print()
-
-    print('sysPath pre-append:'.format(''))
-    for path in sysPath:
-        print('  {}'.format(path))
-    print()
-
-    for directory in registry.report().get('project_directories'):
-        #new_lst=(','.join(lst))
-        project_path = str(''.join(registry.report().get('project_root'))) + '/' \
+    #for register, field in registry.report().items():
+        #for entery in field:
+    #print(registry.report('path'))
+    for directory in registry.report('path').get('project_directories'):
+        #print(directory)
+        project_path = str(
+            ''.join(registry.report('path').get('project_root'))) + '/' \
             + str(directory).lstrip('./')
         sysPath.append(project_path)
-    print()
-
-    print('sysPath append:'.format(''))
-    for path in sysPath:
-        print('  {}'.format(path))
-    print('{}'.format(''))
-    print()
 
 
 def main():
-
-    #debug('This message should go to the log file')
-    #info('So should this')
-    #warning('And this, too')
-    #error('And non-ASCII stuff, too, like Øresund and Malmö')
-    set_current_working_directory()
-    #basicConfig(filename='../Logs/publisher.log', filemode='w',encoding='utf-8', level=DEBUG)
-
     indent = ['', '  ', '    ', '        ']
-
     project_name = 'ProjectDesignBuilder'
 
-    info('[[ {} ]]\n'.format(path.basename(__file__)))
-
-    print('[[ {} ]]\n'.format(path.basename(__file__)))
-
     # Generate a project registry
-    info('{}>>> [ main() ]:\n'.format(indent[0]))
+    set_current_working_directory()
 
-    print('{}>>> [ main() ]:\n'.format(indent[0]))
-
+    # Establish argument variables to create registry
     project_path = getcwd().split(project_name)
-
-    info('[ project_path ]\n\t[ {} ]\n'.format(project_path))
-
     project_root = project_path[0] + project_name
-
-    info('[ project_root ]\n\t[ {} ]\n'.format(project_root))
-
-    file_register_types = ['.md', '.py', '.rst', '.html']
-
     directory_omit = ['.git', '__']
+    file_register_types = ['.md', '.py', '.rst', '.html', '.log']
 
-
-    #registry_report(registry(project_root, project_name, directory_omit,
-                            #file_register_types))
-
-    #registry_query(registry(project_root, project_name, directory_omit,
-                           #file_register_types), ['Room.py', 'sandbox.py'])
-
+    # Create the registry
     registry = Registry(project_root, project_name, directory_omit,
         file_register_types)
-    registry.report()
+    #registry.report(report_file = 'console')
+
+    # Update sysPath with registry directory information
+    set_sysPath(registry)
+    #for path in sysPath:
+        #print(f'{path}')
+    #print(registry.search('publisher.log', 'files'))
+
+    #log_publisher = str(registry.search('publisher.log', 'files')).lstrip('./')
+    #log_publisher = str(
+        #''.join(registry.report('path')
+        #.get('project_root')) + '/' + str(
+        #''.join(registry.search('publisher.log', 'files')))
+        #.lstrip('./'))
+
+    log_publisher = ''.join(registry.search('publisher.log', 'files'))
+
+            #''.join(registry.report('path').get('project_root'))) + '/' \
+            #+ str(directory).lstrip('./')
+    #print(getcwd())
+    print(log_publisher)
+
+    FORMAT = '%(asctime)s %(message)s'
+    basicConfig(
+        format=FORMAT,
+        filename='log_publisher',
+        filemode='w',
+        encoding='utf-8',
+        level=INFO)
+    logger = getLogger()
+    #info('[[ {} ]]\n{}>>> [ main() ]\n'
+         #.format(path.basename(__file__), indent[0]))
+    #info('[ project_path ]\n\t[ {} ]\n'.format(project_path))
+    #info('[ project_root ]\n\t[ {} ]\n'.format(project_root))
+    #info('[ test ]\n\t[ {} ]\n'.format(project_root))
+
+    logging.basicConfig(format='%(asctime)s %(levelname)s:%(message)s', filename='./Utilities/Data/Log/publisher.log' ,level=logging.DEBUG)
+    logger = logging.getLogger(__name__)
+    logging.debug('This message should appear on the console')
+    logging.info('So should this')
+    logging.warning('And this, too')
+
+    logger.debug('This message should go to the log file')
+    logger.info('So should this')
+    logger.warning('And this, too')
+    logger.error('And non-ASCII stuff, too, like Øresund and Malmö')
+
+
+    #print(f'registry.search()\n  {registry.search()}\n')
+    #print(f"registry.search(\'Log\')\n  {registry.search('Log')}\n")
+    #print(f"registry.search(\
+        #\'PublishingDirector\', \'file\')\n  \
+        #{registry.search('PublishingDirector', 'file')}\n")
+    #print(f"registry.search(\'.md\', \'file\')\n  \
+        #{registry.search('.md', 'file')}\n")
+
+
     #print(separator.join(registry.search()))
-    print(f'registry.search()\n  {registry.search()}\n')
-    print(f"registry.search(\'Log\')\n  {registry.search('Log')}\n")
-    print(f"registry.search(\'PublishingDirector\', \'file\')\n  {registry.search('PublishingDirector', 'file')}\n")
-    print(f"registry.search(\'.md\', \'file\')\n  {registry.search('.md', 'file')}\n")
     #print(f'registry.search(\'/Log\')\n  {registry.search('/Log')}\n')
     #print(f'registry.search()\n  {separator.join(registry.search())}\n')
     #for register, field in registry(project_root, project_name, directory_omit,
@@ -143,7 +114,10 @@ def main():
             #print('{}{}'.format(indent[2], entery))
         #print()
     #registry.set_sysPath()
-    set_sysPath(registry)
+
+
+
+
 
 if __name__ == "__main__":
     main()

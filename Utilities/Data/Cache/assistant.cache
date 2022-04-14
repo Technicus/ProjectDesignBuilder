@@ -37,3 +37,5 @@ Update sysPath with ProjectManager.
 Update sysPath with ProjectManager.
 2022-04-13-15-50-10-881920
 Update sysPath with ProjectManager.
+2022-04-13-18-01-13-270874
+Moved `set_sysPath()` to 'PublishingDirector.py'.

@@ -82,7 +82,7 @@ def run_publisher():
     run(
         args = [
         #'./Publisher.py'
-        "/home/technicus/Projects/CAD/ProjectDesignBuilder/Administration/Athenaeum/Publisher/Director/PublishingDirector.py"
+        "./Administration/Athenaeum/Publisher/Director/PublishingDirector.py"
         #'./Administration/Documentum/Publisher/Author/Publisher.py'
         ], shell=True
     )
@@ -151,11 +151,11 @@ def set_current_working_directory():
 
 
 def main(argv):
-    cache_file = './Builder/Utilities/Data/Cache/assistant.cache'
-    run('clear')
+    cache_file = './Utilities/Data/Cache/assistant.cache'
+    #run('clear')
     set_current_working_directory()
     assistant_cache_file = open(cache_file, 'a')
-    assistant_cache_file.write('')
+    #assistant_cache_file.write('')
     assistant_cache_file.close()
 
     #print()
