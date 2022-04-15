@@ -78,15 +78,126 @@ def get_directory_structure(rootdir):
     ## Parent directory upto specified
     ## level
     #return path.relpath(path, common)
+def subfolders(path_to_parent):
+     try:
+        return next(walk(path_to_parent))[1]
+     except StopIteration:
+        return 'end'
+
+def check_string(string, substring_list):
+    for substring in substring_list:
+        if substring in string:
+            return True
+    return False
+
 
 def build_documentation(registry = None):
+    root_path = registry.search()
+    ignore = ['.git', '_', 'objects']
+    print(f'root_path: {root_path}')
+    for directory, sub_directory, files in walk(root_path):
+        if check_string(directory, ignore):
+            pass
+        else:
+            dir_base = directory.rsplit('/', 1)[1]
+            dir_lead = directory.rsplit('/', 1)[1]
+            if check_string(dir_base, ignore):
+                pass
+            else:
+                dir_lead = directory.rsplit('/', 1)[1]
+                print(f'  {dir_lead}') # prints out each directory path
+                sub_directory = [n for n in sub_directory] # prints each sub folder in each dir
+                sub_directory.sort() # sort subs
+                for f in sub_directory:
+                    if check_string(f, ignore):
+                        pass
+                    else:
+                        print(f'    {f}')
+                print()
+
+                #if len(dirs):
+                    #print(f'  {dir_base}, {len(dirs)}')
+                #if not len(dirs):
+                    #print(f'  {dir_base}, {len(dirs)}')
+                    ##print()
+                    #break
+
+
+    #print only the subs
+    #for directory in registry.report('path').get('project_directories'):
+    #root_path = registry.report('path').get('project_directories')
+        #str = "a123"
+
+            #if set(ignore) & set(dir_base):
+                #print("ignore:", dir_base) # prints out each directory path
+                #print("some of the strings found in str")
+                #print("no strings found in str")
+            #if '_' not in dir_base:
+                #if '.git' not in dir_base:
+                #print(f'  {dir_lead}') # prints out each directory path
+                #print(f'  {dir_lead}\n    sub_directory: {sub_directory}') # prints out each directory path
+                #print(f'  {dir_lead}\n{sub_directory}') # prints out each directory path
+                #if '_' not in f:
+
+    #for directory in registry.report('path').get('project_directories'):
+        #for root, dirs, files in walk(directory):
+            #if '_' not in root:
+                #dir_base = root.rsplit('/', 1)[1]
+        #print()
+
+
+
+        #for dir, sub, files in walk(directory):
+            #if '/_' not in dir:
+                ##print('  ', dir)
+                #dir_base = dir.rsplit('/', 1)[1]
+                #print("", dir_base) # prints out each directory path
+                #sub.sort() # sort subs
+                #for f in sub:
+                    #if '_' not in f:
+                        #print('  ', f)
+                        #if 'end' not in subfolders(f):
+                            #print(subfolders(f))
+                        #pass
+        #print()
     #from Author import document_builder
     #document_builder(registry)
     #print(pathto_dict(registry.search('root')))
     #print(pathto_dict(registry.search('root')))
-    for directory in registry.report('path').get('project_directories'):
+            #print()    # prints spaces between levels
         #ancestor_directory = directory.rsplit('/')[1]
-        print(directory)
+        #print(directory)
+
+
+        #print("************Start print********")
+        #for root_dir_path, sub_dirs, files in walk(directory):
+            #print("Root Directory Path: ", root_dir_path)
+            #print("Sub Directories: ", sub_dirs)
+            #print("Files", files)
+            #print('*' * 25)
+
+
+        #print only the files
+        #for dir, sub, files in os.walk(my_dir):
+            #print("Print Dir: ", dir) # prints out each directory path
+            #sub = [n for n in sub] # prints each sub folder in each dir
+            #contents = sub + files # subs and files
+            #contents.sort() # sorst subs and files
+
+            #for f in contents:
+                #if os.path.isfile(f):
+                    #print('\tJust The Files', f)
+            #print()    # prints spaces between levels
+
+        #print only the subs
+            #print("Print Dir: ", dir) # prints out each directory path
+                #print("", dir) # prints out each directory path
+            #sub = [n for n in sub] # prints each sub folder in each dir
+                #print('\tJust The Subs', f)
+                #if 'html' not in f:
+                #if not f.startswith("_"):
+
+        #print("************End print********")
         #print(getParent(directory))
         #print(pathto_dict(directory))
         #print(get_directory_structure(directory))
