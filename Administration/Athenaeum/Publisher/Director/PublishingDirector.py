@@ -87,11 +87,18 @@ def subfolders(path_to_parent):
 def check_string(string, substring_list):
     for substring in substring_list:
         if substring in string:
-            return True
-    return False
+            return False
+    return True
+
+def ExaminDirectory(registry = None):
+    root_path = registry.search()
+    ignore = ['.git', '_', 'objects']
+    for root, dirs, files in walk(root_path):
+        print(root,len(dirs))
+        if not len(dirs): break
 
 
-def build_documentation(registry = None):
+def build_tree(registry = None):
     root_path = registry.search()
     ignore = ['.git', '_', 'objects']
     print(f'root_path: {root_path}')
@@ -108,11 +115,14 @@ def build_documentation(registry = None):
                 print(f'  {dir_lead}') # prints out each directory path
                 sub_directory = [n for n in sub_directory] # prints each sub folder in each dir
                 sub_directory.sort() # sort subs
-                for f in sub_directory:
-                    if check_string(f, ignore):
-                        pass
-                    else:
-                        print(f'    {f}')
+                #if not len(sub_directory):
+                    #break
+                #else:
+                    #for f in sub_directory:
+                        #if check_string(f, ignore):
+                            #pass
+                        #else:
+                            #print(f'    {f}')
                 print()
 
                 #if len(dirs):
@@ -263,12 +273,31 @@ def main():
     log_director = getLogger('Director')
 
     #log_register(registry, log_director)
-
-    build_documentation(registry)
-
+    #build_tree(registry)
+    #ExaminDirectory(registry)
     #registry.report()
+    #for paths, directories in registry.report('path').items():
+    rst_tree_repository = './Administration/Athenaeum/Publisher/Composer/Author/tree'
+    for paths in registry.report('path').get('project_directories'):
+        #for pathz in directories:
+            #print(pathz)
+        #print(paths)
+        paths = paths[2:].split('/')
+        #print(paths)
+        for path in paths:
+            if check_string(path, '_'):
+                #print(path)
+                rst_tree_path = rst_tree_repository + '/' + path + '.rst'
+                print(rst_tree_path)
+                #check_path = path.join(rst_tree_path)
+                #if not path.exists(check_path):
 
-
+                if Path(rst_tree_path).is_file():
+                    print ("File exist")
+                else:
+                    print ("File not exist - make it.")
+                    rst_file = open(rst_tree_path, 'w').close()
+                    #f = open("myfile.txt", "x")
 
 
 
