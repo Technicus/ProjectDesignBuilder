@@ -1,2 +1,4 @@
 Design
+Assemblies
+Drawings
 Resources

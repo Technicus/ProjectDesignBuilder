@@ -112,6 +112,9 @@ def build_path_documentation_tree(registry = None, rst_tree_repository = None):
                     with open(rst_tree_repository + '/' + path_split[branches] + '.rst', 'a') as rst_file:
                         rst_file.write(f'{path_split[branches]}\n')
                 #rst_file = open(path_split[branches], "r+")
+
+
+
         print()
 
 def main():

@@ -1,2 +1,4 @@
 Media
 Images
+Video
+Presentations
