@@ -87,8 +87,8 @@ def subfolders(path_to_parent):
 def check_string(string, substring_list):
     for substring in substring_list:
         if substring in string:
-            return False
-    return True
+            return True
+    return False
 
 def ExaminDirectory(registry = None):
     root_path = registry.search()
@@ -257,7 +257,7 @@ def main():
     # Establish argument variables to create registry
     project_path = getcwd().split(project_name)
     project_root = project_path[0] + project_name
-    directory_omit = ['.git', '__']
+    directory_omit = ['.git', '__', 'html']
     file_register_types = ['.md', '.py', '.rst', '.html', '.log', '.ini']
 
     # Create the registry
@@ -283,20 +283,48 @@ def main():
             #print(pathz)
         #print(paths)
         paths = paths[2:].split('/')
-        #print(paths)
+        print(f'paths = {paths}')
         for path in paths:
-            if check_string(path, '_'):
-                #print(path)
+            print(f'path = {path}')
+            #if check_string(path, ['_', 'html']):
+                #print(f'Remove = {path}')
+                #paths.remove(path)
+                #print(f'paths = {paths}')
+            #else:
+            #if check_string(path, 'html'):
+                #print(f'Remove = {path}')
+                #paths.remove(path)
+                #print(f'paths = {paths}')
+
+            for path in paths:
+                if path == paths[-1]:
+                    print(f'{path} is last element.')
+                    #pass
+            else:
+
+        #for path in paths:
+
+
+
                 rst_tree_path = rst_tree_repository + '/' + path + '.rst'
-                print(rst_tree_path)
+                print(f'rst_tree_path = {rst_tree_path}')
                 #check_path = path.join(rst_tree_path)
                 #if not path.exists(check_path):
 
                 if Path(rst_tree_path).is_file():
-                    print ("File exist")
+                    print (f'{path} append to file.')
+                    with open(rst_tree_path, 'r+') as rst_file:
+                        if path in rst_file.read():
+                        #if path in open(rst_file).read():
+                            print(f'{path} already in file')
+                        else:
+                            print(f'Write {path} to file')
+                            rst_file.write(f'{path}\n')
                 else:
-                    print ("File not exist - make it.")
+                    print (f'{rst_tree_path} not exist - make it.')
                     rst_file = open(rst_tree_path, 'w').close()
+                    with open(rst_tree_path, 'a') as rst_file:
+                        rst_file.write(f'{path}\n')
                     #f = open("myfile.txt", "x")
 
 
