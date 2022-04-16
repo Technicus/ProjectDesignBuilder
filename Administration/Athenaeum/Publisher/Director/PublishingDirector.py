@@ -1,6 +1,6 @@
 #!/bin/python
 
-from os import path, getcwd, chdir, walk
+from os import path, getcwd, chdir, walk, scandir
 from pathlib import Path, PurePath
 from PublishingManagement import Registry
 from logging import debug, info, warning, error, basicConfig, DEBUG, INFO,\
@@ -278,14 +278,30 @@ def main():
     #registry.report()
     #for paths, directories in registry.report('path').items():
     rst_tree_repository = './Administration/Athenaeum/Publisher/Composer/Author/tree'
-    for paths in registry.report('path').get('project_directories'):
+    project_directories = registry.report('path').get('project_directories')
+    project_root = str(registry.report('path').get('project_root'))
+
+    print(f'{project_root}')
+
+    #question =
+    #x[0] for x in walk(str(project_root))
+    #print(f'{x}')
+
+    subfolders = [ f.path for f in scandir(project_root) if f.is_dir() ]
+    print(f'{subfolders}')
+
+
+
+
+    for paths in project_directories:
         #for pathz in directories:
             #print(pathz)
         #print(paths)
         paths = paths[2:].split('/')
-        print(f'paths = {paths}')
+        #print(f'paths = {paths}')
         for path in paths:
-            print(f'path = {path}')
+            #print(f'path = {path}')
+            pass
             #if check_string(path, ['_', 'html']):
                 #print(f'Remove = {path}')
                 #paths.remove(path)
@@ -298,33 +314,40 @@ def main():
 
             for path in paths:
                 if path == paths[-1]:
-                    print(f'{path} is last element.')
-                    #pass
+                    #print(f'{path} is last element.')
+                    pass
             else:
+                pass
+
+
+            #[x[0] for x in os.walk(directory)]
+
+
+
 
         #for path in paths:
 
 
 
-                rst_tree_path = rst_tree_repository + '/' + path + '.rst'
-                print(f'rst_tree_path = {rst_tree_path}')
-                #check_path = path.join(rst_tree_path)
-                #if not path.exists(check_path):
+                #rst_tree_path = rst_tree_repository + '/' + path + '.rst'
+                #print(f'rst_tree_path = {rst_tree_path}')
+                ##check_path = path.join(rst_tree_path)
+                ##if not path.exists(check_path):
 
-                if Path(rst_tree_path).is_file():
-                    print (f'{path} append to file.')
-                    with open(rst_tree_path, 'r+') as rst_file:
-                        if path in rst_file.read():
-                        #if path in open(rst_file).read():
-                            print(f'{path} already in file')
-                        else:
-                            print(f'Write {path} to file')
-                            rst_file.write(f'{path}\n')
-                else:
-                    print (f'{rst_tree_path} not exist - make it.')
-                    rst_file = open(rst_tree_path, 'w').close()
-                    with open(rst_tree_path, 'a') as rst_file:
-                        rst_file.write(f'{path}\n')
+                #if Path(rst_tree_path).is_file():
+                    #print (f'{path} append to file.')
+                    #with open(rst_tree_path, 'r+') as rst_file:
+                        #if path in rst_file.read():
+                        ##if path in open(rst_file).read():
+                            #print(f'{path} already in file')
+                        #else:
+                            #print(f'Write {path} to file')
+                            #rst_file.write(f'{path}\n')
+                #else:
+                    #print (f'{rst_tree_path} not exist - make it.')
+                    #rst_file = open(rst_tree_path, 'w').close()
+                    #with open(rst_tree_path, 'a') as rst_file:
+                        #rst_file.write(f'{path}\n')
                     #f = open("myfile.txt", "x")
 
 
