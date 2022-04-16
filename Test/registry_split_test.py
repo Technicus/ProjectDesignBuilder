@@ -67,18 +67,46 @@ def build_path_documentation_tree(registry = None, rst_tree_repository = None):
                 if file_exists(rst_tree_repository + '/' + path_split[branches] + '.rst'):
                     print(f"{path_split[branches] + '.rst'} exists")
                     rst_file = open(rst_tree_repository + '/' + path_split[branches] + '.rst', "r+")
+                    if path_split[branches - 1] == '.':
+                        print("can not be '..rst'")
+                        parent = False
+                    else:
+                        rst_file_parent = open(rst_tree_repository + '/' + path_split[branches - 1] + '.rst', "r+")
+                        parent = True
                     # read file content
                     rst_file_read = rst_file.read()
+                    if parent is True:
+                        rst_file_read_parent = rst_file_parent.read()
                     if path_split[branches] in rst_file_read:
                         print(f"{path_split[branches]} is in {rst_file.name}.")
-                        pass
-                    #close()
+                        #print(f"len(path_split[{branches}]) = {len(path_split[branches])}")
+                        #rst_file.write(f'{path_split[branches]}\n')
+                        # Append next branch to file.
+                        #compare_branch_len = int(len(path_split[branches])) + 1
+                        #compare_split_len = int(len(path_split[branches]))
+                        #if compare_branch_len < compare_split_len:
+                            #print(f"{path_split[branches + 1]} append to {rst_file.name}.")
+                            #rst_file.write(f'{path_split[branches + 1 ]}\n')
                     else:
                         print(f"Write {path_split[branches]} to {rst_file.name}.")
                         #with open(rst_tree_repository_file_project, 'a') as rst_file:
                         rst_file.write(f'{path_split[branches]}\n')
+
+                    if parent is True:
+                        if path_split[branches] in rst_file_read_parent:
+                            print(f"{path_split[branches]} is in {rst_file_parent.name}.")
+                        else:
+                            if path_split[branches] in rst_file_read_parent:
+                                print(f"{path_split[branches]} is in {rst_file_parent.name}.")
+                            else:
+                                print(f"Write {path_split[branches]} to {rst_file_parent.name}.")
+                                #with open(rst_tree_repository_file_project, 'a') as rst_file:
+                                rst_file_parent.write(f'{path_split[branches]}\n')
+
                     # closing a file
                     rst_file.close()
+                    if parent is True:
+                        rst_file_parent.close()
                 else:
                     print(f"{path_split[branches] + '.rst'} not exist, make it.")
                     with open(rst_tree_repository + '/' + path_split[branches] + '.rst', 'a') as rst_file:
