@@ -83,6 +83,14 @@ def subfolders(path_to_parent):
         return next(walk(path_to_parent))[1]
      except StopIteration:
         return 'end'
+    #if any(omission in path_discovery for omission in
+                    #directory_omit):
+def check_list(super_string_list = None, sub_string_list = None):
+    if any(sub_string_list in super_string_list):
+        pass
+
+    else:
+        pass
 
 def check_string(string, substring_list):
     for substring in substring_list:
@@ -281,14 +289,26 @@ def main():
     project_directories = registry.report('path').get('project_directories')
     project_root = str(registry.report('path').get('project_root'))
 
-    print(f'{project_root}')
+    print(f"project_root = {str(project_root)}")
 
     #question =
     #x[0] for x in walk(str(project_root))
     #print(f'{x}')
+    #subfolders = [ f.path for f in os.scandir(folder) if f.is_dir() ]
+    #subfolders = [ f.name for f in scandir() if f.is_dir() ]
+    subfolders = [ f.path for f in scandir() if f.is_dir() ]
+    for folder in subfolders:
+        if check_string(folder, ['_', 'html', '.git']):
+         #print(f'Remove = {folder}')
+         subfolders.remove(folder)
+    #print(f'{project_root}')
+    for folder in subfolders:
+        print(f'folder = {folder}')
+    #print(f'{subfolders}')
 
-    subfolders = [ f.path for f in scandir(project_root) if f.is_dir() ]
-    print(f'{subfolders}')
+        #subsubfolders = [ filez.path for filez in scandir(''.join(str(project_root)) + folder) if filez.is_dir() ]
+        #print(f'folder = {subsubfolders}')
+
 
 
 
