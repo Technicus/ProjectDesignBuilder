@@ -13,6 +13,7 @@
 import os
 import sys
 #from ProjectDesignBuilder import __version__
+#import recommonmark.Parser
 
 print(f"\nconf.py :: start\n")
 
@@ -56,18 +57,20 @@ extensions = [
     #'recommonmark',
 ]
 
-source_suffix = {
-    '.rst': 'restructuredtext',
-    '.txt': 'restructuredtext',
-    '.md': 'markdown',
-}
 
 #source_parsers = {
     #'.md': recommonmark,
 #}
-#source_parsers = {
-    #'.md': CommonMarkParser,
-#}
+source_parsers = {
+    #'.md': recommonmark.parser.CommonMarkParser,
+}
+
+source_suffix = {
+    '.rst': 'restructuredtext',
+    '.txt': 'restructuredtext',
+    #'.md',
+    '.md': 'markdown',
+}
 
 autodoc_default_options = {
     'autosummary': True,

@@ -13,9 +13,8 @@ ProjectDesignBuilder
    :glob:
    :maxdepth: 2
 
-   include_readme
-   ProjectDesignBuilder
    include_path
+   include_readme
 
 .. Indices and tables
 .. ==================

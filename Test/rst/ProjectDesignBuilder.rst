@@ -1,7 +1,6 @@
 .. _ProjectDesignBuilder:
 
-ProjectDesignBuilder
-====================
+
 
 ... Administration
 
