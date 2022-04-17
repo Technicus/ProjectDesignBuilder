@@ -4,17 +4,15 @@
    contain the root `toctree` directive.
 
 
-
-
 ProjectDesignBuilder
 ====================
 
 .. toctree::
-   :glob:
    :maxdepth: 2
 
    include_path
    include_readme
+
 
 .. Indices and tables
 .. ==================
