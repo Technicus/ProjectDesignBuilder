@@ -9,6 +9,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;[CadQuerry Read the Docs](https://cadquery.readthedocs.io/en/latest/)<br>
 
 ## Usage
+
 ### ProjectAssistant.py
 * `./ProjectAssistant.py -p | --publish`<br>
 &nbsp;&nbsp;&nbsp;&nbsp;Call the publisher to compile code documentation with the Sphinx documentation publisher.

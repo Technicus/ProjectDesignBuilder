@@ -19,13 +19,19 @@ def build_path_documentation_tree(registry = None, rst_tree_repository = None):
 
     registry_path_report = registry
 
+    # Create root project document and insert headding
+    project_name = 'ProjectDesignBuilder'
     reset_files(rem_path = rst_tree_repository + '/', ext = '.rst')
-    rst_tree_repository_file_project = rst_tree_repository + '/' + 'ProjectDesignBuilder.rst'
+    rst_tree_repository_file_project = rst_tree_repository + '/' + project_name + '.rst'
     with open(rst_tree_repository_file_project, 'w') as rst_file:
-        rst_file.write(f'')
+        rst_file.write(f".. _{project_name}:\n\n")
+        rst_file.write(f"{project_name}\n")
+        rst_file.write(f"{'=' * len(project_name)}\n\n")
+
+
+
 
     path_counter = 0
-
     for relative_path in registry_path_report:
         path_split = relative_path.split('/', count_substring(relative_path, '/'))
         path_splits = count_substring(relative_path, '/')
