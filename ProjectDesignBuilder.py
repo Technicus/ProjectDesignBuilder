@@ -167,10 +167,20 @@ def main(argv = None):
     #print(registry)
 
     # imports the module from the given path
-    foo = SourceFileLoader("piss", "Utilities/Data/Program/main.py").load_module()
+    #foo = SourceFileLoader("piss", "Utilities/Data/Program/main.py").load_module()
 
     print(foo)
 
+    import importlib.util
+
+    spec = importlib.util.spec_from_file_location("piss", "Utilities/Data/Program/Pisser.py")
+
+    foo = importlib.util.module_from_spec(spec)
+
+    spec.loader.exec_module(foo)
+
+    foo.pissAss()
+    #print(foo)
 
 
 
