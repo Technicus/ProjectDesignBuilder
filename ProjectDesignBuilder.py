@@ -154,7 +154,26 @@ def main(argv = None):
     #importlib._abc.Finder(RegistryManager, 'ProjectDesignBuilder/Utilities/Data/Program')
     #from Utilities.Data.Program.RegistryManager import Registry
     #reger = importlib.import_module(Utilities.Data.Program.RegistryManager.Registry)
-    foo = SourceFileLoader("Registry", "Utilities/Data/Program/RegistryManager.py").load_module()
+
+    #https://tutorial.eyehunts.com/python/python-import-module-from-path-example-code/
+    #registry = SourceFileLoader("Registry", "Utilities/Data/Program/RegistryManager.py").load_module('/home/technicus/Projects/CAD', 'ProjectDesignBuilder')
+
+    #spec = importlib.util.spec_from_file_location("Registry", "Utilities/Data/Program/RegistryManager.py")
+
+    #registry = importlib.util.module_from_spec(spec)
+
+    #spec.loader.exec_module(registry)
+
+    #print(registry)
+
+    # imports the module from the given path
+    foo = SourceFileLoader("piss", "Utilities/Data/Program/main.py").load_module()
+
+    print(foo)
+
+
+
+
     ''' This is a test section for helping with development of
     process_inspection().'''
     print(f"{section_terminal('-')}")
