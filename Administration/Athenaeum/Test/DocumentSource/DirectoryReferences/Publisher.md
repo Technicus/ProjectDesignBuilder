@@ -1,3 +1,0 @@
-Publisher
-Director
-Composer

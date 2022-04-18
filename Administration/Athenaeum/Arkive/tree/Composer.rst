@@ -1,4 +1,0 @@
-Composer
-Author
-Editors
-Reports

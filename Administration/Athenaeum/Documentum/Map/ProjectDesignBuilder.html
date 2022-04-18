@@ -1,0 +1,366 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>ProjectDesignBuilder</title>
+<style type="text/css">
+    body {color: #484747; font-size: 11pt; font-family: "SansSerif", sans-serif; }
+li { list-style: none;  margin: 0; }
+p { margin: 0; }
+
+span.l { color: red; font-weight: bold; }
+
+a.mapnode:link,
+a.mapnode:visited,
+a.mapnode:active,
+a.mapnode:hover {
+    text-decoration: none; color: black;
+}
+a.mapnode:hover { background: #eeeee0; }
+span.foldopened, span.foldclosed  {
+    font-size: xx-small;
+    border-width: 1;
+    font-family: monospace;
+    padding: 0em 0.25em 0em 0.25em;
+    background: #e0e0e0;
+    cursor:pointer;
+}
+span.foldopened  {
+    color: white;
+    VISIBILITY: visible;
+}
+span.foldclosed {
+    color: #666666;
+    VISIBILITY: hidden;
+}
+span.foldspecial {
+    color: #666666;
+    font-size: xx-small;
+    border-style: none solid solid none;
+    border-color: #CCCCCC;
+    border-width: 1;
+    font-family: sans-serif;
+    padding: 0em 0.1em 0em 0.1em;
+    background: #e0e0e0;
+    cursor:pointer;
+}
+
+</style>
+</head>
+<body style="background-color:#2e3440;">
+<script type="text/javascript">
+// Here we implement folding. It works fine with MSIE5.5, MSIE6.0 and
+// Mozilla 0.9.6.
+
+if (document.layers) {
+    //Netscape 4 specific code
+    pre = 'document.';
+    post = ''; }
+if (document.getElementById) {
+    //Netscape 6 specific code
+    pre = 'document.getElementById("';
+    post = '").style'; }
+if (document.all) {
+    //IE4+ specific code
+    pre = 'document.all.';
+    post = '.style'; }
+
+function layer_exists(layer) {
+    try {
+	eval(pre + layer + post);
+	return true; }
+    catch (error) {
+	return false; }}
+
+function show_layer(layer) {
+    eval(pre + layer + post).position = 'relative';
+    eval(pre + layer + post).visibility = 'visible'; }
+
+function hide_layer(layer) {
+    eval(pre + layer + post).visibility = 'hidden';
+    eval(pre + layer + post).position = 'absolute'; }
+
+function hide_folder(folder) {
+    hide_folding_layer(folder);
+    show_layer('show'+folder);
+
+    scrollBy(0,0); // This is a work around to make it work in Browsers (Explorer, Mozilla)
+}
+
+function show_folder(folder) {
+    // Precondition: all subfolders are folded
+
+    show_layer('hide'+folder);
+    hide_layer('show'+folder);
+    show_layer('fold'+folder);
+
+    scrollBy(0,0); // This is a work around to make it work in Browsers (Explorer, Mozilla)
+
+    var i;
+    for (i=1; layer_exists('fold'+folder+'_'+i); ++i) {
+	show_layer('show'+folder+'_'+i); }
+}
+function show_folder_completely(folder) {
+    // Precondition: all subfolders are folded
+
+    show_layer('hide'+folder);
+    hide_layer('show'+folder);
+    show_layer('fold'+folder);
+
+    scrollBy(0,0); // This is a work around to make it work in Browsers (Explorer, Mozilla)
+
+    var i;
+    for (i=1; layer_exists('fold'+folder+'_'+i); ++i) {
+	show_folder_completely(folder+'_'+i); }
+}
+
+
+
+function hide_folding_layer(folder) {
+    var i;
+    for (i=1; layer_exists('fold'+folder+'_'+i); ++i) {
+	hide_folding_layer(folder+'_'+i); }
+
+    hide_layer('hide'+folder);
+    hide_layer('show'+folder);
+    hide_layer('fold'+folder);
+
+    scrollBy(0,0); // This is a work around to make it work in Browsers (Explorer, Mozilla)
+}
+
+function fold_document() {
+    var i;
+    var folder = '1';
+    for (i=1; layer_exists('fold'+folder+'_'+i); ++i) {
+	hide_folder(folder+'_'+i); }
+}
+
+function unfold_document() {
+    var i;
+    var folder = '1';
+    for (i=1; layer_exists('fold'+folder+'_'+i); ++i) {
+	show_folder_completely(folder+'_'+i); }
+}
+
+</script>
+<SPAN class="foldspecial" onclick="unfold_document()">All +</SPAN>
+<SPAN class="foldspecial" onclick="fold_document()">All -</SPAN>
+<div style="background-color:#484747;">
+<p><span style="color: #ffffff; font-size: 18pt; font-family: "Dialog", sans-serif; font-weight: bold; ">ProjectDesignBuilder</span>
+    <p>
+      Filename :
+    </p>
+    <p>
+      'PojectDesignBuilder.py'
+    </p>
+    <p>
+      
+    </p>
+    <p>
+      Path:
+    </p>
+    <p>
+      './'
+    </p>
+    <p>
+      
+    </p>
+    <p>
+      Purpose:
+    </p>
+    <p>
+      &quot;Entry into program, it will call classes and pass to them.&quot;
+    </p>
+    <p>
+      
+    </p>
+    <p>
+      Imports:
+    </p>
+    <p>
+      
+    </p>
+    <p>
+      Classes: None
+    </p>
+    <p>
+      
+    </p>
+    <p>
+      Functions:
+    </p>
+    <p>
+      main(argv)
+    </p>
+    <p>
+      
+    </p>
+    <p>
+      Variables:
+    </p>
+  </div>
+<ul>
+<li><div style="background-color:#009999;padding: 0.5em;">
+<div style="background-color:#d08770;">
+<span id="show1_1" class="foldclosed" onClick="show_folder('1_1')" style="POSITION: absolute">+</span> <span id="hide1_1" class="foldopened" onClick="hide_folder('1_1')">-</span>
+<span style="color: #eceff4; font-size: 16pt; font-family: "Dialog", sans-serif; ">Utility Classes</span></div>
+<ul id="fold1_1" style="POSITION: relative; VISIBILITY: visible;">
+<li><div style="background-color:#3c3f41;padding: 0.5em;">
+<div style="background-color:#ebcb8b;">
+<span id="show1_1_1" class="foldclosed" onClick="show_folder('1_1_1')" style="POSITION: absolute">+</span> <span id="hide1_1_1" class="foldopened" onClick="hide_folder('1_1_1')">-</span>
+<span style="color: #3b4252; font-size: 14pt; ">RegistryManager.py</span></div>
+<ul id="fold1_1_1" style="POSITION: relative; VISIBILITY: visible;">
+<li><div style="background-color:#009999;padding: 0.5em;">
+<div style="background-color:#a3be8c;">
+<span id="show1_1_1_1" class="foldclosed" onClick="show_folder('1_1_1_1')" style="POSITION: absolute">+</span> <span id="hide1_1_1_1" class="foldopened" onClick="hide_folder('1_1_1_1')">-</span>
+<span style="color: #2e3440; font-size: 12pt; ">registry</span></div>
+<ul id="fold1_1_1_1" style="POSITION: relative; VISIBILITY: visible;">
+<li><div style="background-color:#b48ead;">
+<span style="color: #2e3440; ">A class that creates a dictionary of all sub directories and files in project directory.</span></div>
+</li></ul>
+</div>
+</li><li><div style="background-color:#009999;padding: 0.5em;">
+<div style="background-color:#a3be8c;">
+<span id="show1_1_1_2" class="foldclosed" onClick="show_folder('1_1_1_2')" style="POSITION: absolute">+</span> <span id="hide1_1_1_2" class="foldopened" onClick="hide_folder('1_1_1_2')">-</span>
+<span style="color: #2e3440; font-size: 12pt; ">search</span></div>
+<ul id="fold1_1_1_2" style="POSITION: relative; VISIBILITY: visible;">
+<li><div style="background-color:#b48ead;">
+<span style="color: #2e3440; ">A method of the registry manager that will return files or directories stored in the registry.</span></div>
+</li></ul>
+</div>
+</li><li><div style="background-color:#009999;padding: 0.5em;">
+<div style="background-color:#a3be8c;">
+<span id="show1_1_1_3" class="foldclosed" onClick="show_folder('1_1_1_3')" style="POSITION: absolute">+</span> <span id="hide1_1_1_3" class="foldopened" onClick="hide_folder('1_1_1_3')">-</span>
+<span style="color: #2e3440; font-size: 12pt; ">report</span></div>
+<ul id="fold1_1_1_3" style="POSITION: relative; VISIBILITY: visible;">
+<li><div style="background-color:#b48ead;">
+<span style="color: #2e3440; ">Method of the registry manager that will return different pre defined reports when asked.</span></div>
+</li></ul>
+</div>
+</li><li><div style="background-color:#009999;padding: 0.5em;">
+<div style="background-color:#a3be8c;">
+<span id="show1_1_1_4" class="foldclosed" onClick="show_folder('1_1_1_4')" style="POSITION: absolute">+</span> <span id="hide1_1_1_4" class="foldopened" onClick="hide_folder('1_1_1_4')">-</span>
+<span style="color: #2e3440; font-size: 12pt; ">SysPath</span></div>
+<ul id="fold1_1_1_4" style="POSITION: relative; VISIBILITY: visible;">
+<li><div style="background-color:#b48ead;">
+<span style="color: #2e3440; ">This method is for appending all necessary subdirectories in project directory to python shell.</span></div>
+</li></ul>
+</div>
+</li></ul>
+</div>
+</li><li><div style="background-color:#3c3f41;padding: 0.5em;">
+<div style="background-color:#ebcb8b;">
+<span id="show1_1_2" class="foldclosed" onClick="show_folder('1_1_2')" style="POSITION: absolute">+</span> <span id="hide1_1_2" class="foldopened" onClick="hide_folder('1_1_2')">-</span>
+<span style="color: #3b4252; font-size: 14pt; ">ParameterManager.py</span></div>
+<ul id="fold1_1_2" style="POSITION: relative; VISIBILITY: visible;">
+<li><div style="background-color:#00cccc;padding: 0.5em;">
+<div style="background-color:#a3be8c;">
+<span id="show1_1_2_1" class="foldclosed" onClick="show_folder('1_1_2_1')" style="POSITION: absolute">+</span> <span id="hide1_1_2_1" class="foldopened" onClick="hide_folder('1_1_2_1')">-</span>
+<span style="color: #2e3440; font-size: 12pt; ">set_parameters()</span></div>
+<ul id="fold1_1_2_1" style="POSITION: relative; VISIBILITY: visible;">
+<li><div style="background-color:#b48ead;">
+<span style="color: #2e3440; "></span></div>
+</li></ul>
+</div>
+</li></ul>
+</div>
+</li><li><div style="background-color:#3c3f41;padding: 0.5em;">
+<div style="background-color:#ebcb8b;">
+<span id="show1_1_3" class="foldclosed" onClick="show_folder('1_1_3')" style="POSITION: absolute">+</span> <span id="hide1_1_3" class="foldopened" onClick="hide_folder('1_1_3')">-</span>
+<span style="color: #3b4252; font-size: 14pt; ">InterfaceManager.py</span></div>
+<ul id="fold1_1_3" style="POSITION: relative; VISIBILITY: visible;">
+<li><div style="background-color:#00cccc;padding: 0.5em;">
+<div style="background-color:#a3be8c;">
+<span id="show1_1_3_1" class="foldclosed" onClick="show_folder('1_1_3_1')" style="POSITION: absolute">+</span> <span id="hide1_1_3_1" class="foldopened" onClick="hide_folder('1_1_3_1')">-</span>
+<span style="color: #2e3440; font-size: 12pt; ">clear()</span></div>
+<ul id="fold1_1_3_1" style="POSITION: relative; VISIBILITY: visible;">
+<li><div style="background-color:#b48ead;">
+<span style="color: #2e3440; "></span></div>
+</li></ul>
+</div>
+</li><li><div style="background-color:#00cccc;padding: 0.5em;">
+<div style="background-color:#a3be8c;">
+<span id="show1_1_3_2" class="foldclosed" onClick="show_folder('1_1_3_2')" style="POSITION: absolute">+</span> <span id="hide1_1_3_2" class="foldopened" onClick="hide_folder('1_1_3_2')">-</span>
+<span style="color: #2e3440; font-size: 12pt; ">update_time_code()</span></div>
+<ul id="fold1_1_3_2" style="POSITION: relative; VISIBILITY: visible;">
+<li><div style="background-color:#b48ead;">
+<span style="color: #2e3440; "></span></div>
+</li></ul>
+</div>
+</li></ul>
+</div>
+</li><li><div style="background-color:#3c3f41;padding: 0.5em;">
+<div style="background-color:#ebcb8b;">
+<span id="show1_1_4" class="foldclosed" onClick="show_folder('1_1_4')" style="POSITION: absolute">+</span> <span id="hide1_1_4" class="foldopened" onClick="hide_folder('1_1_4')">-</span>
+<span style="color: #3b4252; font-size: 14pt; ">ApplicationManager.py</span></div>
+<ul id="fold1_1_4" style="POSITION: relative; VISIBILITY: visible;">
+<li><div style="background-color:#00cccc;padding: 0.5em;">
+<div style="background-color:#a3be8c;">
+<span id="show1_1_4_1" class="foldclosed" onClick="show_folder('1_1_4_1')" style="POSITION: absolute">+</span> <span id="hide1_1_4_1" class="foldopened" onClick="hide_folder('1_1_4_1')">-</span>
+<span style="color: #2e3440; font-size: 12pt; ">launch_application()</span></div>
+<ul id="fold1_1_4_1" style="POSITION: relative; VISIBILITY: visible;">
+<li><div style="background-color:#b48ead;">
+<span style="color: #2e3440; "></span></div>
+</li></ul>
+</div>
+</li><li><div style="background-color:#00cccc;padding: 0.5em;">
+<div style="background-color:#a3be8c;">
+<span id="show1_1_4_2" class="foldclosed" onClick="show_folder('1_1_4_2')" style="POSITION: absolute">+</span> <span id="hide1_1_4_2" class="foldopened" onClick="hide_folder('1_1_4_2')">-</span>
+<span style="color: #2e3440; font-size: 12pt; ">file_watcher()</span></div>
+<ul id="fold1_1_4_2" style="POSITION: relative; VISIBILITY: visible;">
+<li><div style="background-color:#b48ead;">
+<span style="color: #2e3440; "></span></div>
+</li></ul>
+</div>
+</li></ul>
+</div>
+</li></ul>
+</div>
+</li><li><div style="background-color:#333333;padding: 0.5em;">
+<div style="background-color:#d08770;">
+<span id="show1_2" class="foldclosed" onClick="show_folder('1_2')" style="POSITION: absolute">+</span> <span id="hide1_2" class="foldopened" onClick="hide_folder('1_2')">-</span>
+<span style="color: #eceff4; font-size: 16pt; font-family: "Dialog", sans-serif; ">DevelopmentAssistant</span></div>
+<ul id="fold1_2" style="POSITION: relative; VISIBILITY: visible;">
+<li><div style="background-color:#ebcb8b;">
+<span id="show1_2_1" class="foldclosed" onClick="show_folder('1_2_1')" style="POSITION: absolute">+</span> <span id="hide1_2_1" class="foldopened" onClick="hide_folder('1_2_1')">-</span>
+<span style="color: #3b4252; font-size: 14pt; ">DocumentationDirector</span></div>
+<ul id="fold1_2_1" style="POSITION: relative; VISIBILITY: visible;">
+<li><div style="background-color:#a3be8c;">
+<span id="show1_2_1_1" class="foldclosed" onClick="show_folder('1_2_1_1')" style="POSITION: absolute">+</span> <span id="hide1_2_1_1" class="foldopened" onClick="hide_folder('1_2_1_1')">-</span>
+<span style="color: #2e3440; font-size: 12pt; ">SphinxManager</span></div>
+<ul id="fold1_2_1_1" style="POSITION: relative; VISIBILITY: visible;">
+<li><div style="background-color:#b48ead;">
+<span style="color: #2e3440; ">Conf</span></div>
+</li><li><div style="background-color:#b48ead;">
+<span style="color: #2e3440; ">DirectoryList</span></div>
+</li><li><div style="background-color:#b48ead;">
+<span style="color: #2e3440; ">sphinx-autobuild</span></div>
+</li></ul>
+</li></ul>
+</li><li><div style="background-color:#ebcb8b;">
+<span id="show1_2_2" class="foldclosed" onClick="show_folder('1_2_2')" style="POSITION: absolute">+</span> <span id="hide1_2_2" class="foldopened" onClick="hide_folder('1_2_2')">-</span>
+<span style="color: #3b4252; font-size: 14pt; ">ArkiveDirector</span></div>
+<ul id="fold1_2_2" style="POSITION: relative; VISIBILITY: visible;">
+<li><div style="background-color:#a3be8c;">
+<span style="color: #2e3440; font-size: 12pt; ">GitHub</span></div>
+</li></ul>
+</li></ul>
+</div>
+</li><li><div style="background-color:#333333;padding: 0.5em;">
+<div style="background-color:#d08770;">
+<span id="show1_3" class="foldclosed" onClick="show_folder('1_3')" style="POSITION: absolute">+</span> <span id="hide1_3" class="foldopened" onClick="hide_folder('1_3')">-</span>
+<span style="color: #eceff4; font-size: 16pt; font-family: "Dialog", sans-serif; ">ProjectAssistant</span></div>
+<ul id="fold1_3" style="POSITION: relative; VISIBILITY: visible;">
+<li><div style="background-color:#ebcb8b;">
+<span style="color: #3b4252; font-size: 14pt; ">ProjectDirector</span></div>
+</li><li><div style="background-color:#ebcb8b;">
+<span style="color: #3b4252; font-size: 14pt; ">DesignDirector</span></div>
+</li><li><div style="background-color:#ebcb8b;">
+<span style="color: #3b4252; font-size: 14pt; ">ConstructionDirector</span></div>
+</li></ul>
+</div>
+</li></ul>
+<SCRIPT type="text/javascript">
+fold_document();
+</SCRIPT>
+</body>
+</html>

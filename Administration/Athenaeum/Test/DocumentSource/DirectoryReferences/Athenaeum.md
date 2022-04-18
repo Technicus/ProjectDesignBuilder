@@ -1,3 +1,0 @@
-Athenaeum
-Documentum
-Publisher

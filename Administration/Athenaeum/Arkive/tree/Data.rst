@@ -1,3 +1,0 @@
-Data
-Log
-Cache
