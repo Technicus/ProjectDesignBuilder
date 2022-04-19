@@ -1,3 +1,6 @@
+<!DOCTYPE mindmap [
+    <!ENTITY nbsp "&#160;"> 
+]>
 <map version="freeplane 1.9.13">
 <!--To view this file, download free mind mapping software Freeplane from https://www.freeplane.org -->
 <node TEXT="ProjectDesignBuilder" LOCALIZED_STYLE_REF="AutomaticLayout.level.root" FOLDED="false" ID="ID_1090958577" CREATED="1409300609620" MODIFIED="1650315624287" STYLE="narrow_hexagon" FORMAT="NO_FORMAT" TEXT_ALIGN="CENTER" NodeVisibilityConfiguration="SHOW_HIDDEN_NODES" TEXT_SHORTENED="true">

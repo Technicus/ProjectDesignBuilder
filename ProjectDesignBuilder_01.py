@@ -8,7 +8,7 @@ from sys import argv
 from inspect import currentframe, getframeinfo, trace
 from ast import literal_eval
 from linecache import getline
-import importlib
+from importlib import import_module
 
 
 __version__ = '0.0.2'
@@ -45,7 +45,7 @@ def find_file(search_path = None, filename = None):
     return '< File not found >'
 
 
-def section_terminal(marker = None):
+def _section(marker = None):
     """This funciton returns a section for printing to console or adding
     to logs to seperate process for improving readability.  It also
     provides some process information.  This can be improved with more
@@ -69,7 +69,7 @@ def section_terminal(marker = None):
 
 def process_inspection(argumentation = None):
     """Returns process information that can be implemanted into
-    section_terminal() to help with diagnostics.  This function needs
+    _section() to help with diagnostics.  This function needs
     some refinement to return specific information."""
 
     line_number = str(currentframe().f_back.f_lineno)
@@ -119,42 +119,58 @@ def main(argv = None):
     :rtype: [ReturnType]"""
 
     # Report to console: file name and current function with arguments.
-    print(f"{section_terminal()}")
+    print(f"{_section()}")
     print(f"__file__.split('/')[-1] : __name__.split('__')[1](argv[1:])")
     print(f"{__file__.split('/')[-1]} : {__name__.split('__')[1]}({argv[1:]})")
 
     # Report to console: current working directory.
-    print(f"{section_terminal('-')}")
+    print(f"{_section('-')}")
     print(f"getcwd()")
     print(f"{getcwd()}")
 
     # Change the current working directory to file directory.
-    print(f"{section_terminal('-')}")
+    print(f"{_section('-')}")
+    project_name = 'ProjectDesignBuilder'
+    project_path = set_current_working_directory()
+    project_root = project_path[0] + project_name
+    print(f"project_name = {project_name}")
     print(f"set_current_working_directory()")
-    print(f"{set_current_working_directory()}")
+    print(f"project_path = set_current_working_directory()")
+    print(f"{project_path}")
 
     # Report to console: current working directory.
-    print(f"{section_terminal('-')}")
+    print(f"{_section('-')}")
     print(f"getcwd()")
     print(f"{getcwd()}")
 
     # Report to console: path to 'RegistryManager.py'.
-    print(f"{section_terminal('-')}")
+    print(f"{_section('-')}")
     registry_manager_path = find_file(getcwd(), 'RegistryManager_01.py')
     registry_manager_path = registry_manager_path.replace(getcwd(), '')
     registry_manager_path = registry_manager_path.replace('/', '.').split('.', 1)[1]
     registry_manager_path = registry_manager_path.rsplit('.', 1)[0]
     print(f"{registry_manager_path}")
 
+    # Establish argument variables to create registry
+    print(f"{_section('-')}")
+    #project_path = getcwd().split(project_name)
+    #project_root = project_path[0] + project_name
+    directory_omit = ['.git', '__', 'html']
+    file_register_types = ['.md', '.py', '.rst', '.html', '.log', '.ini']
+    print(f"directory_omit = {['.git', '__', 'html']}")
+    print(f"file_register_types = {['.md', '.py', '.rst', '.html', '.log', '.ini']}")
+
     # Create a registery.
-    print(f"{section_terminal('-')}")
-    #registry = importlib.import_module('Utilities.Data.Program.RegistryManager_01')
-    registry = importlib.import_module(registry_manager_path)
+    print(f"{_section('-')}")
+    #registry = import_module('Utilities.Data.Program.RegistryManager_01').Registry()
+    registry = import_module(registry_manager_path).Registry(project_root,
+        project_name, directory_omit, file_register_types)
+    #registry = import_module(registry_manager_path).Registry()
     print(registry)
     dir(registry)
-    registry.report()
-
-    print(f"{section_terminal()}\n")
+    print(registry.report())
+    print(registry.search( query = 'root', dir_file = 'Utility'))
+    print(f"{_section()}\n")
 
 
 # The main check with one argument list.
