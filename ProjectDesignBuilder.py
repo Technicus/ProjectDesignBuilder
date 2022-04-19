@@ -8,8 +8,8 @@ from sys import argv
 from inspect import currentframe, getframeinfo, trace
 from ast import literal_eval
 from linecache import getline
-#import importlib
-from importlib.machinery import SourceFileLoader
+import importlib
+#from importlib.machinery import SourceFileLoader
 
 __version__ = '0.0.2'
 __release__ = '0.0.0'
@@ -169,18 +169,20 @@ def main(argv = None):
     # imports the module from the given path
     #foo = SourceFileLoader("piss", "Utilities/Data/Program/main.py").load_module()
 
-    print(foo)
-
-    import importlib.util
-
-    spec = importlib.util.spec_from_file_location("piss", "Utilities/Data/Program/Pisser.py")
-
-    foo = importlib.util.module_from_spec(spec)
-
-    spec.loader.exec_module(foo)
-
-    foo.pissAss()
     #print(foo)
+
+    #import importlib.util
+
+    #spec = importlib.util.spec_from_file_location("piss", "Utilities/Data/Program/Pisser.py")
+
+    #foo = importlib.util.module_from_spec(spec)
+
+    #spec.loader.exec_module(foo)
+
+    piss = importlib.import_module('Utilities.Data.Program.Pisser')
+
+    #foo.pissAss()
+    print(piss)
 
 
 
