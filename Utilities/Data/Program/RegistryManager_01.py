@@ -69,29 +69,25 @@ class Registry:
         self.registry = {'project_root':[work_root], \
             'project_directories':project_directories,\
             'project_files':project_files,}
+        self.set_sysPath()
         #return locals()
 
-    def report(self, report_file = 'path'):
-        if report_file == 'console':
-            for register, field in self.registry.items():
-                print('\n{}:'.format(register))
-                for entery in field:
-                    print('  {}'.format(entery))
-                print()
-            return self.registry
-        if report_file == 'log':
-            for register, field in self.registry.items():
-                #info('\n{}:'.format(register))
-                for entery in field:
-                    #info('  {}'.format(entery))
-                    pass
-                #info('')
-            return self.registry
-        if report_file == 'path':
-            return self.registry
-            #return self.registry.items
+
+    def report(self, summary = 'complete'):
+        """Return a specified report"""
+        if summary == 'complete':
+            return self.registry, sysPath
+        if summary == 'files':
+            return self.registry.get('project_files')
+        if summary == 'directories':
+            return self.registry.get('project_directories')
+        if summary == 'path':
+            return self.registry.get('project_root')
+        if summary == 'sysPath':
+            return sysPath
 
     def search(self, query = 'root', dir_file = 'directory'):
+        """Return a search result"""
         search_result = []
         if dir_file == 'directory':
             if query == 'root':
@@ -113,3 +109,65 @@ class Registry:
                     search_result.append(files)
             return search_result
 
+    #def set_sysPath(self, sysPath = sysPath, update_sysPath = False):
+    def set_sysPath(self, update_sysPath = False):
+        """Append project directories to python path.
+         This method will have two states:
+          -- appending to the sysPath object during the registry initialization,
+          -- updating the sysPath object after having been appended
+
+          When the method appends to the sysPath object it also creates a cache
+          file and writes the initial sysPath paths to it line by line.
+
+          It also writes the appended paths to the file.
+
+          The cache file is overwritten at each initalization.
+          """
+
+        # The sysPath_cache file will eventually be dynamically assigned,
+        # by searching the path for specified cache file.
+        sysPath_cache = []
+        sysPath_cache_file = './Utilities/Data/Cache/Registry.sysPath.cache'
+
+        # False is the initialization state.
+        if update_sysPath is False:
+            # Open the cache file, give it a section headder Init,
+            # and write sysPath paths to it line by line.
+            with open(sysPath_cache_file, 'w') as sysPath_cache:
+                sysPath_cache.write(str('Init:\n'))
+                for path in sysPath:
+                    sysPath_cache.write(str(path + '\n'))
+            # Append an append section headder and the project paths to Then
+            # cache file.  Also append the project directories to sysPath.
+            with open(sysPath_cache_file, 'a') as sysPath_cache:
+                sysPath_cache.write(str('Append:\n'))
+            for directory in self.registry.get('project_directories'):
+                project_path = str(self.search()) + '/' \
+                    + str(directory).lstrip('./')
+                if project_path not in sysPath:
+                    sysPath.append(project_path)
+                    with open(sysPath_cache_file, 'r+') as sysPath_cache:
+                        if project_path not in sysPath_cache:
+                            sysPath_cache.write(str(project_path + '\n'))
+        # True is the update state.
+        else:
+            # Open the cache file and get the line number for append title.
+            with open(sysPath_cache_file, 'r') as sysPath_cache:
+                for line_no, line in enumerate(sysPath_cache):
+                    if line == 'Append:\n':
+                        break
+                #else: # for loop ended => line not found
+                    #line_no = -1
+            # Read cache file line by line starting at the append section, and
+            # remove corresponding paths from sysPath
+            with open(sysPath_cache_file, 'r+') as sysPath_cache:
+                for count, line in enumerate(sysPath_cache):
+                    if count > line_no:
+                        sysPath.remove(line.strip())
+            # Remove all appended paths to cache file, by overwriting it with sysPath.
+            with open(sysPath_cache_file, 'w') as sysPath_cache:
+                sysPath_cache.write(str('Reinit:\n'))
+                for path in sysPath:
+                    sysPath_cache.write(str(path + '\n'))
+            # Next ... implement some kind of update mechanism for appending new
+            # paths to sysPath.
