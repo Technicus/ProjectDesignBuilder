@@ -2,13 +2,9 @@
 
 import importlib
 
-piss = importlib.import_module('Utilities.Data.Program.Pisser')
-registry = importlib.import_module('Utilities.Data.Program.RegistryManager')
-
-print(piss)
-dir(piss)
+registry = importlib.import_module('Utilities.Data.Program.RegistryManager_01')
 
 print(registry)
 dir(registry)
 
-piss.pissAss()
+registry.report()
