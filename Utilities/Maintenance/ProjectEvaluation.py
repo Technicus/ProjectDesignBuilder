@@ -1,145 +1,95 @@
 #!/bin/python
 #ProjectEvaluation.py
 
-def evaluate(argv)
+
+def process_inspection(argumentation = None):
+    """Returns process information that can be implemanted into
+    _section() to help with diagnostics.  This function needs
+    some refinement to return specific information."""
+
+    line_number = str(currentframe().f_back.f_lineno)
+    arguments_caller = str(currentframe().f_back.f_locals)
+    arguments_local = str(currentframe().f_locals)
+    inspection = str(currentframe().f_back.f_code)
+    inspection = inspection.split(',')
+    inspection[0] = inspection[0].split(' ')[2]
+    inspection[1] = inspection[1].split('/')[-1].replace('\"', '')
+    inspection[2] = inspection[2].split(' ')[-1].replace('>', '')
+    inspection.append(inspection[0])
+    inspection[0] = inspection[1]
+    inspection[1] = inspection[3]
+    inspection[3] = line_number
+    evaluation = {}
+    evaluation['file'] =  inspection[0]
+    evaluation['call'] =  inspection[1]
+    evaluation['function'] =  inspection[2]
+    evaluation['process line'] =  inspection[3]
+    evaluation['call arguments'] =  literal_eval(arguments_caller)
+    evaluation['current arguments'] =  literal_eval(arguments_local)
+    call_file = evaluation['call arguments']['argv'][0]
+    call_line = str(getline('./' + call_file, int(evaluation['process line']))).strip()
+    evaluation['call line'] = call_line
+
+    return evaluation
 
 
-    # Change the current working directory to file directory.
-    project_name = 'ProjectDesignBuilder'
-    project_root = set_current_working_directory()
-    project_path = project_root[0] + project_name
+def _section(marker = None):
+    """This funciton returns a section for printing to console or adding
+    to logs to seperate process for improving readability.  It also
+    provides some process information.  This can be improved with more
+    development of process_inspection()."""
 
-    # Report to console: path to 'RegistryManager.py'.
-    registry_manager_path = find_file(getcwd(), 'RegistryManager_01.py')
-    registry_manager_path = registry_manager_path.replace(getcwd(), '')
-    registry_manager_path = registry_manager_path.replace('/', '.').split('.', 1)[1]
-    registry_manager_path = registry_manager_path.rsplit('.', 1)[0]
+    if marker is None:
+        marker = '='
+    terminal_size = get_terminal_size()
+    working_file = __file__.split('/')
+    line_number = str(currentframe().f_back.f_lineno)
+    section = '\n[ ' + working_file[-1] + ' ] : ' + '( ' + line_number + ' )' + \
+        marker * (terminal_size.columns - len(line_number) - \
+        len(working_file[-1]) - 11 )
 
-    # Establish argument variables to create registry
-    directory_omit = ['.git', '__', 'html']
-    file_register_types = ['.md', '.py', '.rst', '.html', '.log', '.ini']
-
-    # Create a registery.
-    registry = import_module(registry_manager_path).Registry(project_root,
-        project_name, directory_omit, file_register_types)
-
-    #for property_and_method in dir(registry):
-        #if property_and_method.find('__'):
-            #print(f"  {property_and_method}")
-
-    #for register, listing in registry.report()[0].items():
-        #print(f"\n{register}:")
-        #for value in listing:
-            #print(f"  {value}")
-        #print(f"{_section('-')}")
-
-    ##print(f"{_section('-')}")
-    #print(f"\nregistry.report()[1]")
-    #for register in registry.report()[1]:
-        #print(f"  {register}")
-
-    # Test section
-    ''' Search test '''
-    #print(registry.report('sysPath'))
-    #registry.report_cache_files()
-    print(f"\nregistry.search():{''}")
-    for query in registry.search('Administration'):
-        print(f"  {query}")
-    #registry.set_sysPath(True)
-    #print(registry.report('sysPath'))
-    #Registry set_sysPath() test.
-    #registry.set_sysPath(update_sysPath = True)
-    ##for path in registry.report('sysPath'):
-    #for path in registry.report('sysPath'):
-        #print(f"  {path}")
-    print(f"{_section()}\n")
+    return section
 
 
-def evaluate(argv)
-    # Report to console: file name and current function with arguments.
-    print(f"{_section()}\n")
-    print(f"__file__.split('/')[-1] : __name__.split('__')[1](argv[1:])")
-    print(f"{__file__.split('/')[-1]} : {__name__.split('__')[1]}({argv[1:]})")
+def review(registry = None):
+    """This function will print some status information to the console. It is
+    a diagnostic function."""
 
-    # Report to console: current working directory.
-    print(f"{_section('-')}")
-    print(f"\ngetcwd()")
-    print(f"{getcwd()}")
-
-    # Change the current working directory to file directory.
-    print(f"{_section('-')}")
-    project_name = 'ProjectDesignBuilder'
-    project_root = set_current_working_directory()
-    project_path = project_root[0] + project_name
-    print(f"\nproject_name = {project_name}")
-    print(f"set_current_working_directory()")
-    print(f"project_path = set_current_working_directory()")
-    print(f"{project_path}")
-
-    # Report to console: current working directory.
-    print(f"{_section('-')}")
-    print(f"\ngetcwd()")
-    print(f"{getcwd()}")
-
-    # Report to console: path to 'RegistryManager.py'.
-    print(f"{_section('-')}\n")
-    registry_manager_path = find_file(getcwd(), 'RegistryManager_01.py')
-    registry_manager_path = registry_manager_path.replace(getcwd(), '')
-    registry_manager_path = registry_manager_path.replace('/', '.').split('.', 1)[1]
-    registry_manager_path = registry_manager_path.rsplit('.', 1)[0]
-    print(f"{registry_manager_path}")
-
-    # Establish argument variables to create registry
-    print(f"{_section('-')}")
-    #project_path = getcwd().split(project_name)
-    #project_root = project_path[0] + project_name
-    directory_omit = ['.git', '__', 'html']
-    file_register_types = ['.md', '.py', '.rst', '.html', '.log', '.ini']
-    print(f"\ndirectory_omit = {directory_omit}")
-    print(f"file_register_types = {file_register_types}")
-    print(f"project_path = {project_path}")
-    print(f"project_root = {project_root}")
-
-    # Create a registery.
-    print(f"{_section('-')}")
-    print(f"\nCreate registry.")
-    #registry = import_module('Utilities.Data.Program.RegistryManager_01').Registry()
-    registry = import_module(registry_manager_path).Registry(project_root,
-        project_name, directory_omit, file_register_types)
-
+    # Verify the registry memory location.
     print(f"{_section('-')}")
     print(f"\nregistry = {registry}")
-
+    # Display the properties and methosed for registry object.
     print(f"{_section('-')}")
     print(f"\nproperty_and_method for registry:")
     for property_and_method in dir(registry):
         if property_and_method.find('__'):
             print(f"  {property_and_method}")
-
+    # Print the Root directory report.
     print(f"{_section('-')}")
-    #print(f"registry.report()[0].items()")
-    for register, listing in registry.report()[0].items():
-        print(f"\n{register}:")
-        for value in listing:
-            print(f"  {value}")
-        print(f"{_section('-')}")
-
-    #print(f"{_section('-')}")
-    print(f"\nregistry.report()[1]")
+    for value in registry.report()[0].get('project_root'):
+        print(f"  {value}")
+    print(f"{_section('-')}")
+    # Print the Project Directories report.
+    for value in registry.report()[0].get('project_directories'):
+        print(f"  {value}")
+    print(f"{_section('-')}")
+    # Print the Project Files report.
+    for value in registry.report()[0].get('project_files'):
+        print(f"  {value}")
+    print(f"{_section('-')}")
+    # Print the Project sysPath report.
+    print(f"\nregistry.report()[1]: sysPath")
     for register in registry.report()[1]:
         print(f"  {register}")
+    print(f"{_section()}\n")
 
-    ## Print base registry reports.
-    #for register, listing in registry.report()[0].items():
-        #print(f"\n{register}:")
-        #for value in listing:
-            #print(f"  {value}")
-        #print(f"{_section('-')}")
+    return None
 
-    print(f"{_section('-')}")
+
+def evaluation(registry = None):
+    print(f"{_section()}")
     #print(f"registry.search('Map') = {registry.search('Map', dir_file = 'directory')}")
     #print(f"registry.search('ProjectDesignBuilder.mm') = {registry.search('ProjectDesignBuilder.mm', dir_file = 'file')}")
-    print(f"{_section()}\n")
 
     # Test section
     ''' Search test '''
@@ -157,3 +107,16 @@ def evaluate(argv)
         #print(f"  {path}")
     print(f"{_section()}\n")
 
+    ## Report to console: path to 'RegistryManager.py'.
+    #registry_manager_path = find_file(getcwd(), 'RegistryManager.py')
+    #registry_manager_path = registry_manager_path.replace(getcwd(), '')
+    #registry_manager_path = registry_manager_path.replace('/', '.').split('.', 1)[1]
+    #registry_manager_path = registry_manager_path.rsplit('.', 1)[0]
+
+    #print(find_file(getcwd(), 'Registry.files.cache'))
+    #cache_path = find_file(getcwd(), 'Registry.files.cache')
+    #cache_path = cache_path.replace(getcwd(), '.')
+    #cache_path = cache_path.rsplit('/', 1)[0]
+    #print(cache_path)
+
+    return None
