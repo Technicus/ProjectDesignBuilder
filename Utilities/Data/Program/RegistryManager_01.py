@@ -73,7 +73,7 @@ class Registry:
             'project_files':project_files,}
         self.set_sysPath()
         # Generate registry cache files.
-        #self.report_cache_files()
+        self.report_cache_files()
 
 
     def report(self, summary = 'complete'):
@@ -101,7 +101,7 @@ class Registry:
 
         # Create a dictionary of cache files, this should be made more dynamic.
         pass
-        '''   registry_cache_file = {
+        registry_cache_file = {
             'project_files':'./Utilities/Data/Cache/Registry.files.cache',
             'project_root':'./Utilities/Data/Cache/Registry.root.cache',
             'project_directories':'./Utilities/Data/Cache/Registry.directories.cache',
@@ -127,7 +127,7 @@ class Registry:
             for files in cache_files:
                 with open(registry_cache_file[files]) as partial_summary_report:
                     complete_summary_report.write(partial_summary_report.read())
-        return(registry_cache_file['registry'])'''
+        return(registry_cache_file['registry'])
 
     def search(self, search = None):
         """Return a search result.  This method is possibly convaluted.
@@ -157,12 +157,15 @@ class Registry:
         # Calling `self.report_cache_files()` will update cache files and
         # return path to summary registry file.
         # So, update and open the file.
+
+        # That works now, just dont call `self.sysPath(True)`, it only works
+        # with false, and does not depend on `self.search()`.
         search_result = []
-        #with open(self.report_cache_files(), 'r') as complete_summary_report:
-            #for line_no, line in enumerate(complete_summary_report):
+        with open(self.report_cache_files(), 'r') as complete_summary_report:
+            for line_no, line in enumerate(complete_summary_report):
                 #print(line_no, line.strip())
-                ##if search in line:
-                    ##search_result.append(line.strip())
+                if search in line:
+                    search_result.append(line.strip())
         return search_result
 
 
@@ -199,8 +202,9 @@ class Registry:
             with open(sysPath_cache_file, 'a') as sysPath_cache:
                 sysPath_cache.write(str('Append:\n'))
             for directory in self.registry.get('project_directories'):
-                project_path = str(self.search()) + '/' \
-                    + str(directory).lstrip('./')
+                project_path = str(self.registry.get('project_root')).\
+                    lstrip('[\'').rstrip('\']') \
+                    + str(directory).lstrip('.')
                 if project_path not in sysPath:
                     sysPath.append(project_path)
                     with open(sysPath_cache_file, 'r+') as sysPath_cache:
@@ -208,7 +212,7 @@ class Registry:
                             sysPath_cache.write(str(project_path + '\n'))
         # True is the update state.
         else:
-            # Open the cache file and get the line number for append title.
+            ## Open the cache file and get the line number for append title.
             with open(sysPath_cache_file, 'r') as sysPath_cache:
                 for line_no, line in enumerate(sysPath_cache):
                     if line == 'Append:\n':
@@ -225,6 +229,7 @@ class Registry:
             with open(sysPath_cache_file, 'w') as sysPath_cache:
                 sysPath_cache.write(str('Reinit:\n'))
                 for path in sysPath:
+                    #pass
                     sysPath_cache.write(str(path + '\n'))
             # Next ... implement some kind of update mechanism for appending new
             # paths to sysPath.

@@ -194,14 +194,17 @@ def main(argv = None):
     print(f"{_section('-')}")
     #print(f"registry.search('Map') = {registry.search('Map', dir_file = 'directory')}")
     #print(f"registry.search('ProjectDesignBuilder.mm') = {registry.search('ProjectDesignBuilder.mm', dir_file = 'file')}")
-    #print(f"{_section()}\n")
+    print(f"{_section()}\n")
 
     # Test section
     ''' Search test '''
     #print(registry.report('sysPath'))
     #registry.report_cache_files()
-    #print(f"\nregistry.search() = {registry.search()}")
-    registry.set_sysPath()
+    print(f"\nregistry.search():{''}")
+    for query in registry.search('Administration'):
+        print(f"  {query}")
+    #registry.set_sysPath(True)
+    #print(registry.report('sysPath'))
     #Registry set_sysPath() test.
     #registry.set_sysPath(update_sysPath = True)
     ##for path in registry.report('sysPath'):
