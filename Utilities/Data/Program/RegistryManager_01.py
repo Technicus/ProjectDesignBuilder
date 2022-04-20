@@ -50,7 +50,8 @@ class Registry:
                         work_dir = path.basename(project_directory)
                         path_tail = path.basename(work_root)
                         path_head = path_discovery.split(path_tail, 1)
-                        filez_path = '.' + path_head[1]
+                        #filez_path = '.' + path_head[1]
+                        filez_path = path_head[1]
                         project_files.append(str(path.join(filez_path, filez)))
         project_directories = []
         for project_directory, pdirs, pfiles in walk(project_directory):
@@ -65,30 +66,62 @@ class Registry:
                     work_dir = path.basename(project_directory)
                     path_tail = path.basename(work_root)
                     path_head = path_discovery.split(path_tail, 1)
-                    project_directories.append('.' + path_head[1])
+                    #project_directories.append('.' + path_head[1])
+                    project_directories.append(path_head[1])
         self.registry = {'project_root':[work_root], \
             'project_directories':project_directories,\
             'project_files':project_files,}
         self.set_sysPath()
-        #return locals()
 
+
+    def report_cache_files(self):
+        registry_cache_file = {
+            'project_files':'./Utilities/Data/Cache/Registry.files.cache',
+            'project_root':'./Utilities/Data/Cache/Registry.root.cache',
+            'project_directories':'./Utilities/Data/Cache/Registry.directories.cache',
+            'project_sysPath':'./Utilities/Data/Cache/Registry.sysPath.cache',
+            'registry':'./Utilities/Data/Cache/Registry.complete_summary.cache'}
+        report_summaries = ['path', 'files', 'directories', 'sysPath']
+        #report_summaries = ['path', 'files', 'directories']
+        registry_cache = []
+        summary = 0
+        for report_file, report_path in registry_cache_file.items():
+            if report_file not in 'registry':
+                with open(registry_cache_file[report_file], 'w') as registry_cache:
+                    for entry in self.report(report_summaries[summary]):
+                        registry_cache.write(str(entry + '\n'))
+                summary += 1
+        cache_files = ['project_root', 'project_directories', 'project_files', 'project_sysPath']
+        with open(registry_cache_file['registry'], 'w') as complete_summary_report:
+            for files in cache_files:
+                with open(registry_cache_file[files]) as partial_summary_report:
+                    complete_summary_report.write(partial_summary_report.read())
+        #filenames = ['file1.txt', 'file2.txt', 'file3.txt']
+        #with open('output_file', 'w') as outfile:
+            #for fname in filenames:
+                #with open(fname) as infile:
+                    #outfile.write(infile.read())
 
     def report(self, summary = 'complete'):
         """Return a specified report"""
         if summary == 'complete':
             return self.registry, sysPath
+        if summary == 'path':
+            return self.registry.get('project_root')
         if summary == 'files':
             return self.registry.get('project_files')
         if summary == 'directories':
             return self.registry.get('project_directories')
-        if summary == 'path':
-            return self.registry.get('project_root')
         if summary == 'sysPath':
             return sysPath
 
+
     def search(self, query = 'root', dir_file = 'directory'):
         """Return a search result"""
-        search_result = []
+        self.report(summary = 'complete')
+        registry_sections = ['complete', 'files', 'directories', 'path', 'sysPath']
+
+
         if dir_file == 'directory':
             if query == 'root':
                 separator = ''
@@ -109,6 +142,7 @@ class Registry:
                     search_result.append(files)
             return search_result
 
+
     #def set_sysPath(self, sysPath = sysPath, update_sysPath = False):
     def set_sysPath(self, update_sysPath = False):
         """Append project directories to python path.
@@ -127,7 +161,7 @@ class Registry:
         # The sysPath_cache file will eventually be dynamically assigned,
         # by searching the path for specified cache file.
         sysPath_cache = []
-        sysPath_cache_file = './Utilities/Data/Cache/Registry.sysPath.cache'
+        sysPath_cache_file = './Utilities/Data/Cache/Path.cache'
 
         # False is the initialization state.
         if update_sysPath is False:

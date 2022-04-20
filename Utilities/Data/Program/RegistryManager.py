@@ -74,30 +74,30 @@ class Registry:
         ##return locals()
 
 
-    #def report(self, report_file = 'path'):
+    def report(self, report_file = 'path'):
         """Provides a specified report. This method still needs to be refined.
 
 
         """
 
-        #if report_file is 'console':
-            #for register, field in self.registry.items():
-                #print('\n{}:'.format(register))
-                #for entery in field:
-                    #print('  {}'.format(entery))
-                #print()
-            #return self.registry
-        #if report_file is 'log':
-            #for register, field in self.registry.items():
-                ##info('\n{}:'.format(register))
-                #for entery in field:
-                    ##info('  {}'.format(entery))
-                    #pass
-                ##info('')
-            #return self.registry
-        #if report_file is 'path':
-            #return self.registry
-            #return self.registry.items
+        if report_file is 'console':
+            for register, field in self.registry.items():
+                print('\n{}:'.format(register))
+                for entery in field:
+                    print('  {}'.format(entery))
+                print()
+            return self.registry
+        if report_file is 'log':
+            for register, field in self.registry.items():
+                #info('\n{}:'.format(register))
+                for entery in field:
+                    #info('  {}'.format(entery))
+                    pass
+                #info('')
+            return self.registry
+        if report_file is 'path':
+            return self.registry
+            return self.registry.items
 
 
     #def search(self, query = 'root', dir_file = 'directory'):

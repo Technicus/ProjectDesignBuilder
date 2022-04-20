@@ -192,16 +192,23 @@ def main(argv = None):
         print(f"  {register}")
 
     print(f"{_section('-')}")
-    print(f"\nregistry.search() = {registry.search()}")
-    print(f"registry.search('Map') = {registry.search('Map', dir_file = 'directory')}")
-    print(f"registry.search('ProjectDesignBuilder.mm') = {registry.search('ProjectDesignBuilder.mm', dir_file = 'file')}")
+    #print(f"\nregistry.search() = {registry.search()}")
+    #print(f"registry.search('Map') = {registry.search('Map', dir_file = 'directory')}")
+    #print(f"registry.search('ProjectDesignBuilder.mm') = {registry.search('ProjectDesignBuilder.mm', dir_file = 'file')}")
     print(f"{_section()}\n")
 
-    registry.set_sysPath(update_sysPath = True)
+    # Test section
+    ''' Search test '''
+    #print(registry.report('sysPath'))
+    registry.report_cache_files()
+
+    #Registry set_sysPath() test.
+    #registry.set_sysPath(update_sysPath = True)
+    ##for path in registry.report('sysPath'):
     #for path in registry.report('sysPath'):
-    for path in registry.report('sysPath'):
-        print(f"  {path}")
+        #print(f"  {path}")
     print(f"{_section()}\n")
+
 
 # The main check with one argument list.
 if __name__ == "__main__":
