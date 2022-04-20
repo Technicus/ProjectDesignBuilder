@@ -30,8 +30,7 @@ class Registry:
                  project_root=None,
                  project_name=None,
                  directory_omit=None,
-                 file_register_types=None,
-                 cache_path = None):
+                 file_register_types=None):
         """Hmmm . . ."""
 
         if project_root is None:
@@ -87,7 +86,7 @@ class Registry:
             'project_files':project_files,}
         self.set_sysPath()
         # Generate registry cache files.
-        self.report_cache_files(cache_path)
+        self.report_cache_files()
 
 
     def report(self, summary = 'complete'):
@@ -113,6 +112,20 @@ class Registry:
         from the other lists concatinated into a single files.  This is what
         the search funcion will parse to find files, perhaps . . . """
 
+        # Find and assign cache path.
+        # This will not work if cache file does not already exist.
+        # Implement a search for path instead of search for file.
+        for root, dirs, files in walk(getcwd()):
+            found_file = ''
+            for name in files:
+                if name == 'Registry.files.cache':
+                    found_file = path.join(root, name)
+                    cache_path = found_file
+                    # cache_path = 'File_not_found'
+        #cache_path = find_file(getcwd(), 'Registry.files.cache')
+        cache_path = cache_path.replace(getcwd(), '.')
+        cache_path = cache_path.rsplit('/', 1)[0] + '/'
+        print(cache_path)
         # Create a dictionary of cache files, this should be made more dynamic.
         registry_cache_file = {
             #'project_files':'./Utilities/Data/Cache/Registry.files.cache',
@@ -120,11 +133,11 @@ class Registry:
             #'project_directories':'./Utilities/Data/Cache/Registry.directories.cache',
             #'project_sysPath':'./Utilities/Data/Cache/Registry.sysPath.cache',
             #'registry':'./Utilities/Data/Cache/Registry.complete_summary.cache'}
-            'project_files':str(cache_path) + 'Registry.files.cache',
-            'project_root':str(cache_path) + 'Registry.root.cache',
-            'project_directories':str(cache_path) + 'Registry.directories.cache',
-            'project_sysPath':str(cache_path) + 'Registry.sysPath.cache',
-            'registry':str(cache_path) + 'Registry.complete_summary.cache'}
+            'project_files':str(cache_path) + '/' + 'Registry.files.cache',
+            'project_root':str(cache_path) + '/' + 'Registry.root.cache',
+            'project_directories':str(cache_path) + '/' + 'Registry.directories.cache',
+            'project_sysPath':str(cache_path) + '/' + 'Registry.sysPath.cache',
+            'registry':str(cache_path) + '/' + 'Registry.complete_summary.cache'}
         # The report_summaries will be sent as arguments to the report method.
         report_summaries = ['path', 'files', 'directories', 'sysPath']
         #report_summaries = ['path', 'files', 'directories']

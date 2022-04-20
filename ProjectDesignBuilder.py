@@ -115,15 +115,9 @@ def initalize():
     # Establish argument variables to create registry
     directory_omit = ['.git', '__', 'html']
     file_register_types = ['.md', '.py', '.rst', '.html', '.log', '.ini']
-    # Find and assign cache path.
-    # This will not work if cache file does not already exist.
-    # Implement a search for path instead of search for file.
-    cache_path = find_file(getcwd(), 'Registry.files.cache')
-    cache_path = cache_path.replace(getcwd(), './')
-    cache_path = cache_path.rsplit('/', 1)[0]
     # Create a registery.
     registry = import_module(registry_manager_path).Registry(project_root(),
-        project_name, directory_omit, file_register_types, cache_path)
+        project_name, directory_omit, file_register_types)
 
     # Hand off the registry.
     return registry
@@ -214,7 +208,7 @@ def main(argv = None):
 
     #print(find_file(getcwd(), 'Registry.files.cache'))
     #cache_path = find_file(getcwd(), 'Registry.files.cache')
-    #cache_path = cache_path.replace(getcwd(), './')
+    #cache_path = cache_path.replace(getcwd(), '.')
     #cache_path = cache_path.rsplit('/', 1)[0]
     #print(cache_path)
 
