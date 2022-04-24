@@ -7,7 +7,8 @@
 from os import getcwd, path, chdir, mkdir, walk, get_terminal_size
 from sys import argv
 from datetime import datetime
-
+from pprint import pprint, pformat
+from textwrap import TextWrapper
 
 # from inspect import currentframe, getframeinfo, trace
 # from ast import literal_eval
@@ -33,31 +34,56 @@ def assitant():
     invoke(".UtilityManager", "Utilities.Maintenance").set_project_directory()
     print(f"{invoke('.Compositor', 'Utilities.Maintenance').section('headder')}")
     print(f"{invoke('.Compositor', 'Utilities.Maintenance').section('section', 'Arguments')}")
-    print(f"\nargv :: {argv}\n")
+    print(f"\nargv:\n  {argv}\n")
     print(f"{invoke('.Compositor', 'Utilities.Maintenance').section('section', 'Current Working Directory')}\n")
-    print(f"getcwd() :: {getcwd()}\n")
+    print(f"getcwd():\n  {getcwd()}\n")
     print(f"{invoke('.Compositor', 'Utilities.Maintenance').section('section', 'Initalize Registry')}\n")
     # call initialization manager
-    print(f"initalize() registry")
+    #print(f"initalize() registry")
     registry = invoke('.InitializationManager', 'Utilities.Maintenance').initalize()
-    print(f"\n{invoke('.Compositor', 'Utilities.Maintenance').section('section', 'Functions')}")
+    print(f"\n{invoke('.Compositor', 'Utilities.Maintenance').section('section', 'Initalize Registry -> Functions')}")
     print()
-    print(f"*****TYPE : registry.report('functions') = {type(registry.report('functions'))}")
+    #print(f"*****TYPE : registry.report('functions') = {type(registry.report('functions'))}")
+    #pprint(registry.report('functions'))
     for module, function_list in registry.report('functions').items():
+        prefix = '  '
+        preferredWidth = 80
         print(f"{module}")
         for function_call in function_list:
-            print(f"  {function_call}")
+            postfix = ' ' * (len(str(function_call).split('[')[0]) + len(str(prefix))) + prefix
+            wrapper = TextWrapper(initial_indent=prefix, width=preferredWidth,
+                subsequent_indent=postfix)
+            #pprint(function_call, width = 79)
+            #print(f"  {function_call}")
+            message = function_call
+            print(wrapper.fill(message))
         print()
-    print(f"{invoke('.Compositor', 'Utilities.Maintenance').section('section', 'Classes')}")
+    print(f"{invoke('.Compositor', 'Utilities.Maintenance').section('section', 'Initalize Registry -> Classes')}")
     print()
     for class_, class_list in registry.report('functions').items():
         print(f"{class_}")
         for class__ in class_list:
             print(f"  {class__}")
         print()
+    print(f"{invoke('.Compositor', 'Utilities.Maintenance').section('section', 'Initalize Registry -> project_files')}")
+    print()
+    print(f"project_files:")
+    for files in registry.report('files'):
+        print(f"  {files}")
+    print()
+    print(f"{invoke('.Compositor', 'Utilities.Maintenance').section('section', 'Initalize Registry -> directories')}")
+    print()
+    print(f"project_files:")
+    for directories in registry.report('directories'):
+        print(f"  {directories}")
+    print()
+    print(f"{invoke('.Compositor', 'Utilities.Maintenance').section('section', 'Initalize Registry -> sysPath')}")
+    print()
+    print(f"sysPath:")
+    for paths in registry.report('sysPath'):
+        print(f"  {paths}")
+    print()
     print(f"{invoke('.Compositor', 'Utilities.Maintenance').section('section', 'Tests & Checks')}\n")
-    #print(f"{type(registry.report('functions'))}\n")
-    #print(registry.report('functions'))
     print(f"None\n")
     print(f"{invoke('.Compositor', 'Utilities.Maintenance').section('section', 'End')}")
 

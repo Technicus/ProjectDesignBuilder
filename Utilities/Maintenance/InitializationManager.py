@@ -28,7 +28,7 @@ def initalize(
     # Establish working path.
     #project_path = parse_directory_path(False)
     # Identify path to 'RegistryManager.py'.
-    print(f"\ngetcwd():\n    {getcwd()}\n")
+    #print(f"\ngetcwd():\n  {getcwd()}\n")
 
     # Find the file then distill it down to the relative path from projec path.
     # with that then call it with the import module.  Perhaps it would be
@@ -37,10 +37,10 @@ def initalize(
     #registry_manager_path = find_file(project_path, 'RegistryManager.py', True)
     #print(f">>registry_manager_path\n  {registry_manager_path}\n")
     #print(f">>>> registry_manager_path:\n     {registry_manager_path}\n")
-    print(f">>>> project_root:\n     {project_path}\n")
-    print(f">>>> project_name:\n     {project_name}\n")
-    print(f">>>> directory_omit:\n     {directory_omit}\n")
-    print(f">>>> file_register_types:\n     {file_register_types}")
+    print(f"project_root:\n  {project_path}\n")
+    print(f"project_name:\n  {project_name}\n")
+    print(f"directory_omit:\n  {directory_omit}\n")
+    print(f"file_register_types:\n  {file_register_types}")
 
     # Create a registry.
     #registry = invoke('.RegistryManager', '.Utilities.Maintenance').Registry()
