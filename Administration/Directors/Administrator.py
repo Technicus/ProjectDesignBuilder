@@ -57,6 +57,7 @@ def assitant():
             #print(f"  {function_call}")
             message = function_call
             print(wrapper.fill(message))
+
         print()
     print(f"{invoke('.Compositor', 'Utilities.Maintenance').section('section', 'Initalize Registry -> Classes')}")
     print()
