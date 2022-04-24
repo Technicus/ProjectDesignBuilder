@@ -4,7 +4,6 @@
 
 from importlib import import_module as invoke
 from os import system, getcwd, path, chdir
-from datetime import datetime
 
 
 project_name = invoke('ProjectDesignBuilder', '').project_name
@@ -12,12 +11,12 @@ __version__ = invoke('ProjectDesignBuilder', '').__version__
 __release__ = invoke('ProjectDesignBuilder', '').__release__
 
 
-def time_code():
-    """Return of current date and time."""
-    update_time = datetime.now()
-    # timeCode = updateTime.strftime("%Y%m%d%H%M%S")
-    time_code = update_time.strftime("%Y-%m-%d-%H-%M-%S-%f")
-    return time_code
+#def time_code():
+    #"""Return of current date and time."""
+    #update_time = datetime.now()
+    ## timeCode = updateTime.strftime("%Y%m%d%H%M%S")
+    #time_code = update_time.strftime("%Y-%m-%d-%H-%M-%S-%f")
+    #return time_code
 
 
 def parse_directory_path(project_root = 'file_path', parse_file = __file__):

@@ -5,16 +5,17 @@
 from importlib import import_module as introduce
 
 
-project_name = 'ProjectDesignBuilder'
-__version__ = '0.0.2'
-__release__ = '0.0.0'
+project_name = "ProjectDesignBuilder"
+__version__ = "0.0.2"
+__release__ = "0.0.0"
 
 
 def main():
-    """This is the main() entrance for ProjectDesignBuilder.  main() will
-    introduce ProjectDesignBuilder to the assistant().  assistant()
-    will guide ProjectDesignBuilder."""
-    ProjectDesignBuilder = introduce('.InitializationManager', 'Utilities.Maintenance').assitant()
+    """This is the main() entrance for ProjectDesignBuilder.  After entering,
+    the assistant() will introduced you to the manager."""
+    ProjectDesignBuilder = introduce(
+        ".Administrator", "Administration.Directors"
+    ).assitant()
     return None
 
 
