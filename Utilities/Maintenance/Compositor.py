@@ -2,7 +2,7 @@
 # 2022.04.20.21.57
 
 from os import get_terminal_size
-from inspect import currentframe
+from inspect import currentframe, stack
 from os import system
 from importlib import import_module as invoke
 #from inspect import currentframe  # , getframeinfo, trace
@@ -26,13 +26,20 @@ def headding_section(marker = None, title = None):
     development of process_inspection()."""
     if marker is None:
         marker = '='
+        #headding_prefix = '\n='
+        headding_prefix = '='
+        line_difference = 2
+    else:
+        #headding_prefix = '\n--'
+        headding_prefix = '--'
+        line_difference = 3
     terminal_size = get_terminal_size()
     if title == None:
         working_file = __file__.split('/')
         title = f"[ {working_file} ] : {str(currentframe().f_back.f_lineno)} ]"
                 #len(working_file[-1]) - 11 )
-    marker = marker * (terminal_size.columns - len(title) - 1)
-    section = f"\n{title} {marker}"
+    marker = marker * (terminal_size.columns - len(title) - line_difference)
+    section = f"{headding_prefix}{title} {marker}"
     return section
 
 
@@ -83,24 +90,42 @@ def pathto_dict(path_):
         return tree
 
 
-def section(headder="section"):
-    working_file = str(__file__.split("/")[-1])
-    title = f"[ {working_file} : {str(currentframe().f_back.f_lineno)} ]"
+def section(headder="section", title = None):
+
+    #frame = inspect.stack()[1]
+    #module = inspect.getmodule(frame[0])
+    #filename = module.__file__
+    #filename = frame[0].f_code.co_filename
+
+    frame = stack()[1]
+    #calling_file = frame[0].f_code.co_filename
+    calling_file = str(stack()[1][1].split("/")[-1])
+    call_line_no = stack()[1][2]
+    call_function = stack()[1][3]
+    call_line_txt = stack()[1][4]
+
+    #calling_file = str(__file__.split("/")[-1])
+    #title = f"[ {calling_file} : {str(currentframe().f_back.f_lineno)} ]"
+    #title = f"[ {calling_file} : {call_function} : {str(currentframe().f_back.f_lineno)} ]"
+    title_info = f"[ {calling_file} : {call_function} : {call_line_no} ] ( {title} )"
     project_time = invoke(".Administrator", "Administration.Directors").time_code()
     #project_time = time_code()
+
+
     if headder == "headder":
-        title = f"[ {project_name}, {__release__}/{__version__} ] :: ( {project_time} )"
+        title_info = f"[ {project_name}, {__release__}/{__version__} ] :: ( {project_time} ) :: < Enter >"
         #return invoke(".Typographer", "Utilities.Maintenance").headding_section(
         return headding_section(
-            marker=None, title=title
+            marker=None, title=title_info
         )
     if headder == "footer":
+        title_info = f"[ {project_name}, {__release__}/{__version__} ] :: ( {project_time} ) :: < Exit >"
         #return invoke(".Typographer", "Utilities.Maintenance").headding_section(
         return headding_section(
-            marker=None, title=title
+            marker=None, title=title_info
         )
     if headder == "section":
         #return invoke(".Typographer", "Utilities.Maintenance").headding_section(
         return headding_section(
-            marker="-", title=title
+            marker="-", title=title_info
         )

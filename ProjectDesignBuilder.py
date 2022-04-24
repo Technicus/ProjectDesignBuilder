@@ -12,7 +12,7 @@ __release__ = "0.0.0"
 
 def main():
     """This is the main() entrance for ProjectDesignBuilder.  After entering,
-    the assistant() will introduced you to the manager."""
+    the assistant() will introduced you to the Administrator."""
     ProjectDesignBuilder = introduce(
         ".Administrator", "Administration.Directors"
     ).assitant()

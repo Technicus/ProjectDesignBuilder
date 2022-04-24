@@ -19,23 +19,37 @@ __version__ = invoke("ProjectDesignBuilder", "").__version__
 __release__ = invoke("ProjectDesignBuilder", "").__release__
 
 
-def section(headder="section"):
-    working_file = str(__file__.split("/")[-1])
-    title = f"[ {working_file} : {str(currentframe().f_back.f_lineno)} ]"
-    project_time = invoke(".UtilityManager", "Utilities.Maintenance").time_code()
-    if headder == "headder":
-        title = f"[ {project_name}, {__release__}/{__version__} ] :: ( {project_time} )"
-        return invoke(".Typographer", "Utilities.Maintenance").headding_section(
-            marker=None, title=title
-        )
-    if headder == "footer":
-        return invoke(".Typographer", "Utilities.Maintenance").headding_section(
-            marker=None, title=title
-        )
-    if headder == "section":
-        return invoke(".Typographer", "Utilities.Maintenance").headding_section(
-            marker="-", title=title
-        )
+def initalize(
+        project_path = invoke('.UtilityManager', 'Utilities.Maintenance').set_project_directory(),
+        directory_omit = ['.git', '__', 'html'],
+        file_register_types = ['.md', '.py', '.rst', '.html', '.log', '.ini']):
+    """Set initial state of project start conditions.
+    Establish the project directory, and return the registry."""
+    # Establish working path.
+    #project_path = parse_directory_path(False)
+    # Identify path to 'RegistryManager.py'.
+    print(f"\ngetcwd():\n    {getcwd()}\n")
+
+    # Find the file then distill it down to the relative path from projec path.
+    # with that then call it with the import module.  Perhaps it would be
+    # more direct if that was part of the search function.
+
+    #registry_manager_path = find_file(project_path, 'RegistryManager.py', True)
+    #print(f">>registry_manager_path\n  {registry_manager_path}\n")
+    #print(f">>>> registry_manager_path:\n     {registry_manager_path}\n")
+    print(f">>>> project_root:\n     {project_path}\n")
+    print(f">>>> project_name:\n     {project_name}\n")
+    print(f">>>> directory_omit:\n     {directory_omit}\n")
+    print(f">>>> file_register_types:\n     {file_register_types}")
+
+    # Create a registry.
+    #registry = invoke('.RegistryManager', '.Utilities.Maintenance').Registry()
+    #project_path = invoke('.UtilityManager',   'Utilities.Maintenance').set_project_directory(),
+    registry = invoke('.RegistryManager', 'Utilities.Maintenance').Registry(
+            str(project_path),
+            project_name,
+            directory_omit,
+            file_register_types)
 
 
-
+    return registry

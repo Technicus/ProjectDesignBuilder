@@ -5,6 +5,17 @@
 from os import path, getcwd, chdir, walk
 from os.path import relpath
 from sys import path as sysPath
+from importlib import import_module as invoke
+
+
+project_name = invoke('ProjectDesignBuilder', '').project_name
+__version__ = invoke('ProjectDesignBuilder', '').__version__
+__release__ = invoke('ProjectDesignBuilder', '').__release__
+
+
+def test_function():
+    test = 'test text'
+    return test
 
 
 class Registry:
@@ -21,8 +32,8 @@ class Registry:
 
     def __init__(
         self,
-        project_root=None,
-        project_name=None,
+        project_root=invoke(".UtilityManager", "Utilities.Maintenance").set_project_directory(),
+        project_name=project_name,
         directory_omit=None,
         file_register_types=None,
     ):
@@ -79,6 +90,8 @@ class Registry:
             "project_files": project_files,
         }
         self.set_sysPath()
+        #self.functions()
+        #self.classes()
         # Generate registry cache files.
         self.report_cache_files()
 
@@ -105,7 +118,6 @@ class Registry:
         the search funcion will parse to find files, perhaps . . ."""
 
         # Create a dictionary of cache files, this should be made more dynamic.
-        pass
         registry_cache_file = {
             "project_files": "./Utilities/Data/Cache/Registry.files.cache",
             "project_root": "./Utilities/Data/Cache/Registry.root.cache",
@@ -242,3 +254,60 @@ class Registry:
                     sysPath_cache.write(str(path + "\n"))
             # Next ... implement some kind of update mechanism for appending new
             # paths to sysPath.
+
+    def functions(self):
+        function_register = {}
+        for search in self.search('.py'):
+            with open(search, 'r') as project_file:
+                search = search.split("/")[-1]
+                if 'def' in project_file.read():
+                    function_register[search] = []
+                    project_file.seek(0)
+                    lines = project_file.readlines()
+                    for line_number in range(0, len(lines)):
+                        current_line = lines[line_number] #.replace(':\n', '')
+                        if current_line.startswith("def "):
+                            finished = False
+                            next_line = 0
+                            while finished == False:
+                                next_line += 1
+                                if current_line.endswith("(\n"):
+                                    current_line = current_line.replace('\n', '') + lines[line_number + next_line].lstrip()
+                                if current_line.endswith(",\n"):
+                                    current_line = current_line.replace('\n', '') + lines[line_number + next_line].lstrip()
+                                if current_line.endswith(":\n"):
+                                    current_line = current_line.replace(':\n', '')
+                                    finished = True
+                            current_line = current_line.replace('def ', '')
+                            function_call = str(f"  ({line_number}:{len(lines)})[ {current_line} ]")
+                            function_register[search].append(function_call)
+        return function_register
+
+    def classes(self):
+        classes_register = {}
+        for search in self.search('.py'):
+            with open(search, 'r') as project_file:
+                search = search.split("/")[-1]
+                if 'class' in project_file.read():
+                    classes_register[search] = []
+                    project_file.seek(0)
+                    lines = project_file.readlines()
+                    for line_number in range(0, len(lines)):
+                        current_line = lines[line_number] #.replace(':\n', '')
+                        if current_line.startswith("class "):
+                            finished = False
+                            next_line = 0
+                            while finished == False:
+                                next_line += 1
+                                if current_line.endswith("(\n"):
+                                    current_line = current_line.replace('\n', '') + lines[line_number + next_line].lstrip()
+                                if current_line.endswith(",\n"):
+                                    current_line = current_line.replace('\n', '') + lines[line_number + next_line].lstrip()
+                                if current_line.endswith(":\n"):
+                                    current_line = current_line.replace(':\n', '')
+                                    finished = True
+                            current_line = current_line.replace('class ', '')
+                            class_call = str(f"  ({line_number}:{len(lines)})[ {current_line} ]")
+                            classes_register[search].append(class_call)
+        return classes_register
+
