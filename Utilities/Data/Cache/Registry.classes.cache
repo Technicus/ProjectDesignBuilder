@@ -1,6 +1,0 @@
-Administrator.py
-ApplicationManager.py
-  (33:67)[ FileWatcher ]
-  (53:67)[ Handler(FileSystemEventHandler) ]
-RegistryManager.py
-  (20:359)[ Registry ]
