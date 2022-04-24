@@ -84,29 +84,37 @@ class Registry:
                     path_head = path_discovery.split(path_tail, 1)
                     project_directories.append("." + path_head[1])
                     # project_directories.append(path_head[1])
+        self.registry = {}
         self.registry = {
-            "project_root": [work_root],
-            "project_directories": project_directories,
-            "project_files": project_files,
+            'project_root': [work_root],
+            'project_directories': project_directories,
+            'project_files': project_files,
         }
+        self.registry['functions'] = self.functions()
+        self.registry['classes'] = self.classes()
         self.set_sysPath()
-        #self.functions()
         #self.classes()
+        #self.functions = self.functions()
         # Generate registry cache files.
         self.report_cache_files()
+        self.report_cache_files_appended()
 
-    def report(self, summary="complete"):
-        """Return a specified report"""
-        if summary == "complete":
-            return self.registry, sysPath
-        if summary == "path":
-            return self.registry.get("project_root")
-        if summary == "files":
-            return self.registry.get("project_files")
-        if summary == "directories":
-            return self.registry.get("project_directories")
-        if summary == "sysPath":
+    def report(self, summary='complete'):
+        '''Return a specified report'''
+        if summary == 'files':
+            return self.registry.get('project_files')
+        if summary == 'path':
+            return self.registry.get('project_root')
+        if summary == 'directories':
+            return self.registry.get('project_directories')
+        if summary == 'sysPath':
             return sysPath
+        if summary == 'functions':
+            return self.registry.get('functions')
+        if summary == 'classes':
+            return self.registry.get('classes')
+        if summary == 'complete':
+            return self.registry, sysPath
 
     def report_cache_files(self):
         """Create cache file reports.  There will be a file with entries for
@@ -119,37 +127,71 @@ class Registry:
 
         # Create a dictionary of cache files, this should be made more dynamic.
         registry_cache_file = {
-            "project_files": "./Utilities/Data/Cache/Registry.files.cache",
-            "project_root": "./Utilities/Data/Cache/Registry.root.cache",
-            "project_directories": "./Utilities/Data/Cache/Registry.directories.cache",
-            "project_sysPath": "./Utilities/Data/Cache/Registry.sysPath.cache",
-            "registry": "./Utilities/Data/Cache/Registry.complete_summary.cache",
+            'project_files': './Utilities/Data/Cache/Registry.files.cache',
+            'project_root': './Utilities/Data/Cache/Registry.root.cache',
+            'project_directories': './Utilities/Data/Cache/Registry.directories.cache',
+            'project_sysPath': './Utilities/Data/Cache/Registry.sysPath.cache',
+            #'project_functions': './Utilities/Data/Cache/Registry.functions.cache',
+            #'project_classes': './Utilities/Data/Cache/Registry.classes.cache',
+            'registry': './Utilities/Data/Cache/Registry.complete_summary.cache',
         }
         # The report_summaries will be sent as arguments to the report method.
-        report_summaries = ["path", "files", "directories", "sysPath"]
-        # report_summaries = ['path', 'files', 'directories']
+        report_summaries = ['path', 'files', 'directories', 'sysPath']# 'functions", "classes"]
         registry_cache = []
         summary = 0
         # Itirate through the dictionary and on each itiration call the report.
         # Then write the results to a specified cache file.
         for report_file, report_path in registry_cache_file.items():
-            if report_file not in "registry":
-                with open(registry_cache_file[report_file], "w") as registry_cache:
+            if report_file not in 'registry':
+                with open(registry_cache_file[report_file], 'w') as registry_cache:
                     for entry in self.report(report_summaries[summary]):
-                        registry_cache.write(str(entry + "\n"))
+                        registry_cache.write(str(entry + '\n'))
                 summary += 1  # incriment the summary key for sending to report.
+
         cache_files = [
-            "project_root",
-            "project_directories",
-            "project_files",
-            "project_sysPath",
+            'project_root',
+            'project_directories',
+            'project_files',
+            'project_sysPath',
+            #'project_functions',
+            #'classes',
         ]
         # Now append all the files into a complete summary cache file.
-        with open(registry_cache_file["registry"], "w") as complete_summary_report:
+        with open(registry_cache_file['registry'], 'w') as complete_summary_report:
             for files in cache_files:
                 with open(registry_cache_file[files]) as partial_summary_report:
                     complete_summary_report.write(partial_summary_report.read())
-        return registry_cache_file["registry"]
+        return registry_cache_file['registry']
+
+    def report_cache_files_appended(self):
+        registry_cache_file = {
+            'project_functions': './Utilities/Data/Cache/Registry.functions.cache',
+            'project_classes': './Utilities/Data/Cache/Registry.classes.cache',
+            'registry': './Utilities/Data/Cache/Registry.complete_summary.cache',
+        }
+        #for files in registry_cache_file:
+        with open(registry_cache_file['project_functions'], 'w') as registry_cache:
+            for module, function_list in self.report('functions').items():
+                registry_cache.write(str(module + '\n'))
+                for function_call in function_list:
+                    registry_cache.write(str(function_call + '\n'))
+                #registry_cache.write(str('\n'))
+        with open(registry_cache_file['project_classes'], 'w') as registry_cache:
+            for module, class_list in self.report('classes').items():
+                registry_cache.write(str(module + '\n'))
+                for class_call in class_list:
+                    registry_cache.write(str(class_call + '\n'))
+                #registry_cache.write(str('\n'))
+        cache_files = [
+            'project_functions',
+            'project_classes',
+        ]
+        # Now append all the function and class files to the complete summary cache file.
+        with open(registry_cache_file['registry'], 'a') as complete_summary_report:
+            for files in cache_files:
+                with open(registry_cache_file[files]) as partial_summary_report:
+                    complete_summary_report.write(partial_summary_report.read())
+        return registry_cache_file['registry']
 
     def search(self, search=None):
         """Return a search result.  This method is possibly convaluted.
@@ -183,7 +225,7 @@ class Registry:
         # That works now, just dont call `self.sysPath(True)`, it only works
         # with false, and does not depend on `self.search()`.
         search_result = []
-        with open(self.report_cache_files(), "r") as complete_summary_report:
+        with open(self.report_cache_files(), 'r') as complete_summary_report:
             for line_no, line in enumerate(complete_summary_report):
                 # print(line_no, line.strip())
                 if search in line:
@@ -281,7 +323,7 @@ class Registry:
                             current_line = current_line.replace('def ', '')
                             function_call = str(f"  ({line_number}:{len(lines)})[ {current_line} ]")
                             function_register[search].append(function_call)
-        return function_register
+        return dict(function_register)
 
     def classes(self):
         classes_register = {}
@@ -309,5 +351,9 @@ class Registry:
                             current_line = current_line.replace('class ', '')
                             class_call = str(f"  ({line_number}:{len(lines)})[ {current_line} ]")
                             classes_register[search].append(class_call)
-        return classes_register
+        return dict(classes_register)
 
+#def make_dictionary(dictionary = None):
+    #registry = Registry()
+    #print(registry.functions())
+    #return registry.functions()

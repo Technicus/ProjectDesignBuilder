@@ -42,34 +42,25 @@ def assitant():
     registry = invoke('.InitializationManager', 'Utilities.Maintenance').initalize()
     print(f"\n{invoke('.Compositor', 'Utilities.Maintenance').section('section', 'Functions')}")
     print()
-    for module, function_list in registry.functions().items():
+    print(f"*****TYPE : registry.report('functions') = {type(registry.report('functions'))}")
+    for module, function_list in registry.report('functions').items():
         print(f"{module}")
         for function_call in function_list:
             print(f"  {function_call}")
         print()
     print(f"{invoke('.Compositor', 'Utilities.Maintenance').section('section', 'Classes')}")
-
     print()
-    for class_, class_list in registry.classes().items():
+    for class_, class_list in registry.report('functions').items():
         print(f"{class_}")
         for class__ in class_list:
             print(f"  {class__}")
         print()
-    #for search in registry.search('.py'):
-        #with open(search) as project_file:
-            #if 'class' in project_file.read():
-                #search = search.split("/")[-1]
-                #print(f"{search}")
-                #project_file.seek(0)
-                #for line in project_file:
-                    #if line.startswith("class "):
-                        #line = line.replace(":\n", "")
-                        #print(f"  {line}")
-                #print()
-
+    print(f"{invoke('.Compositor', 'Utilities.Maintenance').section('section', 'Tests & Checks')}\n")
+    #print(f"{type(registry.report('functions'))}\n")
+    #print(registry.report('functions'))
+    print(f"None\n")
     print(f"{invoke('.Compositor', 'Utilities.Maintenance').section('section', 'End')}")
 
-    #print(f"{invoke('.Compositor', 'Utilities.Maintenance').section('section')}\n")
     #print(f"{invoke('.Compositor', 'Utilities.Maintenance').section('section')}\n")
     #print(f"{invoke('.Compositor', 'Utilities.Maintenance').section('section')}\n")
     print(f"{invoke('.Compositor', 'Utilities.Maintenance').section('footer')}\n")
