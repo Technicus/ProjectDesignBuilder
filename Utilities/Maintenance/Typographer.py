@@ -32,7 +32,7 @@ def headding_section(marker = None, title = None, subtitle = None):
         #headding_prefix = '\n='
         headding_prefix = f"╞{marker}"
         headding_suffix = f"{marker}╡"
-        line_difference = 4
+        line_difference =  4
     else:
         #headding_prefix = '\n--'
         headding_prefix = f"├{marker * 1}"

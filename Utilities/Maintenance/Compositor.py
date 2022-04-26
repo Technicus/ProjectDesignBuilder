@@ -208,7 +208,7 @@ def tcolor():
     for color in colorscheme['Fore']:
         #append = ' ' * (11 - len(color))
         if len(color) < 8:
-            append = ' ' * (8 - len(color))
+            append = ' ' * ( 8 - len(color))
             append = append + '  '
         cprint(f"{color}{append}", color, attrs=['bold'], end = " ")
         appen = ''

@@ -64,7 +64,7 @@ def assitant():
     #pprint(registry.report('functions'))
     for module, function_list in registry.report('functions').items():
         prefix = ''
-        preferredWidth = 80
+        preferredWidth =  80
         print(f"{module}")
         for function_call, arguments in function_list.items():
             print(f"  {function_call}")
