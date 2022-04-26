@@ -25,17 +25,18 @@ def headding_section(marker = None, title = None):
     provides some process information.  This can be improved with more
     development of process_inspection()."""
     if marker is None:
-        marker = '='
+        marker = '═'
         #headding_prefix = '\n='
-        headding_prefix = '='
+        headding_prefix = marker
         line_difference = 2
     else:
         #headding_prefix = '\n--'
-        headding_prefix = '--'
+        headding_prefix = marker * 2
         line_difference = 3
     terminal_size = get_terminal_size()
     if title == None:
         working_file = __file__.split('/')
+        #title = f"┤ {working_file} ├┤{str(currentframe().f_back.f_lineno)} ├"
         title = f"[ {working_file} ] : {str(currentframe().f_back.f_lineno)} ]"
                 #len(working_file[-1]) - 11 )
     marker = marker * (terminal_size.columns - len(title) - line_difference)
@@ -110,8 +111,7 @@ def section(headder="section", title = None):
     title_info = f"[ {calling_file} : {call_function} : {call_line_no} ] ( {title} )"
     project_time = invoke(".Administrator", "Administration.Directors").time_code()
     #project_time = time_code()
-
-
+#═
     if headder == "headder":
         title_info = f"[ {project_name}, {__release__}/{__version__} ] :: ( {project_time} ) :: < Enter >"
         #return invoke(".Typographer", "Utilities.Maintenance").headding_section(
@@ -127,5 +127,6 @@ def section(headder="section", title = None):
     if headder == "section":
         #return invoke(".Typographer", "Utilities.Maintenance").headding_section(
         return headding_section(
-            marker="-", title=title_info
+            marker="─", title=title_info
+            #marker="-", title=title_info
         )

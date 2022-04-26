@@ -5,6 +5,9 @@ from os import get_terminal_size
 from inspect import currentframe, stack
 from os import system
 from importlib import import_module as invoke
+from colorama import Fore, Back, Style
+from termcolor import colored, cprint
+
 #from inspect import currentframe  # , getframeinfo, trace
 
 
@@ -129,3 +132,102 @@ def section(headder="section", title = None):
         return headding_section(
             marker="-", title=title_info
         )
+
+
+
+
+# Python program to print
+# colored text and background
+def print_format_table():
+    colorama.init(autoreset=True)
+
+    print('\033[31m' + 'some red text')
+    print('\033[39m')  # and reset to default color
+    print()
+    print(f"{Fore.RED}C{Fore.GREEN}O{Fore.YELLOW}L{Fore.BLUE}O{Fore.MAGENTA}R{Fore.CYAN}S{Fore.WHITE}!")
+    print(f"{Fore.RED}Red Text")
+    print(f"{Fore.GREEN}Green Text")
+    print(f"{Fore.YELLOW}Yellow Text")
+    print(f"{Fore.BLUE}Blue Text")
+    print(f"{Fore.MAGENTA}Magenta Text")
+    print(f"{Fore.CYAN}Cyan Text")
+    print(f"{Fore.WHITE}White Text")
+    print()
+    print(f"{Back.RED}B{Back.GREEN}A{Back.YELLOW}C{Back.BLUE}K{Back.MAGENTA}G{Back.CYAN}R{Back.WHITE}O{Back.RED}U{Back.GREEN}N{Back.YELLOW}D{Back.BLUE}!")
+    print(f"{Back.RED}Red Background")
+    print(f"{Back.GREEN}Green Background")
+    print(f"{Back.YELLOW}Yellow Background")
+    print(f"{Back.BLUE}Blue Background")
+    print(f"{Back.MAGENTA}Magenta Background")
+    print(f"{Back.CYAN}Cyan Background")
+    print(f"{Back.WHITE}White Background")
+    print()
+    print(f"{Style.DIM}S{Style.NORMAL}T{Style.BRIGHT}Y{Style.DIM}L{Style.NORMAL}E{Style.BRIGHT}!")
+    print(f"{Style.DIM}Dim Text")
+    print(f"{Style.NORMAL}Normal Text")
+    print(f"{Style.BRIGHT}Bright Text")
+    print()
+    print(f"{Fore.YELLOW}{Back.RED}C{Back.GREEN}{Fore.RED}O{Back.YELLOW}{Fore.BLUE}M{Back.BLUE}{Fore.BLACK}B{Back.MAGENTA}{Fore.CYAN}I{Back.CYAN}{Fore.GREEN}N{Back.WHITE}A{Back.RED}T{Back.GREEN}I{Back.YELLOW}O{Back.BLUE}N")
+    print(f"{Fore.GREEN}{Back.YELLOW}{Style.BRIGHT}Green Text - Yellow Background - Bright")
+    print(f"{Fore.CYAN}{Back.WHITE}{Style.DIM}Cyan Text - White Background - Dim")
+    print()
+ 
+    print(f"{Fore.CYAN}{Back.WHITE}{Style.DIM}Cyan Text - White Background - Dim")
+
+
+'''
+Fore: BLACK, RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE, RESET.
+Back: BLACK, RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE, RESET.
+Style: DIM, NORMAL, BRIGHT, RESET_ALL
+'''
+
+
+#import sys
+def tcolor():
+    #text = colored('Hello, World!', 'red', attrs=['reverse', 'blink'])
+    #print(text)
+    #cprint('Hello, World!', 'green', 'on_red')
+
+    #print_red_on_cyan = lambda x: cprint('X', 'red', 'on_cyan')
+    #print_red_on_cyan('Hello, World!')
+    #print_red_on_cyan('Hello, Universe!')
+
+    #for i in range(10):
+        #cprint(i, 'magenta', end=' ')
+
+    #c print("Attention!", 'red', attrs=['bold'], file=sys.stderr)
+    colorscheme = {
+        'Fore' : ['grey', 'red', 'green', 'yellow', 'blue', 'magenta', 'cyan', 'white'],
+        'Back' : ['on_grey', 'on_red', 'on_green', 'on_yellow', 'on_blue', 'on_magenta', 'on_cyan', 'on_white'],
+        'Style': ['bold', 'dark', 'underline', 'blink', 'reverse', 'concealed']
+        }
+    marks = ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X']
+    #res = len(max(colorscheme['Fore'], key = len))
+    print(f"    ", end = '')
+    print(f"{' ' * len(max(colorscheme['Fore'], key = len)) + ' '}", end = "")
+    for color in colorscheme['Fore']:
+        #append = ' ' * (11 - len(color))
+        if len(color) < 8:
+            append = ' ' * (8 - len(color))
+            append = append + '  '
+        cprint(f"{color}{append}", color, attrs=['bold'], end = " ")
+        appen = ''
+    print(f"")
+    for back_ground in colorscheme['Back']:
+        count = 0
+        append = ' ' * (10 - len(back_ground))
+        #print(f"{back_ground}{append}", end = " ")
+        cprint(f"{back_ground}{append}",'white', back_ground, attrs=['bold'], end = "  ")
+        while count < len(colorscheme['Fore']):
+            #for check in marks:
+            for style in colorscheme['Style']:
+                cprint(f"X",colorscheme['Fore'][count], back_ground, attrs=[style], end = "")
+            cprint(f"X",colorscheme['Fore'][count], back_ground, attrs=[colorscheme['Style'][0], colorscheme['Style'][5]], end = "")
+            cprint(f"X",colorscheme['Fore'][count], back_ground, attrs=[colorscheme['Style'][0], colorscheme['Style'][4]], end = "")
+            count += 1
+            print(f"  ", end = " ")
+        print(f"")
+
+
+
+    print(f"\n")

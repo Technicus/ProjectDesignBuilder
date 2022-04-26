@@ -26,68 +26,100 @@ def time_code():
 
 
 def assitant():
-    """The project assitant will process initial class orientation then provide
+    """The project assitant will process initial classes orientation then provide
     conditions to directors and managers.  This function will provoke the
     managers and directors to issue assignments.  As the conductor of project
     flow between operations, the assistant will guide the flow of intent."""
     invoke(".Typographer", "Utilities.Maintenance").clear()
     invoke(".UtilityManager", "Utilities.Maintenance").set_project_directory()
+
+    # Headder -> Introduction.
     print(f"{invoke('.Typographer', 'Utilities.Maintenance').section('headder')}")
-    print(f"{invoke('.Typographer', 'Utilities.Maintenance').section('section', 'Arguments')}")
+
+    # Section -> Report: arguments.
+    print(f"{invoke('.Typographer', 'Utilities.Maintenance').section('section', 'Report: Arguments')}")
     print(f"\nargv:\n  {argv}\n")
-    print(f"{invoke('.Typographer', 'Utilities.Maintenance').section('section', 'Current Working Directory')}\n")
+
+    # Section -> Report: Current Working Directory
+    print(f"{invoke('.Typographer', 'Utilities.Maintenance').section('section', 'Report: Current Working Directory')}\n")
     print(f"getcwd():\n  {getcwd()}\n")
-    print(f"{invoke('.Typographer', 'Utilities.Maintenance').section('section', 'Initalize Registry')}\n")
+
+    # Section -> Report: Initalize Registry
+    print(f"{invoke('.Typographer', 'Utilities.Maintenance').section('section', 'Report: Initalize Registry')}\n")
     # call initialization manager
     #print(f"initalize() registry")
     registry = invoke('.InitializationManager', 'Utilities.Maintenance').initalize()
-    print(f"\n{invoke('.Typographer', 'Utilities.Maintenance').section('section', 'Initalize Registry -> Functions')}")
+
+    # Section -> Report:Functions
+    print(f"\n{invoke('.Typographer', 'Utilities.Maintenance').section('section', 'Report: Functions')}")
     print()
     #print(f"*****TYPE : registry.report('functions') = {type(registry.report('functions'))}")
     #pprint(registry.report('functions'))
     for module, function_list in registry.report('functions').items():
-        prefix = '  '
+        prefix = ''
         preferredWidth = 80
         print(f"{module}")
         for function_call in function_list:
-            postfix = ' ' * (len(str(function_call).split('[')[0]) + len(str(prefix))) + prefix
+            postfix = ' ' * (len(str(function_call).split('[')[0]) + len(str(prefix))) + '  '
             wrapper = TextWrapper(initial_indent=prefix, width=preferredWidth,
                 subsequent_indent=postfix)
             #pprint(function_call, width = 79)
             #print(f"  {function_call}")
             message = function_call
             print(wrapper.fill(message))
+        print()
 
-        print()
-    print(f"{invoke('.Typographer', 'Utilities.Maintenance').section('section', 'Initalize Registry -> Classes')}")
+    # Section -> Report: Classes
+    print(f"{invoke('.Typographer', 'Utilities.Maintenance').section('section', 'Report: Classes')}")
     print()
-    for class_, class_list in registry.report('functions').items():
-        print(f"{class_}")
-        for class__ in class_list:
-            print(f"  {class__}")
-        print()
-    print(f"{invoke('.Typographer', 'Utilities.Maintenance').section('section', 'Initalize Registry -> project_files')}")
+    for classes, class_list in registry.report('classes').items():
+        prefix = ''
+        preferredWidth = 80
+        print(f"{classes}")
+        for classes in class_list:
+            postfix = ' ' * (len(str(classes).split('[')[0]) + len(str(prefix))) + '  '
+            wrapper = TextWrapper(initial_indent=prefix, width=preferredWidth,
+                subsequent_indent=postfix)
+            message = classes
+            print(wrapper.fill(message))
+    print()
+
+    # Section -> Report: Project Files
+    print(f"{invoke('.Typographer', 'Utilities.Maintenance').section('section', 'Report: project_files')}")
     print()
     print(f"project_files:")
     for files in registry.report('files'):
         print(f"  {files}")
     print()
-    print(f"{invoke('.Typographer', 'Utilities.Maintenance').section('section', 'Initalize Registry -> directories')}")
+
+    # Section -> Report: Project Directories
+    print(f"{invoke('.Typographer', 'Utilities.Maintenance').section('section', 'Report: directories')}")
     print()
     print(f"project_files:")
     for directories in registry.report('directories'):
         print(f"  {directories}")
     print()
-    print(f"{invoke('.Typographer', 'Utilities.Maintenance').section('section', 'Initalize Registry -> sysPath')}")
+
+    # Section -> Report: sysPath
+    print(f"{invoke('.Typographer', 'Utilities.Maintenance').section('section', 'Report: sysPath')}")
     print()
     print(f"sysPath:")
     for paths in registry.report('sysPath'):
         print(f"  {paths}")
     print()
+
+    # Section -> Test: Colors
     print(f"{invoke('.Typographer', 'Utilities.Maintenance').section('section', 'Tests & Checks')}\n")
-    print(f"None\n")
+    print(f"Color\n")
+    #invoke('.Compositor', 'Utilities.Maintenance').print_format_table()
+    invoke('.Compositor', 'Utilities.Maintenance').tcolor()
+
+    # Section -> Footer:  Salutation
     print(f"{invoke('.Typographer', 'Utilities.Maintenance').section('section', 'End')}")
 
+    # Section -> Test:
     #print(f"{invoke('.Typographer', 'Utilities.Maintenance').section('section')}\n")
     #print(f"{invoke('.Typographer', 'Utilities.Maintenance').section('section')}\n")
+
+    # Section -> Footer: Closing
     print(f"{invoke('.Typographer', 'Utilities.Maintenance').section('footer')}\n")

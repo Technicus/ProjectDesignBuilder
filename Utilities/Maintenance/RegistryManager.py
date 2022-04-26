@@ -84,20 +84,73 @@ class Registry:
                     path_head = path_discovery.split(path_tail, 1)
                     project_directories.append("." + path_head[1])
                     # project_directories.append(path_head[1])
+        # Find all project functions.
+        project_functions = {}
+        for files in project_files:
+            if '.py' in files:
+                with open(files, 'r') as project_file:
+                    files = files.split("/")[-1]
+                    if 'def' in project_file.read():
+                        project_functions[files] = []
+                        project_file.seek(0)
+                        lines = project_file.readlines()
+                        for line_number in range(0, len(lines)):
+                            current_line = lines[line_number] #.replace(':\n', '')
+                            if current_line.startswith("def "):
+                                finished = False
+                                next_line = 0
+                                while finished == False:
+                                    next_line += 1
+                                    if current_line.endswith("(\n"):
+                                        current_line = current_line.replace('\n', '') + lines[line_number + next_line].lstrip()
+                                    if current_line.endswith(",\n"):
+                                        current_line = current_line.replace('\n', '') + lines[line_number + next_line].lstrip()
+                                    if current_line.endswith(":\n"):
+                                        current_line = current_line.replace(':\n', '')
+                                        finished = True
+                                current_line = current_line.replace('def ', '')
+                                function_call = str(f"  ({line_number}:{len(lines)})[ {current_line} ]")
+                                project_functions[files].append(function_call)
+        # Find all project classes.
+        project_classes = {}
+        for files in project_files:
+            if '.py' in files:
+                with open(files, 'r') as project_file:
+                    files = files.split("/")[-1]
+                    if 'class ' in project_file.read():
+                        project_classes[files] = []
+                        project_file.seek(0)
+                        lines = project_file.readlines()
+                        for line_number in range(0, len(lines)):
+                            current_line = lines[line_number] #.replace(':\n', '')
+                            if current_line.startswith("class "):
+                                finished = False
+                                next_line = 0
+                                while finished == False:
+                                    next_line += 1
+                                    if current_line.endswith("(\n"):
+                                        current_line = current_line.replace('\n', '') + lines[line_number + next_line].lstrip()
+                                    if current_line.endswith(",\n"):
+                                        current_line = current_line.replace('\n', '') + lines[line_number + next_line].lstrip()
+                                    if current_line.endswith(":\n"):
+                                        current_line = current_line.replace(':\n', '')
+                                        finished = True
+                                current_line = current_line.replace('class ', '')
+                                class_call = str(f"  ({line_number}:{len(lines)})[ {current_line} ]")
+                                project_classes[files].append(class_call)
         self.registry = {}
         self.registry = {
             'project_root': [work_root],
             'project_directories': project_directories,
             'project_files': project_files,
+            'project_functions': project_functions,
+            'project_classes': project_classes,
         }
-        self.registry['functions'] = self.functions()
-        self.registry['classes'] = self.classes()
         self.set_sysPath()
-        #self.classes()
-        #self.functions = self.functions()
         # Generate registry cache files.
         self.report_cache_files()
         self.report_cache_files_appended()
+
 
     def report(self, summary='complete'):
         '''Return a specified report'''
@@ -110,9 +163,9 @@ class Registry:
         if summary == 'sysPath':
             return sysPath
         if summary == 'functions':
-            return self.registry.get('functions')
+            return self.registry.get('project_functions')
         if summary == 'classes':
-            return self.registry.get('classes')
+            return self.registry.get('project_classes')
         if summary == 'complete':
             return self.registry, sysPath
 
@@ -136,7 +189,9 @@ class Registry:
             'registry': './Utilities/Data/Cache/Registry.complete_summary.cache',
         }
         # The report_summaries will be sent as arguments to the report method.
-        report_summaries = ['path', 'files', 'directories', 'sysPath']# 'functions", "classes"]
+        #report_summaries = ['files', 'path', 'directories', 'sysPath', 'functions', 'classes', 'summary']
+        #report_summaries = ['files', 'path', 'directories', 'sysPath', 'functions', 'classes']
+        report_summaries = ['files', 'path', 'directories', 'sysPath']
         registry_cache = []
         summary = 0
         # Itirate through the dictionary and on each itiration call the report.
@@ -150,11 +205,12 @@ class Registry:
 
         cache_files = [
             'project_root',
+            'project_sysPath',
             'project_directories',
             'project_files',
-            'project_sysPath',
             #'project_functions',
-            #'classes',
+            #'project_classes',
+            #'registry'
         ]
         # Now append all the files into a complete summary cache file.
         with open(registry_cache_file['registry'], 'w') as complete_summary_report:
@@ -185,6 +241,7 @@ class Registry:
         cache_files = [
             'project_functions',
             'project_classes',
+            #'registry'
         ]
         # Now append all the function and class files to the complete summary cache file.
         with open(registry_cache_file['registry'], 'a') as complete_summary_report:
@@ -296,64 +353,3 @@ class Registry:
                     sysPath_cache.write(str(path + "\n"))
             # Next ... implement some kind of update mechanism for appending new
             # paths to sysPath.
-
-    def functions(self):
-        function_register = {}
-        for search in self.search('.py'):
-            with open(search, 'r') as project_file:
-                search = search.split("/")[-1]
-                if 'def' in project_file.read():
-                    function_register[search] = []
-                    project_file.seek(0)
-                    lines = project_file.readlines()
-                    for line_number in range(0, len(lines)):
-                        current_line = lines[line_number] #.replace(':\n', '')
-                        if current_line.startswith("def "):
-                            finished = False
-                            next_line = 0
-                            while finished == False:
-                                next_line += 1
-                                if current_line.endswith("(\n"):
-                                    current_line = current_line.replace('\n', '') + lines[line_number + next_line].lstrip()
-                                if current_line.endswith(",\n"):
-                                    current_line = current_line.replace('\n', '') + lines[line_number + next_line].lstrip()
-                                if current_line.endswith(":\n"):
-                                    current_line = current_line.replace(':\n', '')
-                                    finished = True
-                            current_line = current_line.replace('def ', '')
-                            function_call = str(f"  ({line_number}:{len(lines)})[ {current_line} ]")
-                            function_register[search].append(function_call)
-        return dict(function_register)
-
-    def classes(self):
-        classes_register = {}
-        for search in self.search('.py'):
-            with open(search, 'r') as project_file:
-                search = search.split("/")[-1]
-                if 'class' in project_file.read():
-                    classes_register[search] = []
-                    project_file.seek(0)
-                    lines = project_file.readlines()
-                    for line_number in range(0, len(lines)):
-                        current_line = lines[line_number] #.replace(':\n', '')
-                        if current_line.startswith("class "):
-                            finished = False
-                            next_line = 0
-                            while finished == False:
-                                next_line += 1
-                                if current_line.endswith("(\n"):
-                                    current_line = current_line.replace('\n', '') + lines[line_number + next_line].lstrip()
-                                if current_line.endswith(",\n"):
-                                    current_line = current_line.replace('\n', '') + lines[line_number + next_line].lstrip()
-                                if current_line.endswith(":\n"):
-                                    current_line = current_line.replace(':\n', '')
-                                    finished = True
-                            current_line = current_line.replace('class ', '')
-                            class_call = str(f"  ({line_number}:{len(lines)})[ {current_line} ]")
-                            classes_register[search].append(class_call)
-        return dict(classes_register)
-
-#def make_dictionary(dictionary = None):
-    #registry = Registry()
-    #print(registry.functions())
-    #return registry.functions()
