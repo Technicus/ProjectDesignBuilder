@@ -110,9 +110,10 @@ def assitant():
 
     # Section -> Test: Colors
     print(f"{invoke('.Typographer', 'Utilities.Maintenance').section('section', 'Tests & Checks')}\n")
-    print(f"Color\n")
+    print(f"Color")
     #invoke('.Compositor', 'Utilities.Maintenance').print_format_table()
     invoke('.Compositor', 'Utilities.Maintenance').tcolor()
+    print()
 
     # Section -> Footer:  Salutation
     print(f"{invoke('.Typographer', 'Utilities.Maintenance').section('section', 'End')}")
