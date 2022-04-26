@@ -6,7 +6,8 @@ from inspect import currentframe, stack
 from os import system
 from importlib import import_module as invoke
 #from inspect import currentframe  # , getframeinfo, trace
-
+#from colorama import Fore, Back, Style
+#from termcolor import colored, cprint
 
 project_name = invoke('ProjectDesignBuilder', '').project_name
 __version__ = invoke('ProjectDesignBuilder', '').__version__
@@ -19,28 +20,40 @@ def clear():
     _ = system("clear")
 
 
-def headding_section(marker = None, title = None):
+def headding_section(marker = None, title = None, subtitle = None):
     """This funciton returns a section for printing to console or adding
     to logs to seperate process for improving readability.  It also
     provides some process information.  This can be improved with more
     development of process_inspection()."""
+
+    terminal_size = get_terminal_size()
     if marker is None:
         marker = '═'
         #headding_prefix = '\n='
-        headding_prefix = marker
-        line_difference = 2
+        headding_prefix = f"╞{marker}"
+        headding_suffix = f"{marker}╡"
+        line_difference = 4
     else:
         #headding_prefix = '\n--'
-        headding_prefix = marker * 2
-        line_difference = 3
-    terminal_size = get_terminal_size()
-    if title == None:
-        working_file = __file__.split('/')
+        headding_prefix = f"├{marker * 1}"
+        headding_suffix = f"{marker * 1}┤"
+        line_difference = 4
+    if title is None:
+        #working_file = __file__.split('/')
         #title = f"┤ {working_file} ├┤{str(currentframe().f_back.f_lineno)} ├"
-        title = f"[ {working_file} ] : {str(currentframe().f_back.f_lineno)} ]"
+        #title = f"[ {working_file} ] : {str(currentframe().f_back.f_lineno)} ]"
                 #len(working_file[-1]) - 11 )
-    marker = marker * (terminal_size.columns - len(title) - line_difference)
-    section = f"{headding_prefix}{title} {marker}"
+        title = ''
+    else:
+        title = f"[ {title} ]"
+    if subtitle is None:
+        subtitle = ''
+    else:
+        subtitle = f"( {subtitle} )"
+
+        #marker = marker * (terminal_size.columns - len(title) - len(subtitle) - line_difference)
+    long_marker = marker * (terminal_size.columns - len(title) - len(subtitle) - line_difference)
+    section = f"{headding_prefix}{title}{long_marker}{subtitle}{headding_suffix}"
     return section
 
 
@@ -54,7 +67,6 @@ def check_string(string, substring_list):
 def check_list(super_string_list = None, sub_string_list = None):
     if any(sub_string_list in super_string_list):
         pass
-
     else:
         pass
 
@@ -91,7 +103,7 @@ def pathto_dict(path_):
         return tree
 
 
-def section(headder="section", title = None):
+def section(headder="section", title = None, subtitle = None, trace_frame = False):
 
     #frame = inspect.stack()[1]
     #module = inspect.getmodule(frame[0])
@@ -105,28 +117,23 @@ def section(headder="section", title = None):
     call_function = stack()[1][3]
     call_line_txt = stack()[1][4]
 
-    #calling_file = str(__file__.split("/")[-1])
-    #title = f"[ {calling_file} : {str(currentframe().f_back.f_lineno)} ]"
-    #title = f"[ {calling_file} : {call_function} : {str(currentframe().f_back.f_lineno)} ]"
-    title_info = f"[ {calling_file} : {call_function} : {call_line_no} ] ( {title} )"
-    project_time = invoke(".Administrator", "Administration.Directors").time_code()
-    #project_time = time_code()
-#═
+    if trace_frame:
+        #subtitle = f"[ {calling_file} : {call_function} : {call_line_no} ] ( {title} )"
+        #project_time = invoke(".Administrator", "Administration.Directors").time_code()
+        #title = f"[ {project_name}, {__release__}/{__version__} ] :: ( {project_time} )"
+        subtitle = f"{calling_file} : {call_function} : {call_line_no}"
+    #if subtitle == None:
+        #subtitle = ''
+
     if headder == "headder":
-        title_info = f"[ {project_name}, {__release__}/{__version__} ] :: ( {project_time} ) :: < Enter >"
-        #return invoke(".Typographer", "Utilities.Maintenance").headding_section(
         return headding_section(
-            marker=None, title=title_info
+            marker=None, title=title, subtitle = subtitle
         )
     if headder == "footer":
-        title_info = f"[ {project_name}, {__release__}/{__version__} ] :: ( {project_time} ) :: < Exit >"
-        #return invoke(".Typographer", "Utilities.Maintenance").headding_section(
         return headding_section(
-            marker=None, title=title_info
+            marker=None, title=title, subtitle = subtitle
         )
     if headder == "section":
-        #return invoke(".Typographer", "Utilities.Maintenance").headding_section(
         return headding_section(
-            marker="─", title=title_info
-            #marker="-", title=title_info
+            marker="─", title=title, subtitle = subtitle
         )

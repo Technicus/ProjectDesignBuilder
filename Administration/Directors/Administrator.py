@@ -9,13 +9,17 @@ from sys import argv
 from datetime import datetime
 from pprint import pprint, pformat
 from textwrap import TextWrapper
-
+from colorama import Fore, Back, Style
+from termcolor import colored, cprint
 # from inspect import currentframe, getframeinfo, trace
 # from ast import literal_eval
 # from linecache import getline
 from importlib import import_module as invoke
 from inspect import currentframe  # , getframeinfo, trace
 
+project_name = invoke('ProjectDesignBuilder', '').project_name
+__version__ = invoke('ProjectDesignBuilder', '').__version__
+__release__ = invoke('ProjectDesignBuilder', '').__release__
 
 def time_code():
     """Return of current date and time."""
@@ -33,11 +37,14 @@ def assitant():
     invoke(".Typographer", "Utilities.Maintenance").clear()
     invoke(".UtilityManager", "Utilities.Maintenance").set_project_directory()
 
+    headder_title = f"[ {project_name}, {__release__}/{__version__} ] :: ( {time_code()} )"
+    footer_title = f"[ {project_name}, {__release__}/{__version__} ] :: ( {time_code()} )"
+
     # Headder -> Introduction.
-    print(f"{invoke('.Typographer', 'Utilities.Maintenance').section('headder')}")
+    cprint(f"{invoke('.Typographer', 'Utilities.Maintenance').section('headder', headder_title, 'Start')}", 'green')
 
     # Section -> Report: arguments.
-    print(f"{invoke('.Typographer', 'Utilities.Maintenance').section('section', 'Report: Arguments')}")
+    print(f"{invoke('.Typographer', 'Utilities.Maintenance').section('section', title = 'Report: Arguments', trace_frame = True)}")
     print(f"\nargv:\n  {argv}\n")
 
     # Section -> Report: Current Working Directory
@@ -59,14 +66,12 @@ def assitant():
         prefix = ''
         preferredWidth = 80
         print(f"{module}")
-        for function_call in function_list:
-            #postfix = ' ' * (len(str(function_call).split('[')[0]) + len(str(prefix))) + '  '
-            #wrapper = TextWrapper(initial_indent=prefix, width=preferredWidth,
-                #subsequent_indent=postfix)
-            ##pprint(function_call, width = 79)
+        for function_call, arguments in function_list.items():
             print(f"  {function_call}")
-            #message = function_call
-            #print(wrapper.fill(message))
+            for argument_list in list(arguments):
+                if len(argument_list[0]) > 1:
+                    for argument in argument_list:
+                        print(f"    {argument}")
         print()
 
     # Section -> Report: Classes
@@ -115,27 +120,14 @@ def assitant():
     invoke('.Compositor', 'Utilities.Maintenance').tcolor()
     print()
 
-    for module, function_list in registry.report('functions').items():
-        prefix = ''
-        preferredWidth = 80
-        print(f"{module}")
-        for function_call, arguments in function_list.items():
-            print(f"  {function_call}")
-            for argument_list in list(arguments):
-                if len(argument_list[0]) > 1:
-                #print(f"    {type(argument)}")
-                    for argument in argument_list:
-                        print(f"    {argument}")
-                        #print(f"\n{''.join(argument)}")
-            #for argument, parameters in function_call.items():
-        print()
+
 
     # Section -> Footer:  Salutation
-    print(f"{invoke('.Typographer', 'Utilities.Maintenance').section('section', 'End')}")
+    print(f"{invoke('.Typographer', 'Utilities.Maintenance').section('section')}")
 
     # Section -> Test:
     #print(f"{invoke('.Typographer', 'Utilities.Maintenance').section('section')}\n")
     #print(f"{invoke('.Typographer', 'Utilities.Maintenance').section('section')}\n")
 
     # Section -> Footer: Closing
-    print(f"{invoke('.Typographer', 'Utilities.Maintenance').section('footer')}\n")
+    print(f"{invoke('.Typographer', 'Utilities.Maintenance').section('footer', footer_title, 'End')}\n")
