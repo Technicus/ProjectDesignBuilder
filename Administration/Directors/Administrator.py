@@ -60,20 +60,20 @@ def assitant():
         preferredWidth = 80
         print(f"{module}")
         for function_call in function_list:
-            postfix = ' ' * (len(str(function_call).split('[')[0]) + len(str(prefix))) + '  '
-            wrapper = TextWrapper(initial_indent=prefix, width=preferredWidth,
-                subsequent_indent=postfix)
-            #pprint(function_call, width = 79)
-            #print(f"  {function_call}")
-            message = function_call
-            print(wrapper.fill(message))
+            #postfix = ' ' * (len(str(function_call).split('[')[0]) + len(str(prefix))) + '  '
+            #wrapper = TextWrapper(initial_indent=prefix, width=preferredWidth,
+                #subsequent_indent=postfix)
+            ##pprint(function_call, width = 79)
+            print(f"  {function_call}")
+            #message = function_call
+            #print(wrapper.fill(message))
         print()
 
     # Section -> Report: Classes
     print(f"{invoke('.Typographer', 'Utilities.Maintenance').section('section', 'Report: Classes')}")
     print()
     for classes, class_list in registry.report('classes').items():
-        prefix = ''
+        prefix = '  '
         preferredWidth = 80
         print(f"{classes}")
         for classes in class_list:
@@ -114,6 +114,21 @@ def assitant():
     #invoke('.Compositor', 'Utilities.Maintenance').print_format_table()
     invoke('.Compositor', 'Utilities.Maintenance').tcolor()
     print()
+
+    for module, function_list in registry.report('functions').items():
+        prefix = ''
+        preferredWidth = 80
+        print(f"{module}")
+        for function_call, arguments in function_list.items():
+            print(f"  {function_call}")
+            for argument_list in list(arguments):
+                if len(argument_list[0]) > 1:
+                #print(f"    {type(argument)}")
+                    for argument in argument_list:
+                        print(f"    {argument}")
+                        #print(f"\n{''.join(argument)}")
+            #for argument, parameters in function_call.items():
+        print()
 
     # Section -> Footer:  Salutation
     print(f"{invoke('.Typographer', 'Utilities.Maintenance').section('section', 'End')}")

@@ -91,7 +91,7 @@ class Registry:
                 with open(files, 'r') as project_file:
                     files = files.split("/")[-1]
                     if 'def' in project_file.read():
-                        project_functions[files] = []
+                        project_functions[files] = {}
                         project_file.seek(0)
                         lines = project_file.readlines()
                         for line_number in range(0, len(lines)):
@@ -101,16 +101,33 @@ class Registry:
                                 next_line = 0
                                 while finished == False:
                                     next_line += 1
+                                    # There is a problem here if arguments start on next line.
+                                    # Review the results of initalize(), it duplicates a result.
+                                    # The script can get stuck here if it does not check twice.
+                                    # Also a ' ' seperator needs to be inserted after the
+                                    # indentation is stripped.
                                     if current_line.endswith("(\n"):
                                         current_line = current_line.replace('\n', '') + lines[line_number + next_line].lstrip()
                                     if current_line.endswith(",\n"):
-                                        current_line = current_line.replace('\n', '') + lines[line_number + next_line].lstrip()
+                                        current_line = current_line.replace('\n', ' ') + lines[line_number + next_line].lstrip()
                                     if current_line.endswith(":\n"):
                                         current_line = current_line.replace(':\n', '')
                                         finished = True
                                 current_line = current_line.replace('def ', '')
-                                function_call = str(f"  ({line_number}:{len(lines)})[ {current_line} ]")
-                                project_functions[files].append(function_call)
+                                function_with_arguments = current_line
+                                function = function_with_arguments.split('(')[0] + '()'
+                                function_arguments = function_with_arguments[:-1]
+                                function_arguments = function_arguments.split(function[-2])
+                                function_arguments = function_arguments[1:]
+                                function_arguments_parsed = []
+                                # This is where the parsing igets messed up
+                                # the argument parsing needs to be more robust
+                                # If the argument decleration is a list with a comma and it
+                                # will not parse correctly because the parser looks for a comma.
+                                arguments = str(function_arguments).split(', ')
+                                for argument in arguments:
+                                    function_arguments_parsed.append(argument)
+                                project_functions[files][function] = [function_arguments_parsed]
         # Find all project classes.
         project_classes = {}
         for files in project_files:
@@ -136,7 +153,7 @@ class Registry:
                                         current_line = current_line.replace(':\n', '')
                                         finished = True
                                 current_line = current_line.replace('class ', '')
-                                class_call = str(f"  ({line_number}:{len(lines)})[ {current_line} ]")
+                                class_call = str(f"{current_line}")
                                 project_classes[files].append(class_call)
         self.registry = {}
         self.registry = {

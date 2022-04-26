@@ -20,7 +20,7 @@ __release__ = invoke("ProjectDesignBuilder", "").__release__
 
 
 def initalize(
-        project_path = invoke('.UtilityManager', 'Utilities.Maintenance').set_project_directory(),
+        project_path = None,
         directory_omit = ['.git', '__', 'html'],
         file_register_types = ['.md', '.py', '.rst', '.html', '.log', '.ini']):
     """Set initial state of project start conditions.
@@ -33,6 +33,9 @@ def initalize(
     # Find the file then distill it down to the relative path from projec path.
     # with that then call it with the import module.  Perhaps it would be
     # more direct if that was part of the search function.
+
+    if project_path == None:
+        project_path = invoke('.UtilityManager', 'Utilities.Maintenance').set_project_directory()
 
     #registry_manager_path = find_file(project_path, 'RegistryManager.py', True)
     #print(f">>registry_manager_path\n  {registry_manager_path}\n")
