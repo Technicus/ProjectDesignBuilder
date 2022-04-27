@@ -16,6 +16,7 @@ from termcolor import colored, cprint
 # from linecache import getline
 from importlib import import_module as invoke
 from inspect import currentframe  # , getframeinfo, trace
+from pathlib import Path as libPath
 
 project_name = invoke('ProjectDesignBuilder', '').project_name
 __version__ = invoke('ProjectDesignBuilder', '').__version__
@@ -27,6 +28,42 @@ def time_code():
     # timeCode = updateTime.strftime("%Y%m%d%H%M%S")
     time_code = update_time.strftime("%Y-%m-%d-%H-%M-%S-%f")
     return time_code
+
+
+import importlib.util
+import sys
+
+#def courier(module = None, function= None):
+    #"""An approximate implementation of import."""
+    #absolute_name = importlib.util.resolve_name(name, package)
+    #try:
+        #return sys.modules[absolute_name]
+    #except KeyError:
+        #pass
+
+
+def courier(registry = None, module = None, function= None, arguments = None):
+    filepath = sorted(libPath('.').glob('**/' + module))
+    module = str(filepath).split('\'')[1]
+    module_name = f".{module.rsplit('/', 1)[1].strip('.py').replace('/', '.')}"#.{function}"
+    module_path = module.rsplit('/', 1)[0].replace('/', '.')
+    module = invoke(module_name, module_path)
+    return getattr(module, function)(arguments)
+    #return getattr(module, function)
+    #module_name = f".{module.rsplit('/', 1)[1].strip('.py').replace('/', '.')}.{function}"
+    #print(f"{module}")
+    #print(f"{module_name}")
+    #print(f"{module_path}")
+    #__import__
+    #getattr(module, function)
+    #method = getattr(__import__(module, module_path), function)
+
+#This is equivalent to "from a.b.myfile import my_method"
+#the_module = importlib.import_module("a.b.myfile")
+#same_module = __import__("a.b.myfile")
+#import_module() and __input__() only return modules
+#my_method = getattr(the_module, "my_method")
+
 
 
 def assitant():
@@ -128,6 +165,16 @@ def assitant():
     # Section -> Test:
     #print(f"{invoke('.Typographer', 'Utilities.Maintenance').section('section')}\n")
     #print(f"{invoke('.Typographer', 'Utilities.Maintenance').section('section')}\n")
+    test = 'test'
+    #section = courier(module = 'Typographer.py', function = 'section', arguments = 'section')('section')
+    #courier(module = 'Typographer.py')
+    #print(f"{courier(module = 'Typographer.py', function = 'section', arguments = 'section')('section')}")
+    section = courier(module = 'Typographer.py', function = 'section', arguments = 'section')
+    print(f"{section}")
+    print(f"{test}")
+    print(f"{courier(module = 'Typographer.py', function = 'section', arguments = 'section')}")
+    #print(f"{section}")('section')
+    print(f"{section}")
 
     # Section -> Footer: Closing
     print(f"{invoke('.Typographer', 'Utilities.Maintenance').section('footer', footer_title, 'End')}\n")
