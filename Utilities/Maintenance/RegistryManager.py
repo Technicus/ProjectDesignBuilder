@@ -158,7 +158,7 @@ class Registry:
                                 project_classes[files].append(class_call)
         self.registry = {}
         self.registry = {
-            'project_root': project_root,
+            'project_root': [project_root],
             'project_directories': project_directories,
             'project_files': project_files,
             'project_functions': project_functions,
