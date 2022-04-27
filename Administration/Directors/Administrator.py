@@ -19,6 +19,7 @@ from pprint import pprint, pformat
 from textwrap import TextWrapper
 from colorama import Fore, Back, Style
 from termcolor import colored, cprint
+from ast import literal_eval
 
 
 project_name = invoke('ProjectDesignBuilder', '').project_name
@@ -39,12 +40,23 @@ def courier(module = None, function= None, arguments = None, directives = None,
     """courier() will seek methods and classes in the project to dynamically
     facilitate transactions between functions.  It will search for modules,
     exchange arguments and returns then report to the assistant."""
+    #from ast import literal_eval
+    #params = "{'a': 2, 'b': 3}"
+    #func(**literal_eval(params))
+    #argument_eval = dict(argument.split('=') for argument in list(arguments.split(', ')))
+    # >>> args = dict(e.split('=') for e in x.split(', '))
+    # f (**args)
     filepath = sorted(libPath('.').glob('**/' + module + '.py'))
     module = str(filepath).split('\'')[1]
     module_name = f".{module.rsplit('/', 1)[1].strip('.py').replace('/', '.')}"
     module_path = module.rsplit('/', 1)[0].replace('/', '.')
     module = invoke(module_name, module_path)
-    return getattr(module, function)(arguments)
+    "headder = 'section', title = 'Report: Functions :: TEST', subtitle = None, trace_frame = True"
+    #return getattr(module, function)(**argument_eval)
+    if arguments == None:
+        return getattr(module, function)()
+    else:
+        return getattr(module, function)(**literal_eval(arguments))
 
 
 def assitant():
@@ -115,47 +127,32 @@ def assitant():
     print()
 
     # Section -> Test: Colors
-    print(f"{invoke('.Typographer', 'Utilities.Maintenance').section('section', 'Tests & Checks', trace_frame = True)}\n")
+    section_report_tests_checks = courier('Typographer', 'section', "{'title' : 'Tests & Checks', 'trace_frame' : 'True'}")
+    print(f"{section_report_tests_checks}")
     print(f"  Color")
-    #invoke('.Compositor', 'Utilities.Maintenance').print_format_table()
+    courier('Compositor', 'color_chart_256')
     invoke('.Compositor', 'Utilities.Maintenance').color_chart_256()
     print()
 
     # Section -> Report:Functions
-    print(f"\n{invoke('.Typographer', 'Utilities.Maintenance').section('section', 'Report: Functions', trace_frame = True)}")
+    #print(f"\n{invoke('.Typographer', 'Utilities.Maintenance').section('section', 'Report: Functions', trace_frame = True)}")
+    section_report_functions = courier('Typographer', 'section', "{'title' : 'Report: Functions', 'trace_frame' : 'True'}")
+    print(f"{section_report_functions}")
     print()
-    #print(f"*****TYPE : registry.report('functions') = {type(registry.report('functions'))}")
-    #pprint(registry.report('functions'))
     for module, function_list in registry.report('functions').items():
         prefix = ''
         preferredWidth =  80
         print(f"{module}")
         for function_call, arguments in function_list.items():
             print(f"  {function_call}")
-            #print(f"    {str(arguments)}")
             for argument in list(arguments):
                 print(f"    {argument}")
-                #if len(argument[0]) > 0:
-                    ##for argument in argument_list:
-                    #print(f"    {argument}")
         print()
 
     # Section -> Footer:  Salutation
-    print(f"{invoke('.Typographer', 'Utilities.Maintenance').section('section')}")
-
-    # Section -> Test:
-    #print(f"{invoke('.Typographer', 'Utilities.Maintenance').section('section')}\n")
-    #print(f"{invoke('.Typographer', 'Utilities.Maintenance').section('section')}\n")
-    test = 'test'
-    #section = courier(module = 'Typographer.py', function = 'section', arguments = 'section')('section')
-    #courier(module = 'Typographer.py')
-    #print(f"{courier(module = 'Typographer.py', function = 'section', arguments = 'section')('section')}")
-    section = courier(module = 'Typographer', function = 'section', arguments = 'section')
-    print(f"{section}")
-    print(f"{test}")
-    print(f"{courier(module = 'Typographer', function = 'section', arguments = 'section')}")
-    #print(f"{section}")('section')
-    print(f"{section}")
-
+    line_test = courier(module = 'Typographer',function = 'section', arguments = "{'subtitle' : 'TEST'}")
+    print(f"{line_test}")
+    print(f"Test here!!!")
+    print(f"{line_test}")
     # Section -> Footer: Closing
     print(f"{invoke('.Typographer', 'Utilities.Maintenance').section('footer', footer_title, 'End')}\n")

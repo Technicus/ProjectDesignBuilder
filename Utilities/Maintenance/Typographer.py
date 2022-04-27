@@ -9,11 +9,6 @@ from importlib import import_module as invoke
 #from colorama import Fore, Back, Style
 #from termcolor import colored, cprint
 
-project_name = invoke('ProjectDesignBuilder', '').project_name
-__version__ = invoke('ProjectDesignBuilder', '').__version__
-__release__ = invoke('ProjectDesignBuilder', '').__release__
-indent = ['', '  ', '    ', '        ']
-
 
 def clear():
     """This function only has support to clear the screen for Linux of Mac."""
@@ -103,7 +98,7 @@ def pathto_dict(path_):
         return tree
 
 
-def section(headder="section", title = None, subtitle = None, trace_frame = False):
+def section(headder='section', title = None, subtitle = None, trace_frame = False):
 
     #frame = inspect.stack()[1]
     #module = inspect.getmodule(frame[0])
