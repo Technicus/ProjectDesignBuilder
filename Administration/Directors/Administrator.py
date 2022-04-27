@@ -37,8 +37,8 @@ def assitant():
     invoke(".Typographer", "Utilities.Maintenance").clear()
     invoke(".UtilityManager", "Utilities.Maintenance").set_project_directory()
 
-    headder_title = f"[ {project_name}, {__release__}/{__version__} ] :: ( {time_code()} )"
-    footer_title = f"[ {project_name}, {__release__}/{__version__} ] :: ( {time_code()} )"
+    headder_title = f"{project_name}, {__release__}/{__version__} :: {time_code()}"
+    footer_title = f"{project_name}, {__release__}/{__version__} :: {time_code()}"
 
     # Headder -> Introduction.
     cprint(f"{invoke('.Typographer', 'Utilities.Maintenance').section('headder', headder_title, 'Start')}", 'green')
@@ -48,34 +48,17 @@ def assitant():
     print(f"\nargv:\n  {argv}\n")
 
     # Section -> Report: Current Working Directory
-    print(f"{invoke('.Typographer', 'Utilities.Maintenance').section('section', 'Report: Current Working Directory')}\n")
+    print(f"{invoke('.Typographer', 'Utilities.Maintenance').section('section', 'Report: Current Working Directory', trace_frame = True)}\n")
     print(f"getcwd():\n  {getcwd()}\n")
 
     # Section -> Report: Initalize Registry
-    print(f"{invoke('.Typographer', 'Utilities.Maintenance').section('section', 'Report: Initalize Registry')}\n")
+    print(f"{invoke('.Typographer', 'Utilities.Maintenance').section('section', 'Report: Initalize Registry', trace_frame = True)}\n")
     # call initialization manager
     #print(f"initalize() registry")
     registry = invoke('.InitializationManager', 'Utilities.Maintenance').initalize()
 
-    # Section -> Report:Functions
-    print(f"\n{invoke('.Typographer', 'Utilities.Maintenance').section('section', 'Report: Functions')}")
-    print()
-    #print(f"*****TYPE : registry.report('functions') = {type(registry.report('functions'))}")
-    #pprint(registry.report('functions'))
-    for module, function_list in registry.report('functions').items():
-        prefix = ''
-        preferredWidth =  80
-        print(f"{module}")
-        for function_call, arguments in function_list.items():
-            print(f"  {function_call}")
-            for argument_list in list(arguments):
-                if len(argument_list[0]) > 1:
-                    for argument in argument_list:
-                        print(f"    {argument}")
-        print()
-
     # Section -> Report: Classes
-    print(f"{invoke('.Typographer', 'Utilities.Maintenance').section('section', 'Report: Classes')}")
+    print(f"{invoke('.Typographer', 'Utilities.Maintenance').section('section', 'Report: Classes', trace_frame = True)}")
     print()
     for classes, class_list in registry.report('classes').items():
         prefix = '  '
@@ -90,7 +73,7 @@ def assitant():
     print()
 
     # Section -> Report: Project Files
-    print(f"{invoke('.Typographer', 'Utilities.Maintenance').section('section', 'Report: project_files')}")
+    print(f"{invoke('.Typographer', 'Utilities.Maintenance').section('section', 'Report: project_files', trace_frame = True)}")
     print()
     print(f"project_files:")
     for files in registry.report('files'):
@@ -98,15 +81,15 @@ def assitant():
     print()
 
     # Section -> Report: Project Directories
-    print(f"{invoke('.Typographer', 'Utilities.Maintenance').section('section', 'Report: directories')}")
+    print(f"{invoke('.Typographer', 'Utilities.Maintenance').section('section', 'Report: directories', trace_frame = True)}")
     print()
-    print(f"project_files:")
+    print(f"project_directories:")
     for directories in registry.report('directories'):
         print(f"  {directories}")
     print()
 
     # Section -> Report: sysPath
-    print(f"{invoke('.Typographer', 'Utilities.Maintenance').section('section', 'Report: sysPath')}")
+    print(f"{invoke('.Typographer', 'Utilities.Maintenance').section('section', 'Report: sysPath', trace_frame = True)}")
     print()
     print(f"sysPath:")
     for paths in registry.report('sysPath'):
@@ -114,13 +97,30 @@ def assitant():
     print()
 
     # Section -> Test: Colors
-    print(f"{invoke('.Typographer', 'Utilities.Maintenance').section('section', 'Tests & Checks')}\n")
-    print(f"Color")
+    print(f"{invoke('.Typographer', 'Utilities.Maintenance').section('section', 'Tests & Checks', trace_frame = True)}\n")
+    print(f"  Color")
     #invoke('.Compositor', 'Utilities.Maintenance').print_format_table()
-    invoke('.Compositor', 'Utilities.Maintenance').tcolor()
+    invoke('.Compositor', 'Utilities.Maintenance').color_chart_256()
     print()
 
-
+    # Section -> Report:Functions
+    print(f"\n{invoke('.Typographer', 'Utilities.Maintenance').section('section', 'Report: Functions', trace_frame = True)}")
+    print()
+    #print(f"*****TYPE : registry.report('functions') = {type(registry.report('functions'))}")
+    #pprint(registry.report('functions'))
+    for module, function_list in registry.report('functions').items():
+        prefix = ''
+        preferredWidth =  80
+        print(f"{module}")
+        for function_call, arguments in function_list.items():
+            print(f"  {function_call}")
+            #print(f"    {str(arguments)}")
+            for argument in list(arguments):
+                print(f"    {argument}")
+                #if len(argument[0]) > 0:
+                    ##for argument in argument_list:
+                    #print(f"    {argument}")
+        print()
 
     # Section -> Footer:  Salutation
     print(f"{invoke('.Typographer', 'Utilities.Maintenance').section('section')}")

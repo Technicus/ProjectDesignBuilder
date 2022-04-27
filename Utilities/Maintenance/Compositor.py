@@ -183,7 +183,7 @@ Style: DIM, NORMAL, BRIGHT, RESET_ALL
 
 
 #import sys
-def tcolor():
+def color_chart_256():
     #text = colored('Hello, World!', 'red', attrs=['reverse', 'blink'])
     #print(text)
     #cprint('Hello, World!', 'green', 'on_red')
@@ -203,7 +203,7 @@ def tcolor():
         }
     marks = ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X']
     #res = len(max(colorscheme['Fore'], key = len))
-    print(f"    ", end = '')
+    print(f"      ", end = '')
     print(f"{' ' * len(max(colorscheme['Fore'], key = len)) + ' '}", end = "")
     for color in colorscheme['Fore']:
         #append = ' ' * (11 - len(color))
@@ -217,6 +217,7 @@ def tcolor():
         count = 0
         append = ' ' * (10 - len(back_ground))
         #print(f"{back_ground}{append}", end = " ")
+        print(f"  ", end = '')
         cprint(f"{back_ground}{append}",'white', back_ground, attrs=['bold'], end = "  ")
         while count < len(colorscheme['Fore']):
             #for check in marks:

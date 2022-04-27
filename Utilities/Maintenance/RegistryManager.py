@@ -6,6 +6,9 @@ from os import path, getcwd, chdir, walk
 from os.path import relpath
 from sys import path as sysPath
 from importlib import import_module as invoke
+import re
+
+
 
 
 project_name = invoke('ProjectDesignBuilder', '').project_name
@@ -65,7 +68,8 @@ class Registry:
                         path_relation = path.relpath(subdir, project_directory)
                         path_relation = subdir.partition(project_directory)[1:]
                         work_dir = path.basename(project_directory)
-                        path_tail = path.basename(work_root)
+                        #path_tail = path.basename(work_root)
+                        path_tail = path.basename(project_directory)
                         path_head = path_discovery.split(path_tail, 1)
                         filez_path = "." + path_head[1]
                         # filez_path = path_head[1]
@@ -85,6 +89,7 @@ class Registry:
                     project_directories.append("." + path_head[1])
                     # project_directories.append(path_head[1])
         # Find all project functions.
+        regex = r"(\w+) = (\w+|\[[^\[\]]*\])"
         project_functions = {}
         for files in project_files:
             if '.py' in files:
@@ -95,39 +100,35 @@ class Registry:
                         project_file.seek(0)
                         lines = project_file.readlines()
                         for line_number in range(0, len(lines)):
-                            current_line = lines[line_number] #.replace(':\n', '')
-                            if current_line.startswith("def "):
-                                finished = False
-                                next_line = 0
-                                while finished == False:
-                                    next_line += 1
-                                    # There is a problem here if arguments start on next line.
-                                    # Review the results of initalize(), it duplicates a result.
-                                    # The script can get stuck here if it does not check twice.
-                                    # Also a ' ' seperator needs to be inserted after the
-                                    # indentation is stripped.
-                                    if current_line.endswith("(\n"):
-                                        current_line = current_line.replace('\n', '') + lines[line_number + next_line].lstrip()
-                                    if current_line.endswith(",\n"):
-                                        current_line = current_line.replace('\n', ' ') + lines[line_number + next_line].lstrip()
-                                    if current_line.endswith(":\n"):
-                                        current_line = current_line.replace(':\n', '')
-                                        finished = True
-                                current_line = current_line.replace('def ', '')
-                                function_with_arguments = current_line
-                                function = function_with_arguments.split('(')[0] + '()'
-                                function_arguments = function_with_arguments[:-1]
-                                function_arguments = function_arguments.split(function[-2])
-                                function_arguments = function_arguments[1:]
-                                function_arguments_parsed = []
-                                # This is where the parsing igets messed up
-                                # the argument parsing needs to be more robust
-                                # If the argument decleration is a list with a comma and it
-                                # will not parse correctly because the parser looks for a comma.
-                                arguments = str(function_arguments).split(', ')
-                                for argument in arguments:
-                                    function_arguments_parsed.append(argument)
-                                project_functions[files][function] = [function_arguments_parsed]
+                            #current_line = lines[line_number] #.replace(':\n', '')
+                            current_line = [] #.replace(':\n', '')
+                            #if current_line.startswith("def "):
+                            if lines[line_number].startswith("def ") and lines[line_number].endswith("(\n"):
+                                parsing_lines = True
+                                #next_line = 0
+                                # Remove the def keyword and formate function name.
+                                function_name = lines[line_number].replace('def ', '').split('(')[0] + '()'
+                                project_functions[files][function_name] = []
+                                while parsing_lines == True:
+                                    line_number += 1
+                                    if lines[line_number].endswith(",\n"):
+                                        current_line = lines[line_number].lstrip().replace(',\n', '')
+                                        project_functions[files][function_name].append(current_line)
+                                    if lines[line_number].endswith("):\n"):
+                                        current_line = lines[line_number].lstrip().replace('):\n', '')
+                                        project_functions[files][function_name].append(current_line)
+                                        parsing_lines = False
+                            if lines[line_number].startswith("def "):
+                                parsing_lines = True
+                                split_name = lines[line_number].replace('def ', '').split('(')[0] + '('
+                                function_name = lines[line_number].replace('def ', '').split('(')[0] + '()'
+                                project_functions[files][function_name] = []
+                                if lines[line_number].replace('def ', '').split(split_name)[1] == '):\n':
+                                    arguments = 'None'
+                                else:
+                                    #arguments = lines[line_number].replace('def ', '').split(split_name)[1][:-3].split(',')
+                                    arguments = lines[line_number].replace('def ', '').split(split_name)[1][:-3]
+                                project_functions[files][function_name].append(arguments)
         # Find all project classes.
         project_classes = {}
         for files in project_files:
@@ -157,7 +158,7 @@ class Registry:
                                 project_classes[files].append(class_call)
         self.registry = {}
         self.registry = {
-            'project_root': [work_root],
+            'project_root': project_root,
             'project_directories': project_directories,
             'project_files': project_files,
             'project_functions': project_functions,
