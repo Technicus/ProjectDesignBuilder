@@ -4,23 +4,27 @@
 
 
 # from __future__ import absolute_import
+# from ast import literal_eval
+# from linecache import getline
 from os import getcwd, path, chdir, mkdir, walk, get_terminal_size
 from sys import argv
+from pathlib import Path as libPath
+from importlib import import_module as invoke, util
+from inspect import currentframe  # , getframeinfo, trace
 from datetime import datetime
+# The following imports should be purged and all process that require them
+# should be migrated to either typographer or compositor.  They are currently
+# here only for development purposes.
 from pprint import pprint, pformat
 from textwrap import TextWrapper
 from colorama import Fore, Back, Style
 from termcolor import colored, cprint
-# from inspect import currentframe, getframeinfo, trace
-# from ast import literal_eval
-# from linecache import getline
-from importlib import import_module as invoke
-from inspect import currentframe  # , getframeinfo, trace
-from pathlib import Path as libPath
+
 
 project_name = invoke('ProjectDesignBuilder', '').project_name
 __version__ = invoke('ProjectDesignBuilder', '').__version__
 __release__ = invoke('ProjectDesignBuilder', '').__release__
+
 
 def time_code():
     """Return of current date and time."""
@@ -30,40 +34,17 @@ def time_code():
     return time_code
 
 
-import importlib.util
-import sys
-
-#def courier(module = None, function= None):
-    #"""An approximate implementation of import."""
-    #absolute_name = importlib.util.resolve_name(name, package)
-    #try:
-        #return sys.modules[absolute_name]
-    #except KeyError:
-        #pass
-
-
-def courier(registry = None, module = None, function= None, arguments = None):
+def courier(module = None, function= None, arguments = None, directives = None,
+            registry = None):
+    """courier() will seek methods and classes in the project to dynamically
+    facilitate transactions between functions.  It will search for modules,
+    exchange arguments and returns then report to the assistant."""
     filepath = sorted(libPath('.').glob('**/' + module + '.py'))
     module = str(filepath).split('\'')[1]
-    module_name = f".{module.rsplit('/', 1)[1].strip('.py').replace('/', '.')}"#.{function}"
+    module_name = f".{module.rsplit('/', 1)[1].strip('.py').replace('/', '.')}"
     module_path = module.rsplit('/', 1)[0].replace('/', '.')
     module = invoke(module_name, module_path)
     return getattr(module, function)(arguments)
-    #return getattr(module, function)
-    #module_name = f".{module.rsplit('/', 1)[1].strip('.py').replace('/', '.')}.{function}"
-    #print(f"{module}")
-    #print(f"{module_name}")
-    #print(f"{module_path}")
-    #__import__
-    #getattr(module, function)
-    #method = getattr(__import__(module, module_path), function)
-
-#This is equivalent to "from a.b.myfile import my_method"
-#the_module = importlib.import_module("a.b.myfile")
-#same_module = __import__("a.b.myfile")
-#import_module() and __input__() only return modules
-#my_method = getattr(the_module, "my_method")
-
 
 
 def assitant():

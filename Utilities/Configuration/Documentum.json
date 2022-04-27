@@ -1,0 +1,18 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+
+
+
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+#----------------------------------------------------------------------------
+# Created By  : name_of_the_creator   Line 3
+# Created Date: date/month/time ..etc
+# version ='1.0'
+# ---------------------------------------------------------------------------
+""" Details about the module and for what purpose it was built for"""
+# ---------------------------------------------------------------------------
+
+If you are want to write a configuration file, or want a plain text source of data in a file, what criteria do you evaluate to determine what format to structure the data in?
+Between CSV, XML, YAML, and JSON what do you use most frequently and why?

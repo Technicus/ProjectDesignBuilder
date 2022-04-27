@@ -1,4 +1,4 @@
-#!/bin/python
+#!/usr/bin/env python3
 # ProjectDesignBuilder.py
 # 2022.04.20.21.57
 
