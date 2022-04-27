@@ -43,7 +43,7 @@ import sys
 
 
 def courier(registry = None, module = None, function= None, arguments = None):
-    filepath = sorted(libPath('.').glob('**/' + module))
+    filepath = sorted(libPath('.').glob('**/' + module + '.py'))
     module = str(filepath).split('\'')[1]
     module_name = f".{module.rsplit('/', 1)[1].strip('.py').replace('/', '.')}"#.{function}"
     module_path = module.rsplit('/', 1)[0].replace('/', '.')
@@ -169,10 +169,10 @@ def assitant():
     #section = courier(module = 'Typographer.py', function = 'section', arguments = 'section')('section')
     #courier(module = 'Typographer.py')
     #print(f"{courier(module = 'Typographer.py', function = 'section', arguments = 'section')('section')}")
-    section = courier(module = 'Typographer.py', function = 'section', arguments = 'section')
+    section = courier(module = 'Typographer', function = 'section', arguments = 'section')
     print(f"{section}")
     print(f"{test}")
-    print(f"{courier(module = 'Typographer.py', function = 'section', arguments = 'section')}")
+    print(f"{courier(module = 'Typographer', function = 'section', arguments = 'section')}")
     #print(f"{section}")('section')
     print(f"{section}")
 
