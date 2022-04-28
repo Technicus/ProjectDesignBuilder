@@ -2,18 +2,9 @@
 # RegistryManager_01.py
 
 
-from os import path, getcwd, chdir, walk
+from os import path, getcwd, walk
 from os.path import relpath
 from sys import path as sysPath
-from importlib import import_module as invoke
-import re
-
-
-
-
-project_name = invoke('ProjectDesignBuilder', '').project_name
-__version__ = invoke('ProjectDesignBuilder', '').__version__
-__release__ = invoke('ProjectDesignBuilder', '').__release__
 
 
 def test_function():
@@ -26,19 +17,19 @@ class Registry:
     path of a project root directory.  It has methods for searching through
     the registry, for providing reports, and adding the registry paths to
     python system path.
-
     :param project_root: An absolute path to the project root.
     :type project_root: str
     :class:`Registry`
     :param project_name: Name of project.
     :type project_name: str"""
-
     def __init__(
         self,
-        project_root=invoke(".UtilityManager", "Utilities.Maintenance").set_project_directory(),
-        project_name=project_name,
-        directory_omit=None,
-        file_register_types=None,
+        project_root = None,
+        project_name = None,
+        __version__ = None,
+        __release__ = None,
+        directory_omit = None,
+        file_register_types = None,
     ):
         if project_root is None:
             self.project_root = getcwd()
@@ -163,11 +154,16 @@ class Registry:
             'project_files': project_files,
             'project_functions': project_functions,
             'project_classes': project_classes,
+            'version' : __version__,
+            'release' : __release__,
         }
-        self.set_sysPath()
+        for directory in project_directories:
+            if '/Cache' in directory:
+                cache_path = directory
+        self.set_sysPath(cache_path = cache_path)
         # Generate registry cache files.
-        self.report_cache_files()
-        self.report_cache_files_appended()
+        self.report_cache_files(cache_path)
+        self.report_cache_files_appended(cache_path)
 
 
     def report(self, summary='complete'):
@@ -186,8 +182,12 @@ class Registry:
             return self.registry.get('project_classes')
         if summary == 'complete':
             return self.registry, sysPath
+        if summary == 'version':
+            return self.registry.get('version')
+        if summary == 'release':
+            return self.registry.get('release')
 
-    def report_cache_files(self):
+    def report_cache_files(self, cache_path = None):
         """Create cache file reports.  There will be a file with entries for
         all project files, cache file with the project directories,
         there will be a file with entries of all project directories, there
@@ -198,13 +198,13 @@ class Registry:
 
         # Create a dictionary of cache files, this should be made more dynamic.
         registry_cache_file = {
-            'project_files': './Utilities/Data/Cache/Registry.files.cache',
-            'project_root': './Utilities/Data/Cache/Registry.root.cache',
-            'project_directories': './Utilities/Data/Cache/Registry.directories.cache',
-            'project_sysPath': './Utilities/Data/Cache/Registry.sysPath.cache',
+            'project_files': cache_path + '/Registry.files.cache',
+            'project_root': cache_path + '/Registry.root.cache',
+            'project_directories': cache_path + '/Registry.directories.cache',
+            'project_sysPath': cache_path + '/Registry.sysPath.cache',
             #'project_functions': './Utilities/Data/Cache/Registry.functions.cache',
             #'project_classes': './Utilities/Data/Cache/Registry.classes.cache',
-            'registry': './Utilities/Data/Cache/Registry.complete_summary.cache',
+            'registry': cache_path + '/Registry.complete_summary.cache',
         }
         # The report_summaries will be sent as arguments to the report method.
         #report_summaries = ['files', 'path', 'directories', 'sysPath', 'functions', 'classes', 'summary']
@@ -237,11 +237,11 @@ class Registry:
                     complete_summary_report.write(partial_summary_report.read())
         return registry_cache_file['registry']
 
-    def report_cache_files_appended(self):
+    def report_cache_files_appended(self, cache_path = None):
         registry_cache_file = {
-            'project_functions': './Utilities/Data/Cache/Registry.functions.cache',
-            'project_classes': './Utilities/Data/Cache/Registry.classes.cache',
-            'registry': './Utilities/Data/Cache/Registry.complete_summary.cache',
+            'project_functions': cache_path + '/Registry.functions.cache',
+            'project_classes': cache_path + '/Registry.classes.cache',
+            'registry': cache_path + '/Registry.complete_summary.cache',
         }
         #for files in registry_cache_file:
         with open(registry_cache_file['project_functions'], 'w') as registry_cache:
@@ -308,7 +308,7 @@ class Registry:
         return search_result
 
     # def set_sysPath(self, sysPath = sysPath, update_sysPath = False):
-    def set_sysPath(self, update_sysPath=False):
+    def set_sysPath(self, update_sysPath=False, cache_path = None):
         """Append project directories to python path.
         This method will have two states:
          -- appending to the sysPath object during the registry initialization,
@@ -325,7 +325,7 @@ class Registry:
         # The sysPath_cache file will eventually be dynamically assigned,
         # by searching the path for specified cache file.
         sysPath_cache = []
-        sysPath_cache_file = "./Utilities/Data/Cache/Path.cache"
+        sysPath_cache_file = cache_path + '/Path.cache'
 
         # False is the initialization state.
         if update_sysPath is False:

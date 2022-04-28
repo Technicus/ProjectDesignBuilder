@@ -4,7 +4,7 @@
 from os import getcwd, chdir, walk, scandir, listdir, remove
 from os import path as osPath
 from pathlib import Path, PurePath
-from PublishingManagement import Registry
+#from PublishingManagement import Registry
 from logging import debug, info, warning, error, basicConfig, DEBUG, INFO,\
     WARNING, ERROR, CRITICAL, getLogger
 import logging.config
@@ -24,6 +24,6 @@ def log_register(registry = None, logger = None):
 
 
 # Setup an configure logging from config file.
-log_file_config = registry.search(query = 'Logger_Documentum.ini', dir_file = 'file')
-logging.config.fileConfig(log_file_config)
-log_director = getLogger('Director')
+#log_file_config = registry.search(query = 'Logger_Documentum.ini', dir_file = 'file')
+#logging.config.fileConfig(log_file_config)
+#log_director = getLogger('Director')

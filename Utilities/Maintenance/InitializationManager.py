@@ -34,17 +34,21 @@ def initalize(
     # with that then call it with the import module.  Perhaps it would be
     # more direct if that was part of the search function.
 
-    if project_path == None:
-        project_path = invoke('.UtilityManager', 'Utilities.Maintenance').set_project_directory()
+    print(f"#if project_path == None:")
+    #if project_path == None:
+        #project_path = invoke('.UtilityManager', 'Utilities.Maintenance').set_project_directory()
 
     #registry_manager_path = find_file(project_path, 'RegistryManager.py', True)
     #print(f">>registry_manager_path\n  {registry_manager_path}\n")
     #print(f">>>> registry_manager_path:\n     {registry_manager_path}\n")
-    print(f"project_root:\n  {project_path}\n")
-    print(f"project_name:\n  {project_name}\n")
-    print(f"directory_omit:\n  {directory_omit}\n")
-    print(f"file_register_types:\n  {file_register_types}")
 
+    #print(f"project_root:\n  {project_path}\n")
+    #print(f"project_name:\n  {project_name}\n")
+    #print(f"directory_omit:\n  {directory_omit}\n")
+    #print(f"file_register_types:\n  {file_register_types}")
+
+
+    print(f"# Create a registry.")
     # Create a registry.
     #registry = invoke('.RegistryManager', '.Utilities.Maintenance').Registry()
     #project_path = invoke('.UtilityManager',   'Utilities.Maintenance').set_project_directory(),
@@ -53,6 +57,5 @@ def initalize(
             project_name,
             directory_omit,
             file_register_types)
-
 
     return registry

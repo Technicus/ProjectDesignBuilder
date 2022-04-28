@@ -1,8 +1,6 @@
 # Typographer.py
 # 2022.04.20.21.57
 
-from os import get_terminal_size
-from inspect import currentframe, stack
 from os import system
 from importlib import import_module as invoke
 from colorama import Fore, Back, Style
