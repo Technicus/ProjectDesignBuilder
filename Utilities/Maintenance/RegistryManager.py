@@ -30,6 +30,7 @@ class Registry:
         __release__ = None,
         directory_omit = None,
         file_register_types = None,
+        time_stamp = None
     ):
         if project_root is None:
             self.project_root = getcwd()
@@ -156,6 +157,7 @@ class Registry:
             'project_classes': project_classes,
             'version' : __version__,
             'release' : __release__,
+            'time' : time_stamp
         }
         for directory in project_directories:
             if '/Cache' in directory:
@@ -186,6 +188,8 @@ class Registry:
             return self.registry.get('version')
         if summary == 'release':
             return self.registry.get('release')
+        if summary == 'time':
+            return self.registry.get('time_stamp')
 
     def report_cache_files(self, cache_path = None):
         """Create cache file reports.  There will be a file with entries for
@@ -198,13 +202,13 @@ class Registry:
 
         # Create a dictionary of cache files, this should be made more dynamic.
         registry_cache_file = {
-            'project_files': cache_path + '/Registry.files.cache',
-            'project_root': cache_path + '/Registry.root.cache',
-            'project_directories': cache_path + '/Registry.directories.cache',
-            'project_sysPath': cache_path + '/Registry.sysPath.cache',
+            'project_files': str(cache_path)+ '/Registry.files.cache',
+            'project_root': str(cache_path) + '/Registry.root.cache',
+            'project_directories': str(cache_path) + '/Registry.directories.cache',
+            'project_sysPath': str(cache_path) + '/Registry.sysPath.cache',
             #'project_functions': './Utilities/Data/Cache/Registry.functions.cache',
             #'project_classes': './Utilities/Data/Cache/Registry.classes.cache',
-            'registry': cache_path + '/Registry.complete_summary.cache',
+            'registry': str(cache_path) + '/Registry.complete_summary.cache',
         }
         # The report_summaries will be sent as arguments to the report method.
         #report_summaries = ['files', 'path', 'directories', 'sysPath', 'functions', 'classes', 'summary']
@@ -216,7 +220,7 @@ class Registry:
         # Then write the results to a specified cache file.
         for report_file, report_path in registry_cache_file.items():
             if report_file not in 'registry':
-                with open(registry_cache_file[report_file], 'w') as registry_cache:
+                with open(registry_cache_file[str(report_file)], 'w') as registry_cache:
                     for entry in self.report(report_summaries[summary]):
                         registry_cache.write(str(entry + '\n'))
                 summary += 1  # incriment the summary key for sending to report.
@@ -239,9 +243,9 @@ class Registry:
 
     def report_cache_files_appended(self, cache_path = None):
         registry_cache_file = {
-            'project_functions': cache_path + '/Registry.functions.cache',
-            'project_classes': cache_path + '/Registry.classes.cache',
-            'registry': cache_path + '/Registry.complete_summary.cache',
+            'project_functions': str(cache_path) + '/Registry.functions.cache',
+            'project_classes': str(cache_path) + '/Registry.classes.cache',
+            'registry': str(cache_path) + '/Registry.complete_summary.cache',
         }
         #for files in registry_cache_file:
         with open(registry_cache_file['project_functions'], 'w') as registry_cache:
@@ -300,9 +304,15 @@ class Registry:
         # That works now, just dont call `self.sysPath(True)`, it only works
         # with false, and does not depend on `self.search()`.
         search_result = []
-        with open(self.report_cache_files(), 'r') as complete_summary_report:
+        for directory in self.report('directories'):
+            if '/Cache' in directory:
+                cache_path = directory
+        #print(cache_path)
+        self.report_cache_files(cache_path = cache_path)
+        self.report_cache_files_appended(cache_path = cache_path)
+        with open(self.report_cache_files(cache_path = cache_path), 'r') as complete_summary_report:
             for line_no, line in enumerate(complete_summary_report):
-                # print(line_no, line.strip())
+                #print(line_no, line.strip())
                 if search in line:
                     search_result.append(line.strip())
         return search_result
@@ -325,7 +335,7 @@ class Registry:
         # The sysPath_cache file will eventually be dynamically assigned,
         # by searching the path for specified cache file.
         sysPath_cache = []
-        sysPath_cache_file = cache_path + '/Path.cache'
+        sysPath_cache_file = str(cache_path) + '/Path.cache'
 
         # False is the initialization state.
         if update_sysPath is False:

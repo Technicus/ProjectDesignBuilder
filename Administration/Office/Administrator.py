@@ -1,16 +1,13 @@
 #!/bin/python
-# Administrator.py
-# 2022.04.20.21.57
 
 
 # from __future__ import absolute_import
 # from ast import literal_eval
 # from linecache import getline
-from os import getcwd, path, chdir
+from os import getcwd
 from sys import argv
 from pathlib import Path as libPath
-from importlib import import_module as invoke, util, machinery
-from inspect import currentframe  # , getframeinfo, trace
+from importlib import import_module as invoke
 from datetime import datetime
 # The following imports should be purged and all process that require them
 # should be migrated to either typographer or compositor.  They are currently
@@ -35,7 +32,11 @@ def time_code():
     return time_code
 
 
-def initalize(function = None, module = None, arguments = None, directives = None,
+def initalize(
+        function = None,
+        module = None,
+        arguments = None,
+        directives = None,
         registry = None):
     """initalize() is implemented here to find the RegistryManager module, and
     instintantiate an instance of the Registry.  This function does not
@@ -64,11 +65,50 @@ def registration():
     arguments['__version__'] = __version__
     arguments['__release__'] = __release__
     arguments['directory_omit'] = ['.git', '__', 'html']
-    arguments['file_register_types'] = ['.md', '.py', '.rst', '.html', '.log', '.ini']
+    arguments['file_register_types'] = [
+        '.md', '.py', '.rst', '.html', '.log', '.ini', '.cache']
+    arguments['time_stamp'] = time_code()
     registry = initalize(
         'Registry',
         'RegistryManager',
-        arguments)
+        arguments,)
     # Now modules in the project can be imported and the registry can be
     # querried to find needed references.
     return registry
+
+
+def orientation(register = None, arguments = argv):
+    """In orientation() arguments, parameters, and configuration
+    settings will be parsed, reviewed, interpeted and applied."""
+
+    # Start with parsing the supplied arguments.
+    from ProjectCoordinator import evaluate_arguments
+    # Find the cache file, this is for creating a persistant buffer to be
+    # put in place for overwriting an input prompt.
+    cache_file = register.search('assistant.cache')
+    # Review the cache file for development.
+    print(f"\nOrientation starts here.")
+    print(f"  Arguments:\n    {arguments}")
+    print(f"  Cache:\n    {cache_file}\n")
+
+    # Check the arguments.
+    arguments = evaluate_arguments()
+    print()
+
+    return register
+
+    #assistant_cache_file = open(cache_file, 'a')
+    #assistant_cache_file.write('')
+    #assistant_cache_file.close()
+
+    ##print()
+    ##print(evaluate_arguments(argv))
+    ##print(evaluate_arguments())
+    #operation = evaluate_arguments(argv).constant_value
+    #if 'push' in operation:
+        ##print(operation)
+        #run_git(cache_file)
+
+    #if 'publish' in operation:
+        ##print(operation)
+        #run_publisher()

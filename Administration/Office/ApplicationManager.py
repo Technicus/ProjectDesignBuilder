@@ -65,3 +65,33 @@ class Handler(FileSystemEventHandler):
             print("Watchdog received modified event - % s." % event.src_path)
             #LoggingEventHandler()
             subprocess.call("./Cabinet.py", shell=True)
+
+
+
+def run_git(cache_file = None):
+    with open(cache_file, 'r') as cache:
+        previous_commit_message = cache.readlines()[-1].rstrip()
+    subprocess = run(
+        args = [
+        'git status; \
+        git add .; git status;'\
+        ], shell=True
+    )
+    #commit_message = input("\nCommit message: ")
+    commit_message = input_with_prefill('Commit message: ',
+        previous_commit_message)
+    #print(commit_message)
+    if commit_message is None:
+        commit_message = []
+    else:
+        commit_message = commit_message
+    subprocess = run(
+        args = [
+        'git commit -m \"' + commit_message + '\"; \
+        git push; git status'
+        ], shell=True
+    )
+    with open(cache_file, 'a') as cache:
+        cache.write(f'\n{time_code()}\n{commit_message}')
+    #print()
+    print()
