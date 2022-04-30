@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-# ProjectDesignBuilder.py
-# 2022.04.20.21.57
+
 
 from importlib import import_module as inkoke
 from pathlib import Path as libPath
@@ -50,7 +49,7 @@ def main():
     # Go with the assistant to get registered.
     register = assistant('Administrator', 'registration')
 
-    return None
+    return register
 
 
 # Proceed through the main() entrance.
