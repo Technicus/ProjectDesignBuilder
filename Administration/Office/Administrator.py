@@ -106,10 +106,18 @@ def orientation(register = None, arguments = argv):
         argparse_file.seek(1)
         help_dialog = argparse_file.readlines()[help_dialog_line:line_count]
 
-    print(f"  Known arguments:\n    {arguments}")
-    print(f"  Unknown arguments:\n    {unknown}\n")
+    #print(f"  Known arguments:\n    {arguments}")
+    #print(f"  Unknown arguments:\n    {unknown}\n")
+    print(f"  Arguments:")
+    print(f"    Known:")    # {dict(vars(arguments))}")
+    for argument, parameter in dict(vars(arguments)).items():
+        print(f"      {argument} : {parameter}")
+    if len(unknown) > 0:
+        print(f"    Unknown:")
+        for argument in unknown:
+            print(f"      {argument}")
 
-    print(f"  Help dialog:")
+    print(f"\n  Help dialog:")
     for line in help_dialog:
         print(f"      {line.strip()}")
     print(f"")
