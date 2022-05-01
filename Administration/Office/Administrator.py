@@ -82,7 +82,11 @@ def orientation(register = None, arguments = argv):
     settings will be parsed, reviewed, interpeted and applied."""
 
     # Start with parsing the supplied arguments.
-    from ProjectCoordinator import parse_arguments
+    from ArgumentInterpreter import parse_arguments, report_arguments
+    from ProjectCoordinator import evaluate_arguments
+    from Typographer import clear
+
+    clear()
     # Find the cache file, this is for creating a persistant buffer to be
     # put in place for overwriting an input prompt.
     cache_file = register.search('assistant.cache')
@@ -91,36 +95,16 @@ def orientation(register = None, arguments = argv):
             argparse_cache_file = (f"{directory}/argparse.cache")
 
     # Review the cache file for development.
-    print(f"\nOrientation starts here.")
-    print(f"  Arguments:\n    {arguments}")
-    print(f"  argparse_cache_file:\n    {argparse_cache_file}\n")
+    #print(f"\nOrientation starts here.")
+    #print(f"  Arguments:\n    {arguments}")
+    #print(f"  argparse_cache_file:\n    {argparse_cache_file}\n")
 
     # Check the arguments.
     arguments, unknown = parse_arguments(argparse_cache_file)
     help_dialog_line = 0
+    report_arguments(argparse_cache_file, arguments, unknown)
 
-    with open(argparse_cache_file, 'r') as argparse_file:
-        for line_count, line in enumerate(argparse_file, 1):
-            if 'Help dialog:' in line:
-                help_dialog_line = line_count
-        argparse_file.seek(1)
-        help_dialog = argparse_file.readlines()[help_dialog_line:line_count]
-
-    #print(f"  Known arguments:\n    {arguments}")
-    #print(f"  Unknown arguments:\n    {unknown}\n")
-    print(f"  Arguments:")
-    print(f"    Known:")    # {dict(vars(arguments))}")
-    for argument, parameter in dict(vars(arguments)).items():
-        print(f"      {argument} : {parameter}")
-    if len(unknown) > 0:
-        print(f"    Unknown:")
-        for argument in unknown:
-            print(f"      {argument}")
-
-    print(f"\n  Help dialog:")
-    for line in help_dialog:
-        print(f"      {line.strip()}")
-    print(f"")
+    evaluate_arguments(arguments)
 
     return register
 
