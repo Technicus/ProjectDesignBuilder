@@ -91,11 +91,8 @@ class CustomHelpFormatter(HelpFormatter):
 
 
 def parse_arguments(cache_file = None, arguments = argv[1:]):
-#def evaluate_arguments(arguments = argv):
-#def evaluate_arguments():
-#def evaluate_arguments():
-    # hack to show help when no arguments supplied
-    #parser = ArgumentParser(add_help=False, formatter_class=CustomHelpFormatter)
+    """ NEed to make a custom formatter in typographer. Until then here is a
+    simple hack to conform help."""
     parser = ArgumentParser(
         prog='program',
         usage='usage',
@@ -146,8 +143,8 @@ def parse_arguments(cache_file = None, arguments = argv[1:]):
     )
 
     with open(cache_file, 'w') as argparse_file:
-        """This is rather messy but seems to do most of what it is intended
-        to do.  Error handeling is not being managed very well."""
+        """This is rather messy but seems to achieve most of what it is
+        intended to do.  Error handeling is not being managed very well."""
         with redirect_stdout(argparse_file):
             with redirect_stderr(argparse_file):
                 #error_file = StringIO()
@@ -182,7 +179,7 @@ def parse_arguments(cache_file = None, arguments = argv[1:]):
                 print(f"\nHelp dialog:\n")
                 parser.print_help()
 
-    # evaluation of help
+    # evaluation of help, do this somewhere else.
     #if dict(vars(arguments))['help']:
         #with open(cache_file, 'r') as argparse_file:
             #for line_count, line in enumerate(argparse_file, 1):
