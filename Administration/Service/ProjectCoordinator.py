@@ -47,12 +47,13 @@ def run_publisher():
 def push(cache_file = None):
     with open(cache_file, 'r') as cache:
         previous_commit_message = cache.readlines()[-1].rstrip()
-    subprocess = run(
-        args = [
-        'git status; \
-        git add .; git status;'\
-        ], shell=True
-    )
+
+    print(f"> git status:")
+    subprocess = run(args = ['git status;'], shell=True)
+    print(f"> git add:")
+    subprocess = run(args = ['git add . --verbose;'], shell=True)
+    print(f"\n> git status:")
+    subprocess = run(args = ['git status;'], shell=True)
     #commit_message = input("\nCommit message: ")
     commit_message = input_with_prefill('Commit message: ',
         previous_commit_message)
@@ -61,16 +62,14 @@ def push(cache_file = None):
         commit_message = []
     else:
         commit_message = commit_message
-    subprocess = run(
-        args = [
-        'git commit -m \"' + commit_message + '\"; \
-        git push; git status'
-        ], shell=True
-    )
+    print(f"> git commit -m {commit_message}:")
+    subprocess = run(args = ['git commit -m \"' + commit_message + '\";'], shell=True)
+    print(f"> git push:")
+    subprocess = run(args = ['git push;'], shell=True)
+    print(f"> git status:")
+    subprocess = run(args = ['git status;'], shell=True)
     with open(cache_file, 'a') as cache:
         cache.write(f'\n{time_code()}\n{commit_message}')
-    #print()
-    #print()
 
 #def run_git():
     #subprocess_test = run(
