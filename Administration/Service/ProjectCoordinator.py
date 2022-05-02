@@ -124,6 +124,7 @@ def evaluate_arguments(register = None):
         #print(f"\n  push: ", end = (""))
         #print(f"{dict(vars(register.arguments['known'])).get('push')}\n")
         push(''.join(cache_file))
+        print()
     # Check publish upload flag.
     if dict(vars(register.arguments['known'])).get('publish'):
         argument_help = False
