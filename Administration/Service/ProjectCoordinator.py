@@ -120,8 +120,9 @@ def evaluate_arguments(register = None):
     # Check git upload flag.
     if dict(vars(register.arguments['known'])).get('push'):
         argument_help = False
-        print(f"\n  push: ", end = (""))
-        print(f"{dict(vars(register.arguments['known'])).get('push')}\n")
+        print(f"[ Push ]\n")
+        #print(f"\n  push: ", end = (""))
+        #print(f"{dict(vars(register.arguments['known'])).get('push')}\n")
         push(''.join(cache_file))
     # Check publish upload flag.
     if dict(vars(register.arguments['known'])).get('publish'):
