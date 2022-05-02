@@ -55,6 +55,7 @@ def push(cache_file = None):
     print(f"\n> git status:")
     subprocess = run(args = ['git status;'], shell=True)
     #commit_message = input("\nCommit message: ")
+    print(f"\n> ", end = "")
     commit_message = input_with_prefill('Commit message: ',
         previous_commit_message)
     #print(commit_message)
