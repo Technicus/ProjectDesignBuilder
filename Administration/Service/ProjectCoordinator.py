@@ -66,7 +66,7 @@ def push(cache_file = None):
     subprocess = run(args = ['git commit -m \"' + commit_message + '\";'], shell=True)
     print(f"> git push:")
     subprocess = run(args = ['git push;'], shell=True)
-    print(f"> git status:")
+    print(f"\n> git status:")
     subprocess = run(args = ['git status;'], shell=True)
     with open(cache_file, 'a') as cache:
         cache.write(f'\n{time_code()}\n{commit_message}')
