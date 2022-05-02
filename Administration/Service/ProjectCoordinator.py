@@ -72,29 +72,6 @@ def push(cache_file = None):
     with open(cache_file, 'a') as cache:
         cache.write(f'\n{time_code()}\n{commit_message}')
 
-#def run_git():
-    #subprocess_test = run(
-        #args = [
-        #'git status; \
-        #git add .; git status;'\
-        #], shell=True
-    #)
-
-    #commit_message = input("\nCommit message: ")
-    #if commit_message is None:
-        #commit_message = []
-    #else:
-        #commit_message = commit_message
-    ##print()
-
-    #subprocess_test = run(
-        #args = [
-        #'git commit -m \"' + commit_message + '\"; git status; \
-        #git push; git status'
-        #], shell=True
-    #)
-    ##print()
-
 
 def input_with_prefill(prompt, text):
     def hook():
