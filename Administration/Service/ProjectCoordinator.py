@@ -62,9 +62,9 @@ def push(cache_file = None):
         commit_message = []
     else:
         commit_message = commit_message
-    print(f"> git commit -m {commit_message}:")
+    print(f"\n> git commit -m {commit_message}:")
     subprocess = run(args = ['git commit -m \"' + commit_message + '\";'], shell=True)
-    print(f"> git push:")
+    print(f"\n> git push:")
     subprocess = run(args = ['git push;'], shell=True)
     print(f"\n> git status:")
     subprocess = run(args = ['git status;'], shell=True)
