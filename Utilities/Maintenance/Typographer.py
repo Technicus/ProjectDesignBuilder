@@ -154,9 +154,3 @@ def draft_output(
 
 
 
-
-
-
-
-
-
