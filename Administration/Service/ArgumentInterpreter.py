@@ -144,24 +144,27 @@ def parse_arguments(register = None, arguments = argv[1:]):
     )
     parser.add_argument(
         '-p', '--publish',
-        action ='store_const',
+        #action ='store_const',
+        action='store_true',
         # dest ='publish',
-        const ='publish',
+        #const ='publish',
         help ='Publish documentation.'
     )
     parser.add_argument(
         '-h',
         '--help',
-        action ='store_const',
+        #action ='store_const',
+        action='store_true',
         # dest ='parser_help',
-        const ='parser_help',
+        #const ='parser_help',
         help =f"Explain how {argv[0].split('.')[1].strip('/')} operates."
     )
     parser.add_argument(
         '-M',
-        '--Meta',
-        action ='store_const',
-        const ='',
+        '--meta',
+        #action ='store_const',
+        action='store_true',
+        #const ='',
         #action = 'store',
         #default = '',
         #required = False,
@@ -172,9 +175,10 @@ def parse_arguments(register = None, arguments = argv[1:]):
     parser.add_argument(
         '-t',
         '--test',
-        action = 'store',
+        #action = 'store',
+        action='store_true',
         required = False,
-        nargs = '*',
+        #nargs = '*',
         #default = [],
         help ='Test argument.'
     )

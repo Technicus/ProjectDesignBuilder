@@ -34,9 +34,14 @@ def assistant(request = None, registration = None):
     request = inkoke(administrator, office)
     register = getattr(request, registration)()
 
-    # Okay, you are registered, now goto orientation.
+    # Import directors
     from Administrator import orientation
+    from ProjectCoordinator import evaluate_arguments
+
+    # Okay, you are registered, now goto orientation.
     orientation(register)
+    # Now go check in with the ProjectCoordinator for evaluation.
+    evaluate_arguments(register)
 
     return register
 

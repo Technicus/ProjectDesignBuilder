@@ -82,57 +82,11 @@ def orientation(register = None, arguments = argv):
     settings will be parsed, reviewed, interpeted and applied."""
 
     # Start with parsing the supplied arguments.
-    from ArgumentInterpreter import parse_arguments, report_arguments
-    from ProjectCoordinator import evaluate_arguments
-    from Typographer import clear
+    from ArgumentInterpreter import parse_arguments #, report_arguments
 
-    clear()
     # Find the cache file, this is for creating a persistant buffer to be
     # put in place for overwriting an input prompt.
     parameter_file = register.search('Parameters.ini')
     cache_file = register.search('assistant.cache')
-    #for directory in register.report('directories'):
-        #if '/Cache' in directory:
-            #argparse_cache_file = (f"{directory}/argparse.cache")
-
-    # Review the cache file for development.
-    #print(f"\nOrientation starts here.")
-    #print(f"  Arguments:\n    {arguments}")
-    #print(f"  argparse_cache_file:\n    {argparse_cache_file}\n")
-
-    # Check the arguments.
-    #arguments, unknown = parse_arguments(argparse_cache_file)
-
     register = parse_arguments(register)
-
-    #help_dialog_line = 0
-
-    #report_arguments(argparse_cache_file, arguments, unknown)
-    report_arguments(register)
-
-    #for directory in register.report('directories'):
-        #if '/Cache' in directory:
-            #argparse_cache_file = (f"{directory}/argparse.cache")
-    #register.arguments['known'] = arguments
-    #register.arguments['unknown'] = unknown
-    #register.arguments['help'] = {}
-
-    #evaluate_arguments(arguments, register)
-
     return register
-
-    #assistant_cache_file = open(cache_file, 'a')
-    #assistant_cache_file.write('')
-    #assistant_cache_file.close()
-
-    ##print()
-    ##print(evaluate_arguments(argv))
-    ##print(evaluate_arguments())
-    #operation = evaluate_arguments(argv).constant_value
-    #if 'push' in operation:
-        ##print(operation)
-        #run_git(cache_file)
-
-    #if 'publish' in operation:
-        ##print(operation)
-        #run_publisher()
