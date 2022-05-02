@@ -173,6 +173,19 @@ def parse_arguments(register = None, arguments = argv[1:]):
         help ='Update file meta data.'
     )
     parser.add_argument(
+        '-r',
+        '--report',
+        action = 'store',
+        #action='store_true',
+        required = False,
+        nargs = '*',
+        choices=['files', 'directories', 'path', 'complete',
+                 'functions', 'classes', 'arguments',
+                 'sysPath', 'version', 'release', 'time'],
+        default = [],
+        help ='Generate reports.'
+    )
+    parser.add_argument(
         '-t',
         '--test',
         #action = 'store',

@@ -83,6 +83,15 @@ def input_with_prefill(prompt, text):
     return result
 
 
+def report(register = None):
+    for report in dict(vars(register.arguments['known'])).get('report'):
+        print(f"[ {report} ]")
+        for analysis in register.report(report):
+            print(f"  {analysis}")
+        print()
+    #print()
+
+
 def evaluate_arguments(register = None):
 
     from Typographer import clear
@@ -102,6 +111,12 @@ def evaluate_arguments(register = None):
         #print(f"{dict(vars(register.arguments['known'])).get('push')}\n")
         push(''.join(cache_file))
         print()
+    # Issue a report
+    if dict(vars(register.arguments['known'])).get('report'):
+        argument_help = False
+        print(f"report: ", end = (""))
+        print(f"{dict(vars(register.arguments['known'])).get('report')}\n")        #run_git(cache_file)
+        report(register)
     # Check publish upload flag.
     if dict(vars(register.arguments['known'])).get('publish'):
         argument_help = False
