@@ -159,6 +159,18 @@ class Registry:
             'release' : __release__,
             'time' : time_stamp
         }
+        self.arguments = {}
+        self.arguments = {
+            'known':'',
+            'unknown':'',
+            'help':'',
+            'cache':''
+        }
+        for directory in project_directories:
+            if '/Cache' in directory:
+                self.arguments['cache'] = (f"{directory}/argparse.cache")
+        #self.arguments['cache'] =
+
         for directory in project_directories:
             if '/Cache' in directory:
                 cache_path = directory

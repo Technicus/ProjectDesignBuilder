@@ -113,7 +113,8 @@ class CustomHelpFormatter(HelpFormatter):
             ##return helper
 
 
-def parse_arguments(cache_file = None, arguments = argv[1:]):
+#def parse_arguments(cache_file = None, arguments = argv[1:]):
+def parse_arguments(register = None, arguments = argv[1:]):
     """ NEed to make a custom formatter in typographer. Until then here is a
     simple hack to conform help."""
     parser = ArgumentParser(
@@ -178,7 +179,11 @@ def parse_arguments(cache_file = None, arguments = argv[1:]):
         help ='Test argument.'
     )
 
-    with open(cache_file, 'w') as argparse_file:
+    #for directory in register.report('directories'):
+        #if '/Cache' in directory:
+            #cache_file = (f"{directory}/argparse.cache")
+
+    with open(register.arguments['cache'], 'w') as argparse_file:
         """This is rather messy but seems to achieve most of what it is
         intended to do.  Error handeling is not being managed very well."""
         with redirect_stdout(argparse_file):
@@ -215,29 +220,46 @@ def parse_arguments(cache_file = None, arguments = argv[1:]):
                 print(f"\nHelp dialog:\n")
                 parser.print_help()
 
-    return arguments, unknown
+    register.arguments['known'] = arguments
+    register.arguments['unknown'] = unknown
+    register.arguments['help'] = {}
 
+    return register
 
-def report_arguments(argparse_cache_file = None, arguments = None, unknown = None):
-    with open(argparse_cache_file, 'r') as argparse_file:
+#def report_arguments(argparse_cache_file = None, arguments = None, unknown = None):
+def report_arguments(register = None):
+
+    #print(register.arguments['known'])
+    #print(register.arguments['unknown'])
+    #print(register.arguments['help'])
+    #print(register.arguments['cache'])
+    #for directory in register.report('directories'):
+        #if '/Cache' in directory:
+            #argparse_cache_file = (f"{directory}/argparse.cache")
+
+    with open(register.arguments['cache'], 'r') as argparse_file:
         for line_count, line in enumerate(argparse_file, 1):
             if 'Help dialog:' in line:
                 help_dialog_line = line_count
         argparse_file.seek(1)
-        help_dialog = argparse_file.readlines()[help_dialog_line:line_count]
+        #help_dialog = argparse_file.readlines()[help_dialog_line:line_count]
+        #help_dialog = argparse_file.readlines()[help_dialog_line:line_count]
+        register.arguments['help'] = argparse_file.readlines()[help_dialog_line:line_count]
 
-    print(f"  Arguments:")
-    print(f"    Known:")    # {dict(vars(arguments))}")
-    for argument, parameter in dict(vars(arguments)).items():
-        print(f"      {argument} : {parameter}")
-    if len(unknown) > 0:
-        print(f"    Unknown:")
-        for argument in unknown:
-            print(f"      {argument}")
+    print(f"[ Argument Report ]")
+    print(f"\n  Arguments known:")    # {dict(vars(arguments))}")
+    #for argument, parameter in dict(vars(arguments)).items():
+    for argument, parameter in dict(vars(register.arguments['known'])).items():
+        print(f"    {argument} : {parameter}")
+    #if len(unknown) > 0:
+    if len(register.arguments['unknown']) > 0:
+        print(f"\n  Arguments unknown:")
+        for argument in register.arguments['unknown']:
+            print(f"    {argument}")
 
-    print(f"\n  Help dialog:")
-    for line in help_dialog:
-        print(f"      {line.strip()}")
+    print(f"\n  Help dialog: {register.arguments['cache']}")
+    for line in register.arguments['help']:
+        print(f"  {line.strip()}")
     print(f"")
 
 

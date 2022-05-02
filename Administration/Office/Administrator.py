@@ -89,10 +89,11 @@ def orientation(register = None, arguments = argv):
     clear()
     # Find the cache file, this is for creating a persistant buffer to be
     # put in place for overwriting an input prompt.
+    parameter_file = register.search('Parameters.ini')
     cache_file = register.search('assistant.cache')
-    for directory in register.report('directories'):
-        if '/Cache' in directory:
-            argparse_cache_file = (f"{directory}/argparse.cache")
+    #for directory in register.report('directories'):
+        #if '/Cache' in directory:
+            #argparse_cache_file = (f"{directory}/argparse.cache")
 
     # Review the cache file for development.
     #print(f"\nOrientation starts here.")
@@ -100,11 +101,23 @@ def orientation(register = None, arguments = argv):
     #print(f"  argparse_cache_file:\n    {argparse_cache_file}\n")
 
     # Check the arguments.
-    arguments, unknown = parse_arguments(argparse_cache_file)
-    help_dialog_line = 0
-    report_arguments(argparse_cache_file, arguments, unknown)
+    #arguments, unknown = parse_arguments(argparse_cache_file)
 
-    evaluate_arguments(arguments)
+    register = parse_arguments(register)
+
+    #help_dialog_line = 0
+
+    #report_arguments(argparse_cache_file, arguments, unknown)
+    report_arguments(register)
+
+    #for directory in register.report('directories'):
+        #if '/Cache' in directory:
+            #argparse_cache_file = (f"{directory}/argparse.cache")
+    #register.arguments['known'] = arguments
+    #register.arguments['unknown'] = unknown
+    #register.arguments['help'] = {}
+
+    #evaluate_arguments(arguments, register)
 
     return register
 
