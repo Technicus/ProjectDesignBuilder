@@ -43,7 +43,7 @@ def run_publisher():
     #print()
 
 
-def run_git(cache_file = None):
+def push(cache_file = None):
     with open(cache_file, 'r') as cache:
         previous_commit_message = cache.readlines()[-1].rstrip()
     subprocess = run(
@@ -121,6 +121,7 @@ def evaluate_arguments(register = None):
         argument_help = False
         print(f"\n  push: ", end = (""))
         print(f"{dict(vars(register.arguments['known'])).get('push')}\n")
+        push(''.join(cache_file))
     # Check publish upload flag.
     if dict(vars(register.arguments['known'])).get('publish'):
         argument_help = False
