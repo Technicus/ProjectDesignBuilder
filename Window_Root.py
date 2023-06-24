@@ -30,23 +30,29 @@ class Root(tk.Tk):
         x= value.x
         y= value.y
         # print("self: {}".format(self))
-        print("Event: {}".format(value))
+        print("\nEvent: {}".format(value))
         print("Pointer is currently at %d, %d" %(x,y))
+        print(self.root_frame.status_panel)
+        # print(self.!rootframe.!frame3.!label3)
 
-        print('\nself.root_frame.status_panel:')
-        print(dir(self.root_frame.status_panel))
-        print('\nself.root_frame.status_panel.children:')
-        print(dir(self.root_frame.status_panel.children))
-        print('\nself.root_frame.status_panel.__dict__:')
-        print(dir(self.root_frame.status_panel.__dict__))
-        print('\nself.root_frame.status_panel.__dir__:')
-        print(dir(self.root_frame.status_panel.__dir__))
-        print('\nself.root_frame.status_panel.__subclasshook__:')
-        print(dir(self.root_frame.status_panel.__subclasshook__))
-        print('\nself.root_frame.status_panel.__subclasshook__.__name__:')
-        print(dir(self.root_frame.status_panel.__subclasshook__.__name__))
+        #
+        # print('\nself.root_frame.status_panel:')
+        # print(dir(self.root_frame.status_panel))
+        # print('\nself.root_frame.status_panel.children:')
+        # print(dir(self.root_frame.status_panel.children))
+        # print('\nself.root_frame.status_panel.__dict__:')
+        # print(dir(self.root_frame.status_panel.__dict__))
+        # print('\nself.root_frame.status_panel.__dir__:')
+        # print(dir(self.root_frame.status_panel.__dir__))
+        # print('\nself.root_frame.status_panel.__subclasshook__:')
+        # print(dir(self.root_frame.status_panel.__subclasshook__))
+        # print('\nself.root_frame.status_panel.__subclasshook__.__name__:')
+        # print(dir(self.root_frame.status_panel.__subclasshook__.__name__))
 
-        self.root_frame.status_panel.mouse_position.setText("%d, %d" %(x,y))
+        # self.status.rootframe.frame3.label3.setText("%d, %d" %(x,y))
+        # print(self.report['mouse_position'])
+        # print(self.root_frame.status_panel.report['mouse_position'])
+        # self.root_frame.status_panel.mouse_position.setText("%d, %d" %(x,y))
 
 class MenuBar(tk.Menu):
     def __init__(self, parent):
@@ -116,11 +122,17 @@ class RootFrame(ttk.Frame):
         pad = [0,2.5]
         self.status_panel = ttk.Frame(self, relief = tk.GROOVE)
         # self.status_panel = ttk.Frame(self.primary_layout, relief = tk.GROOVE)
+        self.report = {}
         for report, status in reports.items():
             setattr(self, report, status)
             print('report: {}\t\tstatus: {}'.format(report, status))
-            self.report = ttk.Label(self.status_panel, text = status[1], background = status[2], foreground = status[3])
-            self.report.pack(side = status[0], padx = pad[0], pady = pad[1], fill = 'x', expand = True)
+            self.report[status[1]] = ttk.Label(self.status_panel, text = status[1], background = status[2], foreground = status[3])
+            self.report[status[1]].pack(side = status[0], padx = pad[0], pady = pad[1], fill = 'x', expand = True)
+        # for report, status in self.report:
+        print()
+        for report, status in self.report.items():
+            print('report: {}\nstatus: {}\n'.format(report, status))
+
 
     def create_tool_bar(self, tools):
         self.tool_panel = ttk.Frame(self)
