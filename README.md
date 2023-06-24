@@ -1,4 +1,4 @@
-[#](#) ProjectDesignBuilder
+[#] ProjectDesignBuilder
 
  This is an attempt to design a graphical interface for python with tkinter.
 
