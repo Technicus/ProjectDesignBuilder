@@ -1,0 +1,21 @@
+
+modes = {'project': ['Project', False],
+         'files': ['Files', False],
+         'editor': ['Editor', False],
+         'viewer': ['Viewer', False],
+         'designer': ['Designer', False],
+         'engineer': ['Engineer', False],
+         'import': ['Import', False],
+         'export': ['Export', False],
+         'scriber': ['Scriber', False],
+         'render': ['Render', False],
+         'compiler': ['Compiler', False],
+         'notebook': ['Notebook', False],
+         'developer': ['Developer', False],
+         'media': ['Media', False],
+         'system': ['System', False],
+         'utility': ['Utility', False],
+         'config': ['Config', False],
+         'settings': ['Settings', False],
+         'options': ['Options', False]
+         }
