@@ -5,6 +5,7 @@
 event_callback_assignmet = {
             'mouse_position': {
                 'event': '<Motion>',
+                # 'callback': 'status_calls.callback_mouse_position',
                 'callback': 'callback_mouse_position',
                 'label': '',
                 'status_var': '',
@@ -19,24 +20,26 @@ event_callback_assignmet = {
                     'foreground': 'black',
                     'text': '---,---'
                         }
+                },
+            'message': {
+                # 'event': ['<Enter>', '<Leave>'],
+                'event': '<Enter>',
+                # 'callback': 'status_calls.callback_null',
+                'callback': 'callback_null',
+                'configure':{
+                    'parent': 'self.status_panel',
+                    'side': 'bottom',
+                    'fill': 'x',
+                    'expand': True,
+                    'pad': [0, 0],
+                    'background': 'black',
+                    'foreground': 'white',
+                    'text': 'message_null'
+                        }
                 }
             }
 
-#     'message': {
-#         # 'event': ['<Enter>', '<Leave>'],
-#         'event': '<Enter>',
-#         'callback': 'callback_null',
-#         'configure':{
-#             'parent': 'self.status_panel',
-#             'side': 'bottom',
-#             'fill': 'x',
-#             'expand': True,
-#             'pad': [0, 0],
-#             'background': 'black',
-#             'foreground': 'white',
-#             'text': 'message_null'
-#                 }
-#         },
+#
 #     'menu': {
 #         # 'event': ['<FocusIn>', '<FocusOut>'],
 #         'event': '<FocusIn>',

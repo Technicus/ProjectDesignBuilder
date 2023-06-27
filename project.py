@@ -2,16 +2,22 @@ import tkinter as tk
 from tkinter import PhotoImage, Menu, ttk
 from PIL import ImageTk, Image
 from sys import exit
-from status import status_assignment #, function_mappings, status_reports
+from status import status_assignment
+# , status_calls #, function_mappings, status_reports
 # from operator import methodcaller
 
-class App(tk.Tk):
+
+class Project_Root(tk.Tk):
+    from status.status_calls import callback_mouse_position, callback_null
+    from status import status_calls
+    print(dir(status_calls))
+
     def __init__(self):
         super().__init__()
         self.title('Tkinter StringVar')
-        # self.geometry('600x600')
-        self.attributes('-zoomed', True)
-        self.attributes('-topmost',True)
+        self.geometry('600x600')
+        # self.attributes('-zoomed', True)
+        # self.attributes('-topmost',True)
         self.event_callback_assignmet = status_assignment.event_callback_assignmet
         self.create_status_panel()
 
@@ -49,15 +55,6 @@ class App(tk.Tk):
         self.status_panel.pack(side = 'bottom',fill = 'x')
 
 
-    def callback_mouse_position(self, value):
-        x = value.x
-        y = value.y
-        mouse_position = str(str(x) + ',' + str(y))
-        self.event_callback_assignmet['mouse_position']['status_var'].set(mouse_position)
-        self.event_callback_assignmet['mouse_position']['label'].config(text = self.event_callback_assignmet['mouse_position']['status_var'].get())
-        print('mouse_position: {}'.format(mouse_position))
-
-
 if __name__ == '__main__':
-    app = App()
-    app.mainloop()
+    project_root = Project_Root()
+    project_root.mainloop()
