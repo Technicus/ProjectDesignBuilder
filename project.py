@@ -3,14 +3,43 @@ from tkinter import PhotoImage, Menu, ttk
 from PIL import ImageTk, Image
 from sys import exit
 from status import status_assignment
+import importlib
 # , status_calls #, function_mappings, status_reports
 # from operator import methodcaller
 
 
 class Project_Root(tk.Tk):
-    from status.status_calls import callback_mouse_position, callback_null
-    from status import status_calls
-    print(dir(status_calls))
+    # from status.status_calls import callback_mouse_position, callback_null
+    # import status.status_calls
+
+    def import_statuscalls(self):
+        from status import status_calls
+        # print(locals())
+        for method in dir(status_calls):
+            if not method.startswith('__'):
+                # print(f'{method}: {type(method)}')
+                print(method)
+                im = importlib.import_module(method)
+                # setattr(self, method.__name__, method)
+                # self.list_callback_methods()
+
+
+    # for method in dir(status_calls):
+    #     if not method.startswith('__'):
+    #         print(method)
+    #         from status.status_calls import method
+
+    # def funcToMethod(func, clas, method_name=None):
+    #     setattr(clas, method_name, func)
+    # def function_to_method(self, function, method_name=None):
+        # setattr(self, method_name, function)
+
+    def list_callback_methods(self):
+        print('{} methods:'.format(self))
+        for method in dir(self):
+            if method.startswith('callback'):
+                print('\t{} '.format(method))
+        print()
 
     def __init__(self):
         super().__init__()
@@ -28,6 +57,10 @@ class Project_Root(tk.Tk):
 
 
     def create_status_panel(self):
+        # from status.status_calls import callback_mouse_position, callback_null
+        # from status import status_calls
+        # self.import_statuscalls()
+
         pad = [0,2.5]
         self.status_panel = ttk.Frame(self, relief = tk.GROOVE)
         for event_call, status in self.event_callback_assignmet.items():
@@ -49,9 +82,18 @@ class Project_Root(tk.Tk):
                 )
             print('self.event_callback_assignmet[event_call][\'status_var\']: {}'.format(self.event_callback_assignmet[event_call]['status_var']))
             print('event: {}'.format(self.event_callback_assignmet[event_call]['event']))
-            print('callback: {}'.format(self.event_callback_assignmet[event_call]['callback']))
-            self.event_callback_assignmet[event_call]['callback'] = eval('self.' + self.event_callback_assignmet[event_call]['callback'])
-            self.bind(self.event_callback_assignmet[event_call]['event'], self.event_callback_assignmet[event_call]['callback'])
+            print('callback: {}\n'.format(self.event_callback_assignmet[event_call]['callback']))
+
+            # self.list_callback_methods()
+            # self.function_to_method(self.event_callback_assignmet[event_call]['callback'], self.event_callback_assignmet[event_call]['callback'])
+
+            # self.import_statuscalls()
+            # self.list_callback_methods()
+
+            # self.event_callback_assignmet[event_call]['callback'] = locals()[self.event_callback_assignmet[event_call]['callback']]()
+
+            # self.event_callback_assignmet[event_call]['callback'] = eval('self.' + self.event_callback_assignmet[event_call]['callback'])
+            # self.bind(self.event_callback_assignmet[event_call]['event'], self.event_callback_assignmet[event_call]['callback'])
         self.status_panel.pack(side = 'bottom',fill = 'x')
 
 
