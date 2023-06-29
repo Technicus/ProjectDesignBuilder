@@ -15,6 +15,8 @@ Perhaps I might try a different one after I actually make something with this on
 [CadQuery](https://cadquery.readthedocs.io/en/latest/intro.html#id1) is a very interesting library, and a significant reason for why I am creating [ProjectDesignBuilder](https://github.com/Technicus/ProjectDesignBuilder).
 
 ## Current Status
+
+### Dynamically Add Methods to Classes
 I am attempting to understand how methods can be added to classes while the program is being interpreted.
 This project I am working on is a sandbox for me to learn with.
 The class 'Project_Root' I am attempting to add methods to is for drawing a window with thinter.
@@ -24,10 +26,14 @@ In the `event_callback_assignmet` dictionary there are references to functions w
 My intent is to add that functions as methods in the `Project_Root` class.
 The reason I have adopted this approach is so that I can make changes to the dictionary file, and add functions to the function file, and import them rather them having them in the root window class.
 My reasoning for this approach is to manipulat the window elements with different configurations and make it extensible.
+
+### Dynamically Add Methods to Classes Update
+I have since abandoned attempting to develop this operational behavior.  Dynamically adding methods to classes seems to be a more complicated process than I am capable of writing, and at this point seems to not be worth the effort.  Instead I will call the functions with an `eval()` statement.
+
+## Motivation
 I am a novice, not a student, doing this as a hobby for my own interest, and am not employed as a programmer, nor do I have decades of experience programming sophisticated interfaces.
 I do not know best practices, optimal methods, nor am I interested in exestential philosophical discussions about why I am trying to program this way or why I am even doing it.
-This is really my first time actually trying to write a desktop application.
-
+This is really my first time actually trying to write a desktop application.  I am doing this because I want to know how to make it, and I want to have it.
 
 
 
